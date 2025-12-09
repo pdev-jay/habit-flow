@@ -1,0 +1,73 @@
+/**
+ * Habit 엔티티 타입
+ */
+export type FrequencyType = 'daily' | 'weekdays' | 'weekends' | 'custom';
+
+/**
+ * MaterialCommunityIcons에서 사용 가능한 아이콘 이름
+ */
+export type HabitIconName =
+  | 'water'
+  | 'run'
+  | 'book-open-variant'
+  | 'dumbbell'
+  | 'meditation'
+  | 'bed'
+  | 'pill'
+  | 'food-apple'
+  | 'yoga'
+  | 'guitar'
+  | 'palette'
+  | 'brain';
+
+export interface Habit {
+  id: string;
+  name: string;
+  icon: HabitIconName;
+  color: string;
+  frequency: FrequencyType;
+  customDays?: number[];
+  reminderTime?: string;
+  reminderEnabled: boolean;
+  createdAt: string;
+  order: number;
+}
+
+export type CreateHabitInput = Omit<Habit, 'id' | 'createdAt' | 'order'>;
+
+/**
+ * HabitCheck 엔티티 타입
+ */
+export interface HabitCheck {
+  habitId: string;
+  date: string;
+  completed: boolean;
+}
+
+/**
+ * UserSettings 엔티티 타입
+ */
+export type ThemeType = 'light' | 'dark' | 'system';
+export type LanguageType = 'ko' | 'en';
+
+export interface UserSettings {
+  theme: ThemeType;
+  language: LanguageType;
+  isPro: boolean;
+}
+
+/**
+ * 통계 관련 타입
+ */
+export interface WeeklyStats {
+  totalHabits: number;
+  completedCount: number;
+  completionRate: number;
+  streakDays: number;
+}
+
+export interface DailyStats {
+  date: string;
+  totalHabits: number;
+  completedCount: number;
+}

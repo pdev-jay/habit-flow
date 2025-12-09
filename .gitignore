@@ -21,8 +21,11 @@ android/
 .env.production.local
 .env*.local
 
-# EAS credentials
+# EAS credentials & build artifacts
 eas-credentials.json
+.eas/
+eas-build-*.tar.gz
+*.jks.keystore
 
 # Security - Keys & Certificates
 *.jks
@@ -102,3 +105,15 @@ Desktop.ini
 # Local development
 .vite/
 .turbo/
+
+# Claude Code
+CLAUDE.md
+.claude/
+
+# Plans
+.plans/
+
+COMPONENT_API.md
+FRONTEND_IMPLEMENTATION.md
+PROJECT_STRUCTURE.md
+QUICK_START.md
