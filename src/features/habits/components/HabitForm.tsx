@@ -39,7 +39,7 @@ interface HabitFormProps {
   onSubmit: (data: HabitFormData) => void;
   onCancel: () => void;
   submitLabel?: string;
-  onNameChange?: (name: string) => void;
+  onValidationChange?: (isValid: boolean) => void;
 }
 
 const WEEKDAYS = [
@@ -56,7 +56,7 @@ const WEEKDAYS = [
  * Habit form component
  */
 export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
-  ({ initialData, onSubmit, onCancel, submitLabel = '저장', onNameChange }, ref) => {
+  ({ initialData, onSubmit, onCancel, submitLabel = '저장', onValidationChange }, ref) => {
     const [name, setName] = useState(initialData?.name || '');
     const [icon, setIcon] = useState<HabitIconName>(initialData?.icon || 'water');
     const [color, setColor] = useState(initialData?.color || COLORS[0]);
@@ -95,6 +95,12 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
         slideAnim.setValue(300);
       }
     }, [showTimePicker, slideAnim]);
+
+    // Validate form and notify parent
+    useEffect(() => {
+      const isValid = name.trim().length > 0 && customDays.length > 0;
+      onValidationChange?.(isValid);
+    }, [name, customDays, onValidationChange]);
 
     const formatTime = (date: Date): string => {
       let hours = date.getHours();
@@ -171,10 +177,7 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
             </ThemedText>
             <TextInput
               value={name}
-              onChangeText={(text) => {
-                setName(text);
-                onNameChange?.(text);
-              }}
+              onChangeText={setName}
               placeholder="예: 물 마시기"
               placeholderTextColor="#9CA3AF"
               className="h-12 rounded-lg border border-gray-300 bg-white px-4 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"

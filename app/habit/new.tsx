@@ -1,9 +1,7 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, Text } from 'react-native';
 import { useRouter, useNavigation } from 'expo-router';
 
-import { ThemedText } from '@/components/ThemedText';
-import { cn } from '@/lib/utils';
 import { useHabits } from '@/features/habits/hooks';
 import { HabitForm, type HabitFormRef } from '@/features/habits/components/HabitForm';
 import type { HabitIconName, FrequencyType } from '@/features/habits/types';
@@ -19,16 +17,14 @@ export default function NewHabitScreen() {
     navigation.setOptions({
       headerRight: () => (
         <Pressable onPress={() => formRef.current?.submit()} disabled={!isValid}>
-          <ThemedText className={cn('text-lg', isValid ? 'text-blue-500' : 'text-gray-400')}>
-            추가
-          </ThemedText>
+          <Text style={{ fontSize: 17, color: isValid ? '#3B82F6' : '#9CA3AF' }}>추가</Text>
         </Pressable>
       ),
     });
   }, [isValid, navigation]);
 
-  const handleNameChange = (name: string) => {
-    setIsValid(name.trim().length > 0);
+  const handleValidationChange = (valid: boolean) => {
+    setIsValid(valid);
   };
 
   const handleSubmit = (data: {
@@ -55,7 +51,7 @@ export default function NewHabitScreen() {
       ref={formRef}
       onSubmit={handleSubmit}
       onCancel={handleCancel}
-      onNameChange={handleNameChange}
+      onValidationChange={handleValidationChange}
       submitLabel="추가"
     />
   );

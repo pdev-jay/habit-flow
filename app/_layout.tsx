@@ -1,11 +1,15 @@
 import '../global.css';
 
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { LogBox, useColorScheme } from 'react-native';
 import { Stack } from 'expo-router';
 import * as SystemUI from 'expo-system-ui';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useSettingsStore } from '@/features/habits/stores';
+
+// Ignore SafeAreaView deprecation warning from expo-router
+LogBox.ignoreLogs(['SafeAreaView has been deprecated']);
 
 export default function RootLayout() {
   const systemColorScheme = useColorScheme();
@@ -24,32 +28,34 @@ export default function RootLayout() {
   }, [theme]);
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: {
-          backgroundColor: theme === 'dark' ? '#111827' : '#FFFFFF',
-        },
-      }}>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="habit/new"
-        options={{
-          presentation: 'card',
-          headerShown: true,
-          headerTitle: '새 습관',
-          headerBackTitle: '취소',
-        }}
-      />
-      <Stack.Screen
-        name="habit/[id]"
-        options={{
-          presentation: 'card',
-          headerShown: true,
-          headerTitle: '습관 편집',
-          headerBackTitle: '취소',
-        }}
-      />
-    </Stack>
+    <SafeAreaProvider>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: theme === 'dark' ? '#111827' : '#FFFFFF',
+          },
+        }}>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="habit/new"
+          options={{
+            presentation: 'card',
+            headerShown: true,
+            headerTitle: '새 습관',
+            headerBackTitle: '취소',
+          }}
+        />
+        <Stack.Screen
+          name="habit/[id]"
+          options={{
+            presentation: 'card',
+            headerShown: true,
+            headerTitle: '습관 편집',
+            headerBackTitle: '취소',
+          }}
+        />
+      </Stack>
+    </SafeAreaProvider>
   );
 }
