@@ -8,10 +8,16 @@ import { cn } from '@/lib/utils';
 export const COLORS = [
   '#3B82F6', // blue
   '#10B981', // green
-  '#F59E0B', // yellow
+  '#F59E0B', // amber
   '#EF4444', // red
   '#8B5CF6', // purple
   '#EC4899', // pink
+  '#14B8A6', // teal
+  '#6366F1', // indigo
+  '#84CC16', // lime
+  '#F97316', // orange
+  '#F43F5E', // rose
+  '#0EA5E9', // sky
 ];
 
 interface ColorPickerProps {
@@ -36,10 +42,10 @@ export function ColorPicker({ selectedColor, onSelect }: ColorPickerProps) {
               key={color}
               onPress={() => onSelect(color)}
               className={cn(
-                'mr-3 h-12 w-12 items-center justify-center rounded-full',
-                isSelected && 'border-2 border-gray-900 dark:border-white'
+                'mr-3 h-14 w-14 items-center justify-center rounded-full',
+                isSelected && 'border-4 border-gray-300 dark:border-gray-600'
               )}
-              style={[{ backgroundColor: color }, styles.colorButton]}>
+              style={[styles.colorButton, { backgroundColor: color }]}>
               {isSelected && <MaterialCommunityIcons name="check" size={24} color="white" />}
             </Pressable>
           );

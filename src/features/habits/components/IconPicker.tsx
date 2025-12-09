@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/ThemedText';
@@ -16,46 +16,57 @@ const ICONS: HabitIconName[] = [
   'pill',
   'food-apple',
   'yoga',
-  'guitar',
+  'guitar-acoustic',
   'palette',
   'brain',
+  'heart-outline',
+  'translate',
+  'leaf',
 ];
 
 interface IconPickerProps {
   selectedIcon: HabitIconName;
+  selectedColor: string;
   onSelect: (icon: HabitIconName) => void;
 }
 
 /**
  * Icon picker component
  */
-export function IconPicker({ selectedIcon, onSelect }: IconPickerProps) {
+export function IconPicker({ selectedIcon, selectedColor, onSelect }: IconPickerProps) {
   return (
     <View>
       <ThemedText className="mb-3 text-sm font-medium text-gray-600 dark:text-gray-400">
         아이콘 선택
       </ThemedText>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
-        {ICONS.map((icon) => {
+      <View className="flex-row flex-wrap justify-between">
+        {ICONS.map((icon, index) => {
           const isSelected = selectedIcon === icon;
           return (
             <Pressable
               key={icon}
               onPress={() => onSelect(icon)}
               className={cn(
-                'mr-3 h-16 w-16 items-center justify-center rounded-2xl',
-                isSelected ? 'bg-blue-500' : 'bg-gray-100 dark:bg-gray-700'
+                'mb-3 h-16 items-center justify-center rounded-2xl',
+                !isSelected && 'bg-gray-100 dark:bg-gray-700'
               )}
-              style={styles.iconButton}>
+              style={[
+                styles.iconButton,
+                {
+                  width: '18%',
+                  marginRight: index % 5 === 4 ? 0 : '2.5%',
+                  backgroundColor: isSelected ? selectedColor + '20' : undefined,
+                },
+              ]}>
               <MaterialCommunityIcons
                 name={icon as any}
                 size={32}
-                color={isSelected ? '#fff' : '#6B7280'}
+                color={isSelected ? selectedColor : '#6B7280'}
               />
             </Pressable>
           );
         })}
-      </ScrollView>
+      </View>
     </View>
   );
 }

@@ -35,7 +35,7 @@ export default function RootLayout() {
       <Stack.Screen
         name="habit/new"
         options={{
-          presentation: 'modal',
+          presentation: 'card',
           headerShown: true,
           headerTitle: '새 습관',
           headerBackTitle: '취소',
@@ -44,7 +44,7 @@ export default function RootLayout() {
       <Stack.Screen
         name="habit/[id]"
         options={{
-          presentation: 'modal',
+          presentation: 'card',
           headerShown: true,
           headerTitle: '습관 편집',
           headerBackTitle: '취소',

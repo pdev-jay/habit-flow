@@ -59,7 +59,7 @@ export function TodayScreen() {
       </View>
 
       {/* Habits List */}
-      <View className="flex-1 px-4 pt-4">
+      <View className="flex-1 pt-4">
         {/* Habits List */}
         {activeHabits.length === 0 ? (
           <View className="flex-1 items-center justify-center px-8">
@@ -73,7 +73,7 @@ export function TodayScreen() {
           <FlatList
             data={activeHabits}
             keyExtractor={(item) => item.id}
-            contentContainerStyle={{ paddingBottom: 80 }}
+            contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 80 }}
             renderItem={({ item }) => (
               <HabitCard
                 name={item.name}

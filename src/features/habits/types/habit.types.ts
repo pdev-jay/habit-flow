@@ -16,9 +16,12 @@ export type HabitIconName =
   | 'pill'
   | 'food-apple'
   | 'yoga'
-  | 'guitar'
+  | 'guitar-acoustic'
   | 'palette'
-  | 'brain';
+  | 'brain'
+  | 'heart-outline'
+  | 'translate'
+  | 'leaf';
 
 export interface Habit {
   id: string;
