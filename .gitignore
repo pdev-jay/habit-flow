@@ -111,6 +111,7 @@ CLAUDE.md
 .claude/
 
 # Plans
+.plan/
 .plans/
 
 COMPONENT_API.md
