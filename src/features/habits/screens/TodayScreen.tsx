@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { getTodayString, isHabitActiveOnDate } from '@/lib/utils';
-import { useHabits, useHabitCheck } from '@/features/habits/hooks';
+import { useHabits, useHabitCheck, useHabitStreaks } from '@/features/habits/hooks';
 
 import { HabitCard } from '../components/HabitCard';
 import { WeeklyStatsCard } from '../components/WeeklyStatsCard';
@@ -35,6 +35,8 @@ export function TodayScreen() {
       )
       .sort((a: { order: number }, b: { order: number }) => a.order - b.order);
   }, [habits, today]);
+
+  const streaks = useHabitStreaks(activeHabits);
 
   const handleCheck = (habitId: string) => {
     toggle(habitId, todayString);
@@ -80,6 +82,7 @@ export function TodayScreen() {
                 icon={item.icon}
                 color={item.color}
                 checked={getCheckStatus(item.id, todayString)}
+                streak={streaks[item.id]}
                 onCheck={() => handleCheck(item.id)}
                 onPress={() => handleCardPress(item.id)}
               />

@@ -10,3 +10,5 @@ export type {
   WeeklyStats,
   DailyStats,
 } from './habit.types';
+
+export type { WeekdayGroup } from '../utils/frequencyUtils';

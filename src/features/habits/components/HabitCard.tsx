@@ -13,6 +13,8 @@ interface HabitCardProps {
   icon: HabitIconName;
   color: string;
   checked: boolean;
+  frequencyLabel?: string;
+  streak?: number;
   onCheck: () => void;
   onPress?: () => void;
   onLongPress?: () => void;
@@ -26,6 +28,8 @@ export function HabitCard({
   icon,
   color,
   checked,
+  frequencyLabel,
+  streak,
   onCheck,
   onPress,
   onLongPress,
@@ -40,16 +44,30 @@ export function HabitCard({
         <View
           className="mr-3 h-12 w-12 items-center justify-center rounded-full"
           style={{ backgroundColor: color + '20' }}>
-          <MaterialCommunityIcons name={icon as any} size={28} color={color} />
+          <MaterialCommunityIcons name={icon} size={28} color={color} />
         </View>
 
-        <ThemedText
-          className={cn(
-            'flex-1 text-base font-semibold',
-            checked && 'text-gray-400 line-through dark:text-gray-500'
-          )}>
-          {name}
-        </ThemedText>
+        <View className="flex-1">
+          <ThemedText
+            className={cn(
+              'text-base font-semibold',
+              checked && 'text-gray-400 line-through dark:text-gray-500'
+            )}>
+            {name}
+          </ThemedText>
+          {frequencyLabel && (
+            <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              {frequencyLabel}
+            </ThemedText>
+          )}
+        </View>
+
+        {streak !== undefined && streak > 0 && (
+          <View className="mr-3 flex-row items-center">
+            <MaterialCommunityIcons name="fire" size={20} color="#F97316" />
+            <ThemedText className="ml-1 text-sm font-semibold text-orange-500">{streak}</ThemedText>
+          </View>
+        )}
 
         <CheckButton checked={checked} onPress={onCheck} color={color} />
       </View>

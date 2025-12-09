@@ -59,7 +59,7 @@ export function IconPicker({ selectedIcon, selectedColor, onSelect }: IconPicker
                 },
               ]}>
               <MaterialCommunityIcons
-                name={icon as any}
+                name={icon}
                 size={32}
                 color={isSelected ? selectedColor : '#6B7280'}
               />

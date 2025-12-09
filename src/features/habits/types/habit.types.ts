@@ -1,3 +1,6 @@
+import React from 'react';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 /**
  * Habit 엔티티 타입
  */
@@ -5,8 +8,12 @@ export type FrequencyType = 'daily' | 'weekdays' | 'weekends' | 'custom';
 
 /**
  * MaterialCommunityIcons에서 사용 가능한 아이콘 이름
+ * Extract를 사용하여 타입 안전성 보장
  */
-export type HabitIconName =
+type MaterialIconName = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
+
+export type HabitIconName = Extract<
+  MaterialIconName,
   | 'water'
   | 'run'
   | 'book-open-variant'
@@ -21,7 +28,8 @@ export type HabitIconName =
   | 'brain'
   | 'heart-outline'
   | 'translate'
-  | 'leaf';
+  | 'leaf'
+>;
 
 export interface Habit {
   id: string;
