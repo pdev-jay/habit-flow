@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useHabitStore } from '../stores';
+import { isHabitCreatedByDate } from '../utils/dateUtils';
 import type { Habit } from '../types';
 
 /**
@@ -38,6 +39,12 @@ export function useHabits() {
       const dayOfWeek = date.getDay(); // 0 = 일요일, 6 = 토요일
 
       return sortedHabits().filter((habit) => {
+        // 1. 습관 생성일 이전이면 제외
+        if (!isHabitCreatedByDate(habit, date)) {
+          return false;
+        }
+
+        // 2. 요일별 활성 여부 체크
         switch (habit.frequency) {
           case 'daily':
             return true;

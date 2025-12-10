@@ -25,6 +25,8 @@ import {
   useMonthlyInsight,
   useMonthComparison,
 } from '@/features/habits/hooks';
+import { useHabitCheckStore } from '@/features/habits/stores';
+import type { Habit } from '@/features/habits/types';
 
 import { WeeklyChart } from '../components/WeeklyChart';
 import { SegmentControl } from '../components/SegmentControl';
@@ -37,6 +39,7 @@ import { DayDetailModal } from '../components/DayDetailModal';
 export function StatsScreen() {
   const insets = useSafeAreaInsets();
   const { habits } = useHabits();
+  const checks = useHabitCheckStore((state) => state.checks);
 
   // View mode state
   const [viewMode, setViewMode] = useState<'weekly' | 'monthly'>('weekly');
@@ -78,15 +81,65 @@ export function StatsScreen() {
     });
   }, [weekStart, dailyStatsRange]);
 
-  // Habit-specific stats
+  // Habit-specific stats (with createdAt and frequency validation)
   const habitStats = useMemo(() => {
-    return habits.map((habit: { id: string; name: string; color: string; icon: string }) => {
-      const completedDays = dailyStatsRange.filter((day: { completedCount: number }) => {
-        // This is simplified - in real app you'd check actual completion
-        return day.completedCount > 0;
-      }).length;
+    return habits.map((habit: Habit) => {
+      // 1. Generate 7 dates for the week
+      const dates: Date[] = [];
+      const current = new Date(weekStart);
+      while (current <= weekEnd) {
+        dates.push(new Date(current));
+        current.setDate(current.getDate() + 1);
+      }
 
-      const totalDays = 7;
+      // 2. Count actual active days for this habit
+      let totalDays = 0;
+      let completedDays = 0;
+
+      dates.forEach((date) => {
+        const dateString = format(date, 'yyyy-MM-dd');
+
+        // Check createdAt
+        const createdAt = new Date(habit.createdAt);
+        createdAt.setHours(0, 0, 0, 0);
+        const targetDate = new Date(date);
+        targetDate.setHours(0, 0, 0, 0);
+
+        if (targetDate < createdAt) {
+          return; // Skip dates before habit was created
+        }
+
+        // Check frequency (day of week)
+        const dayOfWeek = date.getDay();
+        let isActiveDay = false;
+
+        switch (habit.frequency) {
+          case 'daily':
+            isActiveDay = true;
+            break;
+          case 'weekdays':
+            isActiveDay = dayOfWeek >= 1 && dayOfWeek <= 5;
+            break;
+          case 'weekends':
+            isActiveDay = dayOfWeek === 0 || dayOfWeek === 6;
+            break;
+          case 'custom':
+            isActiveDay = habit.customDays?.includes(dayOfWeek) ?? false;
+            break;
+        }
+
+        if (isActiveDay) {
+          totalDays++;
+
+          // Check if completed on this day
+          const key = `${habit.id}_${dateString}`;
+          const check = checks[key];
+          if (check?.completed) {
+            completedDays++;
+          }
+        }
+      });
+
       const rate = totalDays > 0 ? Math.round((completedDays / totalDays) * 100) : 0;
 
       return {
@@ -99,7 +152,7 @@ export function StatsScreen() {
         rate,
       };
     });
-  }, [habits, dailyStatsRange]);
+  }, [habits, weekStart, weekEnd, checks]);
 
   const handlePreviousMonth = useCallback(() => {
     setCurrentMonthDate((prev) => subMonths(prev, 1));
@@ -230,42 +283,44 @@ export function StatsScreen() {
                   습관을 추가하면 통계가 표시됩니다.
                 </ThemedText>
               ) : (
-                habitStats.map(
-                  (stat: {
-                    id: string;
-                    name: string;
-                    color: string;
-                    rate: number;
-                    completedDays: number;
-                    totalDays: number;
-                  }) => (
-                    <View
-                      key={stat.id}
-                      className="mb-3 border-b border-gray-100 pb-3 last:mb-0 last:border-b-0 last:pb-0 dark:border-gray-700">
-                      <View className="mb-2 flex-row items-center justify-between">
-                        <ThemedText className="flex-1 font-semibold">{stat.name}</ThemedText>
-                        <ThemedText className="text-sm font-bold text-blue-600 dark:text-blue-400">
-                          {stat.rate}%
+                habitStats
+                  .filter((stat) => stat.totalDays > 0)
+                  .map(
+                    (stat: {
+                      id: string;
+                      name: string;
+                      color: string;
+                      rate: number;
+                      completedDays: number;
+                      totalDays: number;
+                    }) => (
+                      <View
+                        key={stat.id}
+                        className="mb-3 border-b border-gray-100 pb-3 last:mb-0 last:border-b-0 last:pb-0 dark:border-gray-700">
+                        <View className="mb-2 flex-row items-center justify-between">
+                          <ThemedText className="flex-1 font-semibold">{stat.name}</ThemedText>
+                          <ThemedText className="text-sm font-bold text-blue-600 dark:text-blue-400">
+                            {stat.rate}%
+                          </ThemedText>
+                        </View>
+
+                        {/* Progress Bar */}
+                        <View className="h-2 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                          <View
+                            className="h-full rounded-full"
+                            style={{
+                              width: `${stat.rate}%`,
+                              backgroundColor: stat.color,
+                            }}
+                          />
+                        </View>
+
+                        <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                          {stat.completedDays}/{stat.totalDays}일 완료
                         </ThemedText>
                       </View>
-
-                      {/* Progress Bar */}
-                      <View className="h-2 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
-                        <View
-                          className="h-full rounded-full"
-                          style={{
-                            width: `${stat.rate}%`,
-                            backgroundColor: stat.color,
-                          }}
-                        />
-                      </View>
-
-                      <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                        {stat.completedDays}/{stat.totalDays}일 완료
-                      </ThemedText>
-                    </View>
+                    )
                   )
-                )
               )}
             </View>
           </View>

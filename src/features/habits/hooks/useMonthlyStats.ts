@@ -3,6 +3,7 @@ import { startOfMonth, endOfMonth, eachDayOfInterval, format, isFuture, isBefore
 import { useHabitStore } from '../stores/habitStore';
 import { useHabitCheckStore } from '../stores/habitCheckStore';
 import { calculateStreak } from '../utils/streakUtils';
+import { isHabitCreatedByDate } from '../utils/dateUtils';
 import type { MonthlyStats, DayCompletionData, HabitInsight } from '../types/stats.types';
 import type { Habit } from '../types';
 
@@ -43,13 +44,12 @@ export function useMonthlyStats(date: Date): MonthlyStats {
     // 각 날짜별로 통계 계산
     pastDays.forEach((day) => {
       const dateString = format(day, 'yyyy-MM-dd');
-      const dayOfWeek = day.getDay();
 
       let dayCompletedCount = 0;
       let dayPossibleCount = 0;
 
       habits.forEach((habit) => {
-        const isActive = isHabitActiveOnDay(habit.frequency, habit.customDays, dayOfWeek);
+        const isActive = isHabitActiveOnDate(habit, day);
         if (isActive) {
           dayPossibleCount++;
           const key = `${habit.id}_${dateString}`;
@@ -110,13 +110,12 @@ export function useMonthlyHeatmapData(date: Date): DayCompletionData[] {
 
     const data: DayCompletionData[] = allDaysInMonth.map((day) => {
       const dateString = format(day, 'yyyy-MM-dd');
-      const dayOfWeek = day.getDay();
 
       let completedCount = 0;
       let totalHabits = 0;
 
       habits.forEach((habit) => {
-        const isActive = isHabitActiveOnDay(habit.frequency, habit.customDays, dayOfWeek);
+        const isActive = isHabitActiveOnDate(habit, day);
         if (isActive) {
           totalHabits++;
           const key = `${habit.id}_${dateString}`;
@@ -177,9 +176,8 @@ export function useHabitInsights(date: Date): HabitInsight[] {
       // 해당 월의 각 날짜에 대해 습관의 활성 여부 및 완료 여부 체크
       pastDays.forEach((day) => {
         const dateString = format(day, 'yyyy-MM-dd');
-        const dayOfWeek = day.getDay();
 
-        const isActive = isHabitActiveOnDay(habit.frequency, habit.customDays, dayOfWeek);
+        const isActive = isHabitActiveOnDate(habit, day);
         if (isActive) {
           totalCount++;
           const key = `${habit.id}_${dateString}`;
@@ -221,14 +219,18 @@ export function useHabitInsights(date: Date): HabitInsight[] {
 }
 
 /**
- * 습관이 특정 요일에 활성화되는지 확인
+ * 습관이 특정 날짜에 활성화되는지 확인 (생성일 + 요일)
  */
-function isHabitActiveOnDay(
-  frequency: string,
-  customDays: number[] | undefined,
-  dayOfWeek: number
-): boolean {
-  switch (frequency) {
+function isHabitActiveOnDate(habit: Habit, date: Date): boolean {
+  // 1. 생성일 체크
+  if (!isHabitCreatedByDate(habit, date)) {
+    return false;
+  }
+
+  // 2. 요일 체크
+  const dayOfWeek = date.getDay();
+
+  switch (habit.frequency) {
     case 'daily':
       return true;
     case 'weekdays':
@@ -236,7 +238,7 @@ function isHabitActiveOnDay(
     case 'weekends':
       return dayOfWeek === 0 || dayOfWeek === 6;
     case 'custom':
-      return customDays?.includes(dayOfWeek) ?? false;
+      return habit.customDays?.includes(dayOfWeek) ?? false;
     default:
       return false;
   }
@@ -256,13 +258,12 @@ function calculateLongestStreak(
 
   for (const day of days) {
     const dateString = format(day, 'yyyy-MM-dd');
-    const dayOfWeek = day.getDay();
 
     let allCompleted = true;
     let hasActiveHabits = false;
 
     for (const habit of habits) {
-      const isActive = isHabitActiveOnDay(habit.frequency, habit.customDays, dayOfWeek);
+      const isActive = isHabitActiveOnDate(habit, day);
       if (isActive) {
         hasActiveHabits = true;
         const key = `${habit.id}_${dateString}`;
@@ -302,9 +303,8 @@ function calculateHabitLongestStreak(
 
   for (const day of days) {
     const dateString = format(day, 'yyyy-MM-dd');
-    const dayOfWeek = day.getDay();
 
-    const isActive = isHabitActiveOnDay(habit.frequency, habit.customDays, dayOfWeek);
+    const isActive = isHabitActiveOnDate(habit, day);
     if (isActive) {
       const key = `${habit.id}_${dateString}`;
       const check = checks[key];

@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { startOfWeek, endOfWeek } from 'date-fns';
 import { useHabitStore, useHabitCheckStore } from '../stores';
-import type { WeeklyStats, DailyStats } from '../types';
+import { isHabitCreatedByDateString } from '../utils/dateUtils';
+import type { WeeklyStats, DailyStats, Habit } from '../types';
 
 /**
  * 주간 통계 계산 훅
@@ -40,11 +41,8 @@ export function useWeeklyStats(startDate?: Date, endDate?: Date): WeeklyStats {
     let totalPossibleCount = 0;
 
     dates.forEach((date) => {
-      const dateObj = new Date(date);
-      const dayOfWeek = dateObj.getDay();
-
       habits.forEach((habit) => {
-        const isActiveForDate = isHabitActiveOnDay(habit.frequency, habit.customDays, dayOfWeek);
+        const isActiveForDate = isHabitActiveOnDate(habit, date);
         if (isActiveForDate) {
           totalPossibleCount++;
           const key = `${habit.id}_${date}`;
@@ -104,13 +102,12 @@ export function useDailyStatsRange(
 
     while (current <= defaultEndDate) {
       const date = formatDate(current);
-      const dayOfWeek = current.getDay();
 
       let totalHabitsForDay = 0;
       let completedCountForDay = 0;
 
       habits.forEach((habit) => {
-        const isActive = isHabitActiveOnDay(habit.frequency, habit.customDays, dayOfWeek);
+        const isActive = isHabitActiveOnDate(habit, date);
         if (isActive) {
           totalHabitsForDay++;
           const key = `${habit.id}_${date}`;
@@ -147,14 +144,21 @@ function formatDate(date: Date): string {
 }
 
 /**
- * 습관이 특정 요일에 활성화되는지 확인
+ * 습관이 특정 날짜(문자열)에 활성화되는지 확인 (생성일 + 요일)
  */
-function isHabitActiveOnDay(
-  frequency: string,
-  customDays: number[] | undefined,
-  dayOfWeek: number
+function isHabitActiveOnDate(
+  habit: { createdAt: string; frequency: string; customDays?: number[] },
+  dateString: string
 ): boolean {
-  switch (frequency) {
+  // 1. 생성일 체크
+  if (!isHabitCreatedByDateString(habit, dateString)) {
+    return false;
+  }
+
+  // 2. 요일 체크
+  const dayOfWeek = new Date(dateString).getDay();
+
+  switch (habit.frequency) {
     case 'daily':
       return true;
     case 'weekdays':
@@ -162,7 +166,7 @@ function isHabitActiveOnDay(
     case 'weekends':
       return dayOfWeek === 0 || dayOfWeek === 6;
     case 'custom':
-      return customDays?.includes(dayOfWeek) ?? false;
+      return habit.customDays?.includes(dayOfWeek) ?? false;
     default:
       return false;
   }
@@ -175,7 +179,7 @@ function isHabitActiveOnDay(
  */
 function calculateWeeklyStreak(
   dates: string[],
-  habits: { id: string; frequency: string; customDays?: number[] }[],
+  habits: Habit[],
   checks: Record<string, { completed: boolean }>
 ): number {
   let streak = 0;
@@ -186,14 +190,11 @@ function calculateWeeklyStreak(
   const reversedDates = [...pastDates].reverse();
 
   for (const date of reversedDates) {
-    const dateObj = new Date(date);
-    const dayOfWeek = dateObj.getDay();
-
     let allCompleted = true;
     let hasActiveHabits = false;
 
     for (const habit of habits) {
-      const isActive = isHabitActiveOnDay(habit.frequency, habit.customDays, dayOfWeek);
+      const isActive = isHabitActiveOnDate(habit, date);
       if (isActive) {
         hasActiveHabits = true;
         const key = `${habit.id}_${date}`;

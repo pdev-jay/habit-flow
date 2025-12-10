@@ -29,11 +29,14 @@ export function useMonthlyInsight(date: Date): MonthlyInsight {
     );
     const needsAttention = needsAttentionCandidates.length > 0 ? needsAttentionCandidates[0] : null;
 
-    // TOP 3: 상위 3개 (rank 1, 2, 3 부여)
-    const topThree = habitInsights.slice(0, 3).map((habit, index) => ({
-      ...habit,
-      rank: (index + 1) as 1 | 2 | 3,
-    }));
+    // TOP 3: 상위 3개 (rank 1, 2, 3 부여) - totalCount > 0인 습관만
+    const topThree = habitInsights
+      .filter((habit) => habit.totalCount > 0)
+      .slice(0, 3)
+      .map((habit, index) => ({
+        ...habit,
+        rank: (index + 1) as 1 | 2 | 3,
+      }));
 
     return {
       mvpHabit,

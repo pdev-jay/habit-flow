@@ -7,7 +7,6 @@ import { format } from 'date-fns';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { isHabitActiveOnDate } from '@/lib/utils';
 import { useHabits, useHabitCheck, useHabitStreaks } from '@/features/habits/hooks';
 
 import { HabitCard } from '../components/HabitCard';
@@ -20,7 +19,7 @@ import { CalendarModal } from '../components/CalendarModal';
 export function TodayScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { habits } = useHabits();
+  const { getActiveHabitsForDate } = useHabits();
   const { getCheckStatus, toggle } = useHabitCheck();
 
   const [selectedDate, setSelectedDate] = useState(() => new Date());
@@ -28,17 +27,10 @@ export function TodayScreen() {
 
   const selectedDateString = useMemo(() => format(selectedDate, 'yyyy-MM-dd'), [selectedDate]);
 
-  // Filter habits active on selected date
+  // Filter habits active on selected date (includes createdAt validation)
   const activeHabits = useMemo(() => {
-    return habits
-      .filter(
-        (habit: {
-          frequency: 'daily' | 'weekdays' | 'weekends' | 'custom';
-          customDays?: number[];
-        }) => isHabitActiveOnDate(habit.frequency, habit.customDays, selectedDate)
-      )
-      .sort((a: { order: number }, b: { order: number }) => a.order - b.order);
-  }, [habits, selectedDate]);
+    return getActiveHabitsForDate(selectedDate);
+  }, [getActiveHabitsForDate, selectedDate]);
 
   const streaks = useHabitStreaks(activeHabits);
 

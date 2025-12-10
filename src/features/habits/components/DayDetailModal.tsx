@@ -16,7 +16,7 @@ interface Props {
 }
 
 export function DayDetailModal({ visible, date, onClose }: Props) {
-  const { habits } = useHabits();
+  const { getActiveHabitsForDate } = useHabits();
   const getChecksByDate = useHabitCheckStore((state) => state.getChecksByDate);
 
   if (!date) return null;
@@ -25,18 +25,12 @@ export function DayDetailModal({ visible, date, onClose }: Props) {
   const checks = getChecksByDate(dateString);
   const checksMap = new Map(checks.map((check) => [check.habitId, check.completed]));
 
-  const completedCount = habits.filter((habit: Habit) => {
-    const activeDays = habit.frequency === 'daily' ? [0, 1, 2, 3, 4, 5, 6] : habit.customDays || [];
-    const dayOfWeek = date.getDay();
-    const isActiveDay = activeDays.includes(dayOfWeek);
-    return isActiveDay && checksMap.get(habit.id) === true;
-  }).length;
+  // 활성 습관만 가져오기 (createdAt 검증 포함)
+  const activeHabits = getActiveHabitsForDate(date);
 
-  const totalActiveHabits = habits.filter((habit: Habit) => {
-    const activeDays = habit.frequency === 'daily' ? [0, 1, 2, 3, 4, 5, 6] : habit.customDays || [];
-    const dayOfWeek = date.getDay();
-    return activeDays.includes(dayOfWeek);
-  }).length;
+  const completedCount = activeHabits.filter((habit) => checksMap.get(habit.id) === true).length;
+
+  const totalActiveHabits = activeHabits.length;
 
   const completionRate = totalActiveHabits > 0 ? (completedCount / totalActiveHabits) * 100 : 0;
 
@@ -87,13 +81,7 @@ export function DayDetailModal({ visible, date, onClose }: Props) {
             bounces={true}
             alwaysBounceVertical={true}
             nestedScrollEnabled={true}>
-            {habits
-              .filter((habit: Habit) => {
-                const activeDays =
-                  habit.frequency === 'daily' ? [0, 1, 2, 3, 4, 5, 6] : habit.customDays || [];
-                const dayOfWeek = date.getDay();
-                return activeDays.includes(dayOfWeek);
-              })
+            {activeHabits
               .sort((a: Habit, b: Habit) => {
                 const aCompleted = checksMap.get(a.id) === true;
                 const bCompleted = checksMap.get(b.id) === true;
