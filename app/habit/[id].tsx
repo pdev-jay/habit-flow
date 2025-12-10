@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { Pressable, Text, Alert, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter, useNavigation } from 'expo-router';
 
 import { ThemedView } from '@/components/ThemedView';
@@ -45,17 +46,12 @@ export default function EditHabitScreen() {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
-          <Pressable onPress={handleDelete}>
-            <Text style={{ fontSize: 17, color: '#EF4444' }}>삭제</Text>
-          </Pressable>
-          <Pressable onPress={() => formRef.current?.submit()} disabled={!isValid}>
-            <Text style={{ fontSize: 17, color: isValid ? '#3B82F6' : '#9CA3AF' }}>저장</Text>
-          </Pressable>
-        </View>
+        <Pressable onPress={() => formRef.current?.submit()} disabled={!isValid}>
+          <Text style={{ fontSize: 17, color: isValid ? '#3B82F6' : '#9CA3AF' }}>저장</Text>
+        </Pressable>
       ),
     });
-  }, [isValid, navigation, handleDelete]);
+  }, [isValid, navigation]);
 
   const handleValidationChange = (valid: boolean) => {
     setIsValid(valid);
@@ -89,21 +85,32 @@ export default function EditHabitScreen() {
   }
 
   return (
-    <HabitForm
-      ref={formRef}
-      initialData={{
-        name: habit.name,
-        icon: habit.icon,
-        color: habit.color,
-        frequency: habit.frequency,
-        customDays: habit.customDays,
-        reminderTime: habit.reminderTime,
-        reminderEnabled: habit.reminderEnabled,
-      }}
-      onSubmit={handleSubmit}
-      onCancel={handleCancel}
-      onValidationChange={handleValidationChange}
-      submitLabel="저장"
-    />
+    <ThemedView className="flex-1">
+      <HabitForm
+        ref={formRef}
+        initialData={{
+          name: habit.name,
+          icon: habit.icon,
+          color: habit.color,
+          frequency: habit.frequency,
+          customDays: habit.customDays,
+          reminderTime: habit.reminderTime,
+          reminderEnabled: habit.reminderEnabled,
+        }}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+        onValidationChange={handleValidationChange}
+        submitLabel="저장"
+      />
+      <SafeAreaView
+        edges={['bottom', 'right']}
+        className="border-t border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
+        <View className="px-4 pb-2 pt-3">
+          <Pressable onPress={handleDelete} className="self-end active:opacity-70">
+            <Text style={{ fontSize: 17, color: '#EF4444' }}>삭제</Text>
+          </Pressable>
+        </View>
+      </SafeAreaView>
+    </ThemedView>
   );
 }
