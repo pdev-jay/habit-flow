@@ -56,7 +56,10 @@ export function useWeeklyStats(startDate?: Date, endDate?: Date): WeeklyStats {
       });
     });
 
-    const completionRate = totalPossibleCount > 0 ? totalCompletedCount / totalPossibleCount : 0;
+    const completionRate =
+      totalPossibleCount > 0
+        ? parseFloat(((totalCompletedCount / totalPossibleCount) * 100).toFixed(1))
+        : 0;
 
     // Streak 계산 (연속으로 모든 습관을 완료한 날)
     const streakDays = calculateWeeklyStreak(dates, habits, checks);
@@ -167,6 +170,8 @@ function isHabitActiveOnDay(
 
 /**
  * 연속 streak 계산 (모든 습관을 완료한 날)
+ * - 오늘은 제외하고 어제까지의 연속 달성일만 카운트
+ * - 오늘은 아직 하루가 끝나지 않았으므로 streak에 포함하지 않음
  */
 function calculateWeeklyStreak(
   dates: string[],
@@ -174,7 +179,11 @@ function calculateWeeklyStreak(
   checks: Record<string, { completed: boolean }>
 ): number {
   let streak = 0;
-  const reversedDates = [...dates].reverse();
+  const today = formatDate(new Date());
+
+  // 오늘 제외하고 어제까지의 날짜만 필터링 (오늘은 아직 진행 중)
+  const pastDates = dates.filter((date) => date < today);
+  const reversedDates = [...pastDates].reverse();
 
   for (const date of reversedDates) {
     const dateObj = new Date(date);

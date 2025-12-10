@@ -1,10 +1,11 @@
 import '../global.css';
 
 import { useEffect } from 'react';
-import { LogBox, useColorScheme } from 'react-native';
+import { LogBox, useColorScheme as rnUseColorScheme } from 'react-native';
 import { Stack } from 'expo-router';
 import * as SystemUI from 'expo-system-ui';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { colorScheme } from 'nativewind';
 
 import { useSettingsStore } from '@/features/habits/stores';
 
@@ -12,11 +13,16 @@ import { useSettingsStore } from '@/features/habits/stores';
 LogBox.ignoreLogs(['SafeAreaView has been deprecated']);
 
 export default function RootLayout() {
-  const systemColorScheme = useColorScheme();
+  const systemColorScheme = rnUseColorScheme();
   const { settings } = useSettingsStore();
 
   // Determine effective theme
   const theme = settings.theme === 'system' ? systemColorScheme : settings.theme;
+
+  // NativeWind dark mode 동기화 - React Navigation theme context 문제 해결
+  useEffect(() => {
+    colorScheme.set(theme === 'dark' ? 'dark' : 'light');
+  }, [theme]);
 
   // Set system UI colors
   useEffect(() => {

@@ -82,3 +82,8 @@ export interface DailyStats {
   totalHabits: number;
   completedCount: number;
 }
+
+/**
+ * 통계 관련 타입 Export
+ */
+export * from './stats.types';

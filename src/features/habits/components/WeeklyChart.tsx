@@ -18,8 +18,6 @@ interface WeeklyChartProps {
  * Weekly chart component
  */
 export function WeeklyChart({ data }: WeeklyChartProps) {
-  const maxTotal = Math.max(...data.map((d) => d.total), 1);
-
   return (
     <View className="rounded-xl bg-white p-4 dark:bg-gray-800">
       <ThemedText className="mb-4 text-lg font-bold">주간 완료 현황</ThemedText>
@@ -27,19 +25,19 @@ export function WeeklyChart({ data }: WeeklyChartProps) {
       <View className="flex-row items-end justify-between">
         {data.map((dayData, index) => {
           const completionRate = dayData.total > 0 ? dayData.completed / dayData.total : 0;
-          const height = (dayData.total / maxTotal) * 100;
+          const height = 100; // 모든 막대를 동일한 높이로
 
           return (
             <View key={index} className="flex-1 items-center">
               <View className="mb-2 w-full items-center" style={{ height: 120 }}>
                 <View
-                  className="w-8 rounded-t-lg bg-gray-200 dark:bg-gray-700"
+                  className="w-8 justify-end rounded-t-lg bg-gray-200 dark:bg-gray-700"
                   style={{ height: `${height}%` }}>
                   <View
                     className={cn(
-                      'w-full rounded-t-lg',
+                      'w-full',
                       completionRate === 1
-                        ? 'bg-green-500'
+                        ? 'rounded-t-lg bg-green-500'
                         : completionRate > 0.5
                           ? 'bg-blue-500'
                           : 'bg-gray-400'
