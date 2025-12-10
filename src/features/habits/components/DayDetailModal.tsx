@@ -4,6 +4,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { format, isToday } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { cn } from '@/lib/utils';
 import { useHabits } from '../hooks/useHabits';
 import { useHabitCheckStore } from '../stores';
 import type { Habit } from '../types';
@@ -41,10 +42,12 @@ export function DayDetailModal({ visible, date, onClose }: Props) {
 
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-      <Pressable className="flex-1 items-center justify-center bg-black/50" onPress={onClose}>
+      <View className="flex-1 items-center justify-center bg-black/50">
         <Pressable
-          className="max-h-[80%] w-[90%] rounded-xl bg-white p-6 dark:bg-gray-800"
-          onPress={(e) => e.stopPropagation()}>
+          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+          onPress={onClose}
+        />
+        <View className="max-h-[80%] w-[90%] rounded-xl bg-white p-6 dark:bg-gray-800">
           {/* Header */}
           <View className="mb-4 flex-row items-center justify-between">
             <View>
@@ -76,7 +79,14 @@ export function DayDetailModal({ visible, date, onClose }: Props) {
           </ThemedView>
 
           {/* Habit List */}
-          <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+          <ScrollView
+            style={{ height: 300 }}
+            contentContainerStyle={{ paddingBottom: 20 }}
+            showsVerticalScrollIndicator={true}
+            scrollEnabled={true}
+            bounces={true}
+            alwaysBounceVertical={true}
+            nestedScrollEnabled={true}>
             {habits
               .filter((habit: Habit) => {
                 const activeDays =
@@ -84,15 +94,28 @@ export function DayDetailModal({ visible, date, onClose }: Props) {
                 const dayOfWeek = date.getDay();
                 return activeDays.includes(dayOfWeek);
               })
+              .sort((a: Habit, b: Habit) => {
+                const aCompleted = checksMap.get(a.id) === true;
+                const bCompleted = checksMap.get(b.id) === true;
+                if (aCompleted === bCompleted) return 0;
+                return aCompleted ? -1 : 1;
+              })
               .map((habit: Habit) => {
                 const isCompleted = checksMap.get(habit.id) === true;
                 return (
                   <View
                     key={habit.id}
-                    className="flex-row items-center justify-between border-b border-gray-200 py-3 last:border-b-0 dark:border-gray-700">
+                    className={cn(
+                      'mb-2 flex-row items-center justify-between rounded-lg border-b border-gray-200 px-3 py-3 last:border-b-0 dark:border-gray-700',
+                      isCompleted
+                        ? 'bg-green-50 dark:bg-green-900/20'
+                        : 'bg-amber-50 dark:bg-amber-900/20'
+                    )}>
                     <View className="flex-1 flex-row items-center">
-                      <View className="h-10 w-10 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
-                        <ThemedText className="text-xl">{habit.icon}</ThemedText>
+                      <View
+                        className="h-10 w-10 items-center justify-center rounded-full"
+                        style={{ backgroundColor: habit.color + '20' }}>
+                        <MaterialCommunityIcons name={habit.icon} size={24} color={habit.color} />
                       </View>
                       <ThemedText className="ml-3 text-base font-medium text-gray-900 dark:text-white">
                         {habit.name}
@@ -111,8 +134,8 @@ export function DayDetailModal({ visible, date, onClose }: Props) {
                 );
               })}
           </ScrollView>
-        </Pressable>
-      </Pressable>
+        </View>
+      </View>
     </Modal>
   );
 }

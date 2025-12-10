@@ -5,7 +5,12 @@ import { MonthlyHeatmap } from './MonthlyHeatmap';
 import { InsightCard } from './InsightCard';
 import { MonthComparisonCard } from './MonthComparisonCard';
 import { HabitRankingCard } from './HabitRankingCard';
-import type { MonthlyStats, DayCompletionData, MonthlyInsight, MonthComparison } from '../types/stats.types';
+import type {
+  MonthlyStats,
+  DayCompletionData,
+  MonthlyInsight,
+  MonthComparison,
+} from '../types/stats.types';
 
 interface MonthlyViewProps {
   currentMonthDate: Date;
