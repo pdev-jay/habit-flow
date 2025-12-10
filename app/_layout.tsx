@@ -43,7 +43,7 @@ export default function RootLayout() {
             presentation: 'card',
             headerShown: true,
             headerTitle: '새 습관',
-            headerBackTitle: '취소',
+            headerBackTitle: '뒤로가기',
           }}
         />
         <Stack.Screen
@@ -52,7 +52,7 @@ export default function RootLayout() {
             presentation: 'card',
             headerShown: true,
             headerTitle: '습관 편집',
-            headerBackTitle: '취소',
+            headerBackTitle: '뒤로가기',
           }}
         />
       </Stack>

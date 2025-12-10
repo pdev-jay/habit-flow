@@ -1,16 +1,18 @@
-import React, { useMemo } from 'react';
-import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { FlatList, Pressable, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { format } from 'date-fns';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { getTodayString, isHabitActiveOnDate } from '@/lib/utils';
+import { isHabitActiveOnDate } from '@/lib/utils';
 import { useHabits, useHabitCheck, useHabitStreaks } from '@/features/habits/hooks';
 
 import { HabitCard } from '../components/HabitCard';
 import { WeeklyStatsCard } from '../components/WeeklyStatsCard';
+import { CalendarModal } from '../components/CalendarModal';
 
 /**
  * Today screen - shows today's active habits
@@ -21,43 +23,54 @@ export function TodayScreen() {
   const { habits } = useHabits();
   const { getCheckStatus, toggle } = useHabitCheck();
 
-  const today = useMemo(() => new Date(), []);
-  const todayString = getTodayString();
+  const [selectedDate, setSelectedDate] = useState(() => new Date());
+  const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
-  // Filter habits active today
+  const selectedDateString = useMemo(() => format(selectedDate, 'yyyy-MM-dd'), [selectedDate]);
+
+  // Filter habits active on selected date
   const activeHabits = useMemo(() => {
     return habits
       .filter(
         (habit: {
           frequency: 'daily' | 'weekdays' | 'weekends' | 'custom';
           customDays?: number[];
-        }) => isHabitActiveOnDate(habit.frequency, habit.customDays, today)
+        }) => isHabitActiveOnDate(habit.frequency, habit.customDays, selectedDate)
       )
       .sort((a: { order: number }, b: { order: number }) => a.order - b.order);
-  }, [habits, today]);
+  }, [habits, selectedDate]);
 
   const streaks = useHabitStreaks(activeHabits);
 
   const handleCheck = (habitId: string) => {
-    toggle(habitId, todayString);
+    toggle(habitId, selectedDateString);
   };
 
   const handleCardPress = (habitId: string) => {
     router.push(`/habit/${habitId}`);
   };
 
-  const handleAddHabit = () => {
-    router.push('/habit/new');
+  const handleOpenCalendar = () => {
+    setIsCalendarVisible(true);
+  };
+
+  const handleSelectDate = (date: Date) => {
+    setSelectedDate(date);
   };
 
   return (
     <ThemedView className="flex-1 bg-white dark:bg-gray-900">
       {/* Header */}
       <View className="px-4 pb-4" style={{ paddingTop: insets.top + 24 }}>
-        <ThemedText className="mb-4 text-3xl font-bold">HabitFlow</ThemedText>
+        <View className="mb-4 flex-row items-center justify-between">
+          <ThemedText className="text-3xl font-bold">HabitFlow</ThemedText>
+          <Pressable onPress={handleOpenCalendar} className="h-10 w-10 items-center justify-center">
+            <MaterialCommunityIcons name="calendar" size={24} color="#3B82F6" />
+          </Pressable>
+        </View>
 
         {/* Weekly Stats Card */}
-        <WeeklyStatsCard />
+        <WeeklyStatsCard selectedDate={selectedDate} />
       </View>
 
       {/* Habits List */}
@@ -81,7 +94,7 @@ export function TodayScreen() {
                 name={item.name}
                 icon={item.icon}
                 color={item.color}
-                checked={getCheckStatus(item.id, todayString)}
+                checked={getCheckStatus(item.id, selectedDateString)}
                 streak={streaks[item.id]}
                 onCheck={() => handleCheck(item.id)}
                 onPress={() => handleCardPress(item.id)}
@@ -91,23 +104,13 @@ export function TodayScreen() {
         )}
       </View>
 
-      {/* Floating Add Button */}
-      <Pressable
-        onPress={handleAddHabit}
-        className="absolute bottom-6 right-6 h-14 w-14 items-center justify-center rounded-full bg-blue-500 active:bg-blue-600"
-        style={styles.floatingButton}>
-        <MaterialCommunityIcons name="plus" size={28} color="white" />
-      </Pressable>
+      {/* Calendar Modal */}
+      <CalendarModal
+        visible={isCalendarVisible}
+        selectedDate={selectedDate}
+        onSelectDate={handleSelectDate}
+        onClose={() => setIsCalendarVisible(false)}
+      />
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  floatingButton: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-});

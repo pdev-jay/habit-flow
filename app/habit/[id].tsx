@@ -1,10 +1,11 @@
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Pressable, Text } from 'react-native';
+import React, { useLayoutEffect, useMemo, useRef, useState, useCallback } from 'react';
+import { Pressable, Text, Alert, View } from 'react-native';
 import { useLocalSearchParams, useRouter, useNavigation } from 'expo-router';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { useHabits } from '@/features/habits/hooks';
+import { useHabitCheckStore } from '@/features/habits/stores';
 import { HabitForm, type HabitFormRef } from '@/features/habits/components/HabitForm';
 import type { HabitIconName, FrequencyType } from '@/features/habits/types';
 
@@ -12,7 +13,8 @@ export default function EditHabitScreen() {
   const router = useRouter();
   const navigation = useNavigation();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { habits, update } = useHabits();
+  const { habits, update, remove } = useHabits();
+  const { deleteChecksByHabitId } = useHabitCheckStore();
   const formRef = useRef<HabitFormRef>(null);
   const [isValid, setIsValid] = useState(true); // Default true for edit since name exists
 
@@ -20,15 +22,40 @@ export default function EditHabitScreen() {
     return habits.find((h: { id: string }) => h.id === id);
   }, [habits, id]);
 
+  const handleDelete = useCallback(() => {
+    if (!id) return;
+
+    Alert.alert('습관 삭제', '정말 이 습관을 삭제하시겠습니까? 모든 기록이 함께 삭제됩니다.', [
+      {
+        text: '취소',
+        style: 'cancel',
+      },
+      {
+        text: '삭제',
+        style: 'destructive',
+        onPress: () => {
+          remove(id);
+          deleteChecksByHabitId(id);
+          router.back();
+        },
+      },
+    ]);
+  }, [id, remove, deleteChecksByHabitId, router]);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Pressable onPress={() => formRef.current?.submit()} disabled={!isValid}>
-          <Text style={{ fontSize: 17, color: isValid ? '#3B82F6' : '#9CA3AF' }}>저장</Text>
-        </Pressable>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+          <Pressable onPress={handleDelete}>
+            <Text style={{ fontSize: 17, color: '#EF4444' }}>삭제</Text>
+          </Pressable>
+          <Pressable onPress={() => formRef.current?.submit()} disabled={!isValid}>
+            <Text style={{ fontSize: 17, color: isValid ? '#3B82F6' : '#9CA3AF' }}>저장</Text>
+          </Pressable>
+        </View>
       ),
     });
-  }, [isValid, navigation]);
+  }, [isValid, navigation, handleDelete]);
 
   const handleValidationChange = (valid: boolean) => {
     setIsValid(valid);

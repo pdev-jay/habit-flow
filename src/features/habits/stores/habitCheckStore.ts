@@ -8,6 +8,7 @@ interface HabitCheckStore {
   toggleCheck: (habitId: string, date: string) => void;
   getChecksByHabitId: (habitId: string) => HabitCheck[];
   getChecksByDate: (date: string) => HabitCheck[];
+  deleteChecksByHabitId: (habitId: string) => void;
 }
 
 export const useHabitCheckStore = create<HabitCheckStore>()(
@@ -55,6 +56,20 @@ export const useHabitCheckStore = create<HabitCheckStore>()(
       getChecksByDate: (date: string) => {
         const { checks } = get();
         return Object.values(checks).filter((check) => check.date === date);
+      },
+
+      deleteChecksByHabitId: (habitId: string) => {
+        set((state) => {
+          const newChecks: Record<string, HabitCheck> = {};
+
+          Object.entries(state.checks).forEach(([key, check]) => {
+            if (check.habitId !== habitId) {
+              newChecks[key] = check;
+            }
+          });
+
+          return { checks: newChecks };
+        });
       },
     }),
     {

@@ -1,43 +1,49 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
-import { format } from 'date-fns';
+import { format, isSameDay } from 'date-fns';
 
 import { ThemedText } from '@/components/ThemedText';
 import { useHabits } from '@/features/habits/hooks';
 import { useHabitCheckStore } from '@/features/habits/stores';
 
+interface WeeklyStatsCardProps {
+  selectedDate: Date;
+}
+
 /**
  * Daily stats card component
  * Shows "Today X/Y done" with progress bar
  */
-export function WeeklyStatsCard() {
+export function WeeklyStatsCard({ selectedDate }: WeeklyStatsCardProps) {
   const { getActiveHabitsForDate } = useHabits();
   const checks = useHabitCheckStore((state) => state.checks);
 
-  const today = useMemo(() => new Date(), []);
-  const todayString = format(today, 'yyyy-MM-dd');
+  const selectedDateString = useMemo(() => format(selectedDate, 'yyyy-MM-dd'), [selectedDate]);
+
+  // Check if selected date is today
+  const isToday = useMemo(() => isSameDay(selectedDate, new Date()), [selectedDate]);
 
   // Format date for display
   const dateText = useMemo(() => {
     const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-    const month = today.getMonth() + 1;
-    const date = today.getDate();
-    const day = weekdays[today.getDay()];
+    const month = selectedDate.getMonth() + 1;
+    const date = selectedDate.getDate();
+    const day = weekdays[selectedDate.getDay()];
     return `${month}월 ${date}일 (${day})`;
-  }, [today]);
+  }, [selectedDate]);
 
-  // Get today's active habits
+  // Get selected date's active habits
   const activeHabits = useMemo(() => {
-    return getActiveHabitsForDate(today);
-  }, [getActiveHabitsForDate, today]);
+    return getActiveHabitsForDate(selectedDate);
+  }, [getActiveHabitsForDate, selectedDate]);
 
-  // Count completed habits today
+  // Count completed habits on selected date
   const completedCount = useMemo(() => {
     return activeHabits.filter((habit) => {
-      const key = `${habit.id}_${todayString}`;
+      const key = `${habit.id}_${selectedDateString}`;
       return checks[key]?.completed ?? false;
     }).length;
-  }, [activeHabits, checks, todayString]);
+  }, [activeHabits, checks, selectedDateString]);
 
   const totalCount = activeHabits.length;
   const progressPercentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
@@ -46,7 +52,7 @@ export function WeeklyStatsCard() {
     <View className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
       <View className="flex-row items-center justify-between">
         <ThemedText className="text-base font-medium text-gray-600 dark:text-gray-300">
-          Today
+          {isToday ? 'Today' : 'Selected'}
         </ThemedText>
         <ThemedText className="text-sm text-gray-500 dark:text-gray-400">{dateText}</ThemedText>
       </View>
