@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { FlatList, Pressable, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -11,7 +11,7 @@ import { useHabits, useHabitCheck, useHabitStreaks } from '@/features/habits/hoo
 
 import { HabitCard } from '../components/HabitCard';
 import { WeeklyStatsCard } from '../components/WeeklyStatsCard';
-import { CalendarModal } from '../components/CalendarModal';
+import { ExpandableCalendar } from '../components/ExpandableCalendar';
 
 /**
  * Today screen - shows today's active habits
@@ -23,7 +23,6 @@ export function TodayScreen() {
   const { getCheckStatus, toggle } = useHabitCheck();
 
   const [selectedDate, setSelectedDate] = useState(() => new Date());
-  const [isCalendarVisible, setIsCalendarVisible] = useState(false);
 
   const selectedDateString = useMemo(() => format(selectedDate, 'yyyy-MM-dd'), [selectedDate]);
 
@@ -42,24 +41,14 @@ export function TodayScreen() {
     router.push(`/habit/${habitId}`);
   };
 
-  const handleOpenCalendar = () => {
-    setIsCalendarVisible(true);
-  };
-
-  const handleSelectDate = (date: Date) => {
-    setSelectedDate(date);
-  };
-
   return (
     <ThemedView className="flex-1 bg-white dark:bg-gray-900">
       {/* Header */}
       <View className="px-4 pb-4" style={{ paddingTop: insets.top + 24 }}>
-        <View className="mb-4 flex-row items-center justify-between">
-          <ThemedText className="text-3xl font-bold">HabitFlow</ThemedText>
-          <Pressable onPress={handleOpenCalendar} className="h-10 w-10 items-center justify-center">
-            <MaterialCommunityIcons name="calendar" size={24} color="#3B82F6" />
-          </Pressable>
-        </View>
+        <ThemedText className="text-3xl font-bold">HabitFlow</ThemedText>
+
+        {/* Expandable Calendar */}
+        <ExpandableCalendar selectedDate={selectedDate} onSelectDate={setSelectedDate} />
 
         {/* Weekly Stats Card */}
         <WeeklyStatsCard selectedDate={selectedDate} />
@@ -67,7 +56,6 @@ export function TodayScreen() {
 
       {/* Habits List */}
       <View className="flex-1 pt-4">
-        {/* Habits List */}
         {activeHabits.length === 0 ? (
           <View className="flex-1 items-center justify-center px-8">
             <MaterialCommunityIcons name="calendar-check" size={64} color="#9CA3AF" />
@@ -95,14 +83,6 @@ export function TodayScreen() {
           />
         )}
       </View>
-
-      {/* Calendar Modal */}
-      <CalendarModal
-        visible={isCalendarVisible}
-        selectedDate={selectedDate}
-        onSelectDate={handleSelectDate}
-        onClose={() => setIsCalendarVisible(false)}
-      />
     </ThemedView>
   );
 }
