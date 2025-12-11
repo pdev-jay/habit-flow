@@ -14,7 +14,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { useTheme } from '@/hooks';
+import { useTheme, useI18n } from '@/hooks';
 import { cn } from '@/lib/utils';
 import type { FrequencyType, HabitIconName } from '@/features/habits/types';
 
@@ -43,21 +43,22 @@ interface HabitFormProps {
   onValidationChange?: (isValid: boolean) => void;
 }
 
-const WEEKDAYS = [
-  { day: 1, label: 'Mon' },
-  { day: 2, label: 'Tue' },
-  { day: 3, label: 'Wed' },
-  { day: 4, label: 'Thu' },
-  { day: 5, label: 'Fri' },
-  { day: 6, label: 'Sat' },
-  { day: 0, label: 'Sun' },
-];
-
 /**
  * Habit form component
  */
 export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
-  ({ initialData, onSubmit, onCancel, submitLabel = '저장', onValidationChange }, ref) => {
+  ({ initialData, onSubmit, onCancel, submitLabel, onValidationChange }, ref) => {
+    const { t } = useI18n();
+
+    const WEEKDAYS = [
+      { day: 1, label: t('components:habitForm.weekdays.mon') },
+      { day: 2, label: t('components:habitForm.weekdays.tue') },
+      { day: 3, label: t('components:habitForm.weekdays.wed') },
+      { day: 4, label: t('components:habitForm.weekdays.thu') },
+      { day: 5, label: t('components:habitForm.weekdays.fri') },
+      { day: 6, label: t('components:habitForm.weekdays.sat') },
+      { day: 0, label: t('components:habitForm.weekdays.sun') },
+    ];
     const [name, setName] = useState(initialData?.name || '');
     const [icon, setIcon] = useState<HabitIconName>(initialData?.icon || 'water');
     const [color, setColor] = useState(initialData?.color || COLORS[0]);
@@ -175,12 +176,12 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
           {/* Name Input */}
           <View className="mb-6">
             <ThemedText className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-              습관 이름
+              {t('components:habitForm.nameLabel')}
             </ThemedText>
             <TextInput
               value={name}
               onChangeText={setName}
-              placeholder="예: 물 마시기"
+              placeholder={t('components:habitForm.namePlaceholder')}
               placeholderTextColor={colorScheme === 'dark' ? '#6B7280' : '#9CA3AF'}
               className="h-12 rounded-lg border border-gray-300 bg-white px-4 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
               maxLength={50}
@@ -200,7 +201,7 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
           {/* Repeat - Day Selector */}
           <View className="mb-6">
             <ThemedText className="mb-3 text-sm font-medium text-gray-600 dark:text-gray-400">
-              Repeat
+              {t('components:habitForm.repeat')}
             </ThemedText>
             <View className="flex-row justify-between">
               {WEEKDAYS.map((weekday) => {
@@ -230,7 +231,7 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
           {/* Daily Reminder */}
           <View className="mb-6">
             <ThemedText className="mb-3 text-sm font-medium text-gray-600 dark:text-gray-400">
-              Daily Reminder
+              {t('components:habitForm.dailyReminder')}
             </ThemedText>
             <Pressable
               onPress={() => {
@@ -269,11 +270,15 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
                       style={{ transform: [{ translateY: slideAnim }] }}
                       className="rounded-t-2xl bg-white p-4 dark:bg-gray-800">
                       <View className="mb-3 flex-row items-center justify-between">
-                        <ThemedText className="text-lg font-semibold">시간 선택</ThemedText>
+                        <ThemedText className="text-lg font-semibold">
+                          {t('components:habitForm.selectTime')}
+                        </ThemedText>
                         <Pressable
                           onPress={handleTimePickerDone}
                           className="rounded-lg bg-blue-500 px-4 py-2 active:bg-blue-600">
-                          <ThemedText className="font-semibold text-white">완료</ThemedText>
+                          <ThemedText className="font-semibold text-white">
+                            {t('components:habitForm.done')}
+                          </ThemedText>
                         </Pressable>
                       </View>
                       <DateTimePicker

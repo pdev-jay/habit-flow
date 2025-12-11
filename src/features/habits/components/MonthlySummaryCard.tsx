@@ -1,5 +1,6 @@
 import { View } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
+import { useI18n } from '@/hooks';
 import type { MonthlyStats } from '../types/stats.types';
 
 interface Props {
@@ -7,10 +8,12 @@ interface Props {
 }
 
 export function MonthlySummaryCard({ stats }: Props) {
+  const { t } = useI18n();
+
   return (
     <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
       <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
-        이번 달 요약
+        {t('components:monthlySummary.title')}
       </ThemedText>
       <View className="flex-row justify-between">
         <View className="flex-1 items-center">
@@ -18,13 +21,13 @@ export function MonthlySummaryCard({ stats }: Props) {
             {stats.averageCompletionRate.toFixed(0)}%
           </ThemedText>
           <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-            평균 완료율
+            {t('components:monthlySummary.avgCompletionRate')}
           </ThemedText>
         </View>
         <View className="flex-1 items-center">
           <ThemedText className="text-2xl font-bold text-green-500">{stats.perfectDays}</ThemedText>
           <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-            완벽한 날
+            {t('components:monthlySummary.perfectDays')}
           </ThemedText>
         </View>
         <View className="flex-1 items-center">
@@ -32,7 +35,7 @@ export function MonthlySummaryCard({ stats }: Props) {
             {stats.longestStreak}
           </ThemedText>
           <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-            최장 스트릭
+            {t('components:monthlySummary.longestStreak')}
           </ThemedText>
         </View>
       </View>

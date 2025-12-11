@@ -1,0 +1,12 @@
+{
+  "tabs": {
+    "today": "Today",
+    "habits": "Habits",
+    "stats": "Stats",
+    "settings": "Settings"
+  },
+  "screens": {
+    "newHabit": "New Habit",
+    "editHabit": "Edit Habit"
+  }
+}

@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { useTheme } from '@/hooks';
+import { useTheme, useI18n } from '@/hooks';
 import { useHabits, useHabitCheck, useHabitStreaks } from '@/features/habits/hooks';
 
 import { HabitCard } from '../components/HabitCard';
@@ -21,6 +21,7 @@ export function TodayScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const colorScheme = useTheme();
+  const { t } = useI18n();
   const { getActiveHabitsForDate } = useHabits();
   const { getCheckStatus, toggle } = useHabitCheck();
 
@@ -55,7 +56,7 @@ export function TodayScreen() {
     <ThemedView className="flex-1 bg-white dark:bg-gray-900">
       {/* Header */}
       <View className="bg-white px-4 pb-4 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
-        <ThemedText className="text-3xl font-bold">HabitFlow</ThemedText>
+        <ThemedText className="text-3xl font-bold">{t('screens:today.title')}</ThemedText>
       </View>
 
       {/* Expandable Calendar */}
@@ -82,8 +83,9 @@ export function TodayScreen() {
               color={colorScheme === 'dark' ? '#6B7280' : '#9CA3AF'}
             />
             <ThemedText className="mt-4 text-center text-base text-gray-500 dark:text-gray-400">
-              오늘 활성화된 습관이 없습니다.{'\n'}
-              새로운 습관을 추가해보세요!
+              {t('screens:today.noHabits')}
+              {'\n'}
+              {t('screens:today.addHabit')}
             </ThemedText>
           </View>
         ) : (

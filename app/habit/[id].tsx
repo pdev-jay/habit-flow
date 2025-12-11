@@ -5,7 +5,7 @@ import { useLocalSearchParams, useRouter, useNavigation } from 'expo-router';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { useTheme } from '@/hooks';
+import { useTheme, useI18n } from '@/hooks';
 import { useHabits } from '@/features/habits/hooks';
 import { useHabitCheckStore } from '@/features/habits/stores';
 import { HabitForm, type HabitFormRef } from '@/features/habits/components/HabitForm';
@@ -20,6 +20,7 @@ export default function EditHabitScreen() {
   const formRef = useRef<HabitFormRef>(null);
   const [isValid, setIsValid] = useState(true); // Default true for edit since name exists
   const colorScheme = useTheme();
+  const { t } = useI18n();
 
   const habit = useMemo(() => {
     return habits.find((h: { id: string }) => h.id === id);
@@ -28,13 +29,13 @@ export default function EditHabitScreen() {
   const handleDelete = useCallback(() => {
     if (!id) return;
 
-    Alert.alert('습관 삭제', '정말 이 습관을 삭제하시겠습니까? 모든 기록이 함께 삭제됩니다.', [
+    Alert.alert(t('screens:habits.deleteTitle'), t('validation:confirmations.deleteHabit'), [
       {
-        text: '취소',
+        text: t('common:cancel'),
         style: 'cancel',
       },
       {
-        text: '삭제',
+        text: t('common:delete'),
         style: 'destructive',
         onPress: () => {
           remove(id);
@@ -43,7 +44,7 @@ export default function EditHabitScreen() {
         },
       },
     ]);
-  }, [id, remove, deleteChecksByHabitId, router]);
+  }, [id, remove, deleteChecksByHabitId, router, t]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -60,12 +61,12 @@ export default function EditHabitScreen() {
                   ? '#6B7280'
                   : '#9CA3AF',
             }}>
-            저장
+            {t('common:save')}
           </Text>
         </Pressable>
       ),
     });
-  }, [isValid, navigation, colorScheme]);
+  }, [isValid, navigation, colorScheme, t]);
 
   const handleValidationChange = (valid: boolean) => {
     setIsValid(valid);
@@ -93,7 +94,7 @@ export default function EditHabitScreen() {
   if (!habit) {
     return (
       <ThemedView className="flex-1 items-center justify-center">
-        <ThemedText className="text-gray-500">습관을 찾을 수 없습니다.</ThemedText>
+        <ThemedText className="text-gray-500">{t('screens:habits.empty')}</ThemedText>
       </ThemedView>
     );
   }
@@ -114,7 +115,7 @@ export default function EditHabitScreen() {
         onSubmit={handleSubmit}
         onCancel={handleCancel}
         onValidationChange={handleValidationChange}
-        submitLabel="저장"
+        submitLabel={t('common:save')}
       />
       <SafeAreaView
         edges={['bottom', 'right']}
@@ -126,7 +127,7 @@ export default function EditHabitScreen() {
                 fontSize: 17,
                 color: colorScheme === 'dark' ? '#F87171' : '#EF4444',
               }}>
-              삭제
+              {t('common:delete')}
             </Text>
           </Pressable>
         </View>

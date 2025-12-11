@@ -3,8 +3,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { format, isToday } from 'date-fns';
-import { ko } from 'date-fns/locale';
-import { useTheme } from '@/hooks';
+import { useTheme, useI18n } from '@/hooks';
+import { getDateLocale, getDateFormat } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { useHabits } from '../hooks/useHabits';
 import { useHabitCheckStore } from '../stores';
@@ -20,6 +20,8 @@ export function DayDetailModal({ visible, date, onClose }: Props) {
   const { getActiveHabitsForDate } = useHabits();
   const getChecksByDate = useHabitCheckStore((state) => state.getChecksByDate);
   const colorScheme = useTheme();
+  const { t, language } = useI18n();
+  const locale = getDateLocale(language);
 
   if (!date) return null;
 
@@ -48,11 +50,11 @@ export function DayDetailModal({ visible, date, onClose }: Props) {
           <View className="mb-4 flex-row items-center justify-between">
             <View>
               <ThemedText className="text-xl font-bold text-gray-900 dark:text-white">
-                {format(date, 'M월 d일', { locale: ko })}
+                {format(date, getDateFormat(language, 'monthDay'), { locale })}
               </ThemedText>
               <ThemedText className="mt-0.5 text-sm text-gray-500 dark:text-gray-400">
-                {format(date, 'EEEE', { locale: ko })}
-                {isToday(date) && ' (오늘)'}
+                {format(date, 'EEEE', { locale })}
+                {isToday(date) && ` (${t('screens:stats.today')})`}
               </ThemedText>
             </View>
             <Pressable
@@ -70,7 +72,7 @@ export function DayDetailModal({ visible, date, onClose }: Props) {
           <ThemedView className="mb-4 rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
             <View className="flex-row items-center justify-between">
               <ThemedText className="text-base text-gray-900 dark:text-white">
-                {completedCount}/{totalActiveHabits} 완료
+                {completedCount}/{totalActiveHabits} {t('components:weeklyChart.completed')}
               </ThemedText>
               <ThemedText className="text-base font-semibold text-blue-600 dark:text-blue-400">
                 {completionRate.toFixed(0)}%

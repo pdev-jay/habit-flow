@@ -3,6 +3,8 @@ import { View } from 'react-native';
 import { format, isSameDay } from 'date-fns';
 
 import { ThemedText } from '@/components/ThemedText';
+import { useI18n } from '@/hooks';
+import { getDateLocale, getDateFormat } from '@/i18n';
 import { useHabits } from '@/features/habits/hooks';
 import { useHabitCheckStore } from '@/features/habits/stores';
 
@@ -15,6 +17,7 @@ interface WeeklyStatsCardProps {
  * Shows "Today X/Y done" with progress bar
  */
 export function WeeklyStatsCard({ selectedDate }: WeeklyStatsCardProps) {
+  const { t, language } = useI18n();
   const { getActiveHabitsForDate } = useHabits();
   const checks = useHabitCheckStore((state) => state.checks);
 
@@ -25,12 +28,12 @@ export function WeeklyStatsCard({ selectedDate }: WeeklyStatsCardProps) {
 
   // Format date for display
   const dateText = useMemo(() => {
-    const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-    const month = selectedDate.getMonth() + 1;
-    const date = selectedDate.getDate();
-    const day = weekdays[selectedDate.getDay()];
-    return `${month}월 ${date}일 (${day})`;
-  }, [selectedDate]);
+    const locale = getDateLocale(language);
+    const datePattern = getDateFormat(language, 'monthDay');
+    const formattedDate = format(selectedDate, datePattern, { locale });
+    const dayName = format(selectedDate, 'EEE', { locale });
+    return `${formattedDate} (${dayName})`;
+  }, [selectedDate, language]);
 
   // Get selected date's active habits
   const activeHabits = useMemo(() => {
@@ -52,12 +55,12 @@ export function WeeklyStatsCard({ selectedDate }: WeeklyStatsCardProps) {
     <View className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
       <View className="flex-row items-center justify-between">
         <ThemedText className="text-base font-medium text-gray-600 dark:text-gray-300">
-          {isToday ? 'Today' : 'Selected'}
+          {isToday ? t('components:weeklyStats.today') : t('components:weeklyStats.selected')}
         </ThemedText>
         <ThemedText className="text-sm text-gray-500 dark:text-gray-400">{dateText}</ThemedText>
       </View>
       <ThemedText className="mb-3 mt-1 text-2xl font-bold">
-        {completedCount}/{totalCount} done
+        {completedCount}/{totalCount} {t('components:weeklyStats.done')}
       </ThemedText>
 
       {/* Progress Bar */}

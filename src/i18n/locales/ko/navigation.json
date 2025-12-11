@@ -1,0 +1,12 @@
+{
+  "tabs": {
+    "today": "오늘",
+    "habits": "습관",
+    "stats": "통계",
+    "settings": "설정"
+  },
+  "screens": {
+    "newHabit": "새 습관",
+    "editHabit": "습관 편집"
+  }
+}

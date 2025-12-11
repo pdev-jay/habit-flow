@@ -1,6 +1,6 @@
 import { View, Pressable } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { useTheme } from '@/hooks';
+import { useTheme, useI18n } from '@/hooks';
 import { cn } from '@/lib/utils';
 
 interface SegmentControlProps {
@@ -10,6 +10,7 @@ interface SegmentControlProps {
 
 export function SegmentControl({ value, onChange }: SegmentControlProps) {
   const colorScheme = useTheme();
+  const { t } = useI18n();
   const isDark = colorScheme === 'dark';
 
   // shadow-sm을 inline style로 구현 (NativeWind navigation context 버그 우회)
@@ -35,7 +36,7 @@ export function SegmentControl({ value, onChange }: SegmentControlProps) {
             'text-sm font-medium',
             value === 'weekly' ? 'text-blue-500' : 'text-gray-500 dark:text-gray-400'
           )}>
-          주별
+          {t('screens:stats.weekly')}
         </ThemedText>
       </Pressable>
       <Pressable
@@ -50,7 +51,7 @@ export function SegmentControl({ value, onChange }: SegmentControlProps) {
             'text-sm font-medium',
             value === 'monthly' ? 'text-blue-500' : 'text-gray-500 dark:text-gray-400'
           )}>
-          월별
+          {t('screens:stats.monthly')}
         </ThemedText>
       </Pressable>
     </View>

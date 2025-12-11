@@ -1,0 +1,85 @@
+{
+  "habitForm": {
+    "save": "저장",
+    "namePlaceholder": "습관 이름 입력",
+    "nameLabel": "습관 이름",
+    "iconLabel": "아이콘",
+    "colorLabel": "색상",
+    "frequencyLabel": "빈도",
+    "daily": "매일",
+    "weekdays": "평일",
+    "weekends": "주말",
+    "custom": "직접 선택",
+    "reminderLabel": "알림",
+    "reminderEnabled": "알림 받기",
+    "setTime": "시간 설정",
+    "selectDays": "요일을 선택하세요",
+    "selectTime": "시간 선택",
+    "done": "완료",
+    "repeat": "반복",
+    "dailyReminder": "매일 알림",
+    "weekdays": {
+      "mon": "월",
+      "tue": "화",
+      "wed": "수",
+      "thu": "목",
+      "fri": "금",
+      "sat": "토",
+      "sun": "일"
+    }
+  },
+  "calendar": {
+    "selectDate": "날짜를 선택하세요",
+    "today": "오늘",
+    "month": "월",
+    "year": "년"
+  },
+  "weeklyChart": {
+    "title": "주간 차트",
+    "completed": "완료",
+    "incomplete": "미완료"
+  },
+  "iconPicker": {
+    "title": "아이콘 선택",
+    "selectIcon": "아이콘을 선택하세요"
+  },
+  "colorPicker": {
+    "title": "색상 선택",
+    "selectColor": "색상을 선택하세요"
+  },
+  "insight": {
+    "title": "이번 달 인사이트",
+    "mvpHabit": "MVP 습관",
+    "streakDays": "{{count}}일 연속",
+    "needsAttention": "주의 필요"
+  },
+  "habitRanking": {
+    "title": "습관 랭킹 TOP 3",
+    "completed": "{{count}}회 완료"
+  },
+  "monthlySummary": {
+    "title": "이번 달 요약",
+    "avgCompletionRate": "평균 완료율",
+    "perfectDays": "완벽한 날",
+    "longestStreak": "최장 스트릭"
+  },
+  "monthComparison": {
+    "title": "지난 달 대비",
+    "noChange": "변화 없음",
+    "increased": "증가",
+    "decreased": "감소",
+    "avgCompletionRate": "평균 완료율",
+    "perfectDays": "완벽한 날",
+    "longestStreak": "최장 스트릭"
+  },
+  "weeklyStats": {
+    "today": "오늘",
+    "selected": "선택한 날",
+    "done": "완료"
+  },
+  "monthlyHeatmap": {
+    "title": "월간 히트맵",
+    "less": "적음",
+    "more": "많음"
+  }
+}

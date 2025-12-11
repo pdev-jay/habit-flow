@@ -2,6 +2,7 @@ import { useMemo, useCallback } from 'react';
 import { View, Pressable } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { format, isFuture, startOfDay } from 'date-fns';
+import { useI18n } from '@/hooks';
 import { cn } from '@/lib/utils';
 import type { DayCompletionData } from '../types/stats.types';
 
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export function MonthlyHeatmap({ currentDate, heatmapData, onDayPress }: Props) {
+  const { t } = useI18n();
+
   const heatmapCells = useMemo(() => {
     return heatmapData.map((dayData) => {
       const completionRate =
@@ -50,18 +53,22 @@ export function MonthlyHeatmap({ currentDate, heatmapData, onDayPress }: Props) 
   return (
     <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
       <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
-        월간 히트맵
+        {t('components:monthlyHeatmap.title')}
       </ThemedText>
 
       {/* Legend */}
       <View className="mb-4 flex-row items-center justify-center gap-2">
-        <ThemedText className="text-xs text-gray-500 dark:text-gray-400">적음</ThemedText>
+        <ThemedText className="text-xs text-gray-500 dark:text-gray-400">
+          {t('components:monthlyHeatmap.less')}
+        </ThemedText>
         <View className="h-4 w-4 rounded-sm bg-gray-300 dark:bg-gray-600" />
         <View className="h-4 w-4 rounded-sm bg-gray-400 dark:bg-gray-500" />
         <View className="h-4 w-4 rounded-sm bg-green-400 dark:bg-green-300" />
         <View className="h-4 w-4 rounded-sm bg-green-500 dark:bg-green-400" />
         <View className="h-4 w-4 rounded-sm bg-green-600 dark:bg-green-500" />
-        <ThemedText className="text-xs text-gray-500 dark:text-gray-400">많음</ThemedText>
+        <ThemedText className="text-xs text-gray-500 dark:text-gray-400">
+          {t('components:monthlyHeatmap.more')}
+        </ThemedText>
       </View>
 
       {/* Heatmap Grid */}

@@ -1,0 +1,17 @@
+{
+  "required": "This field is required",
+  "nameRequired": "Please enter a habit name",
+  "invalidDate": "Please enter a valid date",
+  "selectAtLeastOneDay": "Please select at least one day",
+  "errors": {
+    "generic": "An error occurred",
+    "networkError": "Network error occurred",
+    "saveError": "Error occurred while saving",
+    "deleteError": "Error occurred while deleting"
+  },
+  "confirmations": {
+    "unsavedChanges": "You have unsaved changes. Are you sure you want to leave?",
+    "deleteHabit": "Are you sure you want to delete this habit?",
+    "resetStats": "Are you sure you want to reset all statistics?"
+  }
+}

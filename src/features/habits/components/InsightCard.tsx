@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
-import { useTheme } from '@/hooks';
+import { useTheme, useI18n } from '@/hooks';
 import type { MonthlyInsight } from '../types/stats.types';
 import type { HabitIconName } from '../types';
 
@@ -11,6 +11,7 @@ interface Props {
 
 export function InsightCard({ insight }: Props) {
   const colorScheme = useTheme();
+  const { t } = useI18n();
 
   if (!insight.mvpHabit && !insight.needsAttention) {
     return null;
@@ -19,7 +20,7 @@ export function InsightCard({ insight }: Props) {
   return (
     <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
       <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
-        이번 달 인사이트
+        {t('components:insight.title')}
       </ThemedText>
 
       {/* MVP 습관 */}
@@ -32,7 +33,7 @@ export function InsightCard({ insight }: Props) {
               color={colorScheme === 'dark' ? '#34D399' : '#10B981'}
             />
             <ThemedText className="ml-2 text-sm font-medium text-green-600 dark:text-green-400">
-              MVP 습관
+              {t('components:insight.mvpHabit')}
             </ThemedText>
           </View>
           <View className="flex-row items-center justify-between">
@@ -53,7 +54,7 @@ export function InsightCard({ insight }: Props) {
                 {insight.mvpHabit.completionRate.toFixed(0)}%
               </ThemedText>
               <ThemedText className="text-xs text-gray-500 dark:text-gray-400">
-                {insight.mvpHabit.currentStreak}일 연속
+                {t('components:insight.streakDays', { count: insight.mvpHabit.currentStreak })}
               </ThemedText>
             </View>
           </View>
@@ -70,7 +71,7 @@ export function InsightCard({ insight }: Props) {
               color={colorScheme === 'dark' ? '#FB923C' : '#F97316'}
             />
             <ThemedText className="ml-2 text-sm font-medium text-orange-600 dark:text-orange-400">
-              주의 필요
+              {t('components:insight.needsAttention')}
             </ThemedText>
           </View>
           <View className="mt-2 flex-row items-center justify-between">

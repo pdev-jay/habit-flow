@@ -1,0 +1,41 @@
+{
+  "save": "저장",
+  "cancel": "취소",
+  "delete": "삭제",
+  "done": "완료",
+  "back": "뒤로가기",
+  "add": "추가",
+  "edit": "편집",
+  "close": "닫기",
+  "confirm": "확인",
+  "appName": "HabitFlow",
+  "theme": {
+    "system": "시스템",
+    "light": "라이트",
+    "dark": "다크"
+  },
+  "language": {
+    "korean": "한국어",
+    "english": "English"
+  },
+  "weekdays": {
+    "short": {
+      "sun": "일",
+      "mon": "월",
+      "tue": "화",
+      "wed": "수",
+      "thu": "목",
+      "fri": "금",
+      "sat": "토"
+    },
+    "full": {
+      "sunday": "일요일",
+      "monday": "월요일",
+      "tuesday": "화요일",
+      "wednesday": "수요일",
+      "thursday": "목요일",
+      "friday": "금요일",
+      "saturday": "토요일"
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "habitForm": {
+    "save": "Save",
+    "namePlaceholder": "Enter habit name",
+    "nameLabel": "Habit Name",
+    "iconLabel": "Icon",
+    "colorLabel": "Color",
+    "frequencyLabel": "Frequency",
+    "daily": "Daily",
+    "weekdays": "Weekdays",
+    "weekends": "Weekends",
+    "custom": "Custom",
+    "reminderLabel": "Reminder",
+    "reminderEnabled": "Enable Reminder",
+    "setTime": "Set Time",
+    "selectDays": "Select days",
+    "selectTime": "Select Time",
+    "done": "Done",
+    "repeat": "Repeat",
+    "dailyReminder": "Daily Reminder",
+    "weekdays": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    }
+  },
+  "calendar": {
+    "selectDate": "Select a date",
+    "today": "Today",
+    "month": "Month",
+    "year": "Year"
+  },
+  "weeklyChart": {
+    "title": "Weekly Chart",
+    "completed": "Completed",
+    "incomplete": "Incomplete"
+  },
+  "iconPicker": {
+    "title": "Select Icon",
+    "selectIcon": "Choose an icon"
+  },
+  "colorPicker": {
+    "title": "Select Color",
+    "selectColor": "Choose a color"
+  },
+  "insight": {
+    "title": "This Month's Insights",
+    "mvpHabit": "MVP Habit",
+    "streakDays": "{{count}} day streak",
+    "needsAttention": "Needs Attention"
+  },
+  "habitRanking": {
+    "title": "Top 3 Habits",
+    "completed": "{{count}} completed"
+  },
+  "monthlySummary": {
+    "title": "This Month Summary",
+    "avgCompletionRate": "Avg Completion Rate",
+    "perfectDays": "Perfect Days",
+    "longestStreak": "Longest Streak"
+  },
+  "monthComparison": {
+    "title": "vs Last Month",
+    "noChange": "No Change",
+    "increased": "Increased",
+    "decreased": "Decreased",
+    "avgCompletionRate": "Avg Completion Rate",
+    "perfectDays": "Perfect Days",
+    "longestStreak": "Longest Streak"
+  },
+  "weeklyStats": {
+    "today": "Today",
+    "selected": "Selected",
+    "done": "done"
+  },
+  "monthlyHeatmap": {
+    "title": "Monthly Heatmap",
+    "less": "Less",
+    "more": "More"
+  }
+}

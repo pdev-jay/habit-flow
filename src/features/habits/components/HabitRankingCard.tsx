@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
-import { useTheme } from '@/hooks';
+import { useTheme, useI18n } from '@/hooks';
 import type { HabitInsight } from '../types/stats.types';
 import type { HabitIconName } from '../types';
 
@@ -11,6 +11,7 @@ interface Props {
 
 export function HabitRankingCard({ topThree }: Props) {
   const colorScheme = useTheme();
+  const { t } = useI18n();
 
   if (topThree.length === 0) {
     return null;
@@ -29,7 +30,7 @@ export function HabitRankingCard({ topThree }: Props) {
   return (
     <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
       <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
-        습관 랭킹 TOP 3
+        {t('components:habitRanking.title')}
       </ThemedText>
       {topThree.map((habit, index) => (
         <View
@@ -53,7 +54,7 @@ export function HabitRankingCard({ topThree }: Props) {
                 {habit.habitName}
               </ThemedText>
               <ThemedText className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
-                {habit.completedCount}/{habit.totalCount} 완료
+                {t('components:habitRanking.completed', { count: habit.completedCount })}
               </ThemedText>
             </View>
           </View>

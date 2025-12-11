@@ -2,10 +2,11 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { useTheme } from '@/hooks';
+import { useTheme, useI18n } from '@/hooks';
 
 export default function TabLayout() {
   const colorScheme = useTheme();
+  const { t } = useI18n();
 
   return (
     <Tabs
@@ -21,7 +22,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: '오늘',
+          title: t('navigation:tabs.today'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" size={size} color={color} />
           ),
@@ -30,7 +31,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="habits"
         options={{
-          title: '습관',
+          title: t('navigation:tabs.habits'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="clipboard-text" size={size} color={color} />
           ),
@@ -39,7 +40,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="stats"
         options={{
-          title: '통계',
+          title: t('navigation:tabs.stats'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="chart-bar" size={size} color={color} />
           ),
@@ -48,7 +49,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: '설정',
+          title: t('navigation:tabs.settings'),
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="cog" size={size} color={color} />
           ),

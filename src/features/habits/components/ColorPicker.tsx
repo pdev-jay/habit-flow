@@ -3,6 +3,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/ThemedText';
+import { useI18n } from '@/hooks';
 import { cn } from '@/lib/utils';
 
 export const COLORS = [
@@ -29,10 +30,12 @@ interface ColorPickerProps {
  * Color picker component
  */
 export function ColorPicker({ selectedColor, onSelect }: ColorPickerProps) {
+  const { t } = useI18n();
+
   return (
     <View>
       <ThemedText className="mb-3 text-sm font-medium text-gray-600 dark:text-gray-400">
-        색상 선택
+        {t('components:colorPicker.title')}
       </ThemedText>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
         {COLORS.map((color) => {

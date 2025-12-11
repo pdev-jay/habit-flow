@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useRef, useState } from 'react';
 import { Pressable, Text } from 'react-native';
 import { useRouter, useNavigation } from 'expo-router';
 
-import { useTheme } from '@/hooks';
+import { useTheme, useI18n } from '@/hooks';
 import { useHabits } from '@/features/habits/hooks';
 import { HabitForm, type HabitFormRef } from '@/features/habits/components/HabitForm';
 import type { HabitIconName, FrequencyType } from '@/features/habits/types';
@@ -14,6 +14,7 @@ export default function NewHabitScreen() {
   const formRef = useRef<HabitFormRef>(null);
   const [isValid, setIsValid] = useState(false);
   const colorScheme = useTheme();
+  const { t } = useI18n();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -30,12 +31,12 @@ export default function NewHabitScreen() {
                   ? '#6B7280'
                   : '#9CA3AF',
             }}>
-            추가
+            {t('common:add')}
           </Text>
         </Pressable>
       ),
     });
-  }, [isValid, navigation, colorScheme]);
+  }, [isValid, navigation, colorScheme, t]);
 
   const handleValidationChange = (valid: boolean) => {
     setIsValid(valid);
@@ -66,7 +67,7 @@ export default function NewHabitScreen() {
       onSubmit={handleSubmit}
       onCancel={handleCancel}
       onValidationChange={handleValidationChange}
-      submitLabel="추가"
+      submitLabel={t('common:add')}
     />
   );
 }

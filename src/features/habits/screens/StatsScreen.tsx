@@ -10,13 +10,13 @@ import {
   addWeeks,
   isThisWeek,
 } from 'date-fns';
-import { ko } from 'date-fns/locale';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { useTheme } from '@/hooks';
+import { useTheme, useI18n } from '@/hooks';
+import { getDateLocale, getDateFormat } from '@/i18n';
 import {
   useHabits,
   useWeeklyStats,
@@ -40,6 +40,8 @@ import { DayDetailModal } from '../components/DayDetailModal';
 export function StatsScreen() {
   const insets = useSafeAreaInsets();
   const colorScheme = useTheme();
+  const { t, language } = useI18n();
+  const locale = getDateLocale(language);
   const { habits } = useHabits();
   const checks = useHabitCheckStore((state) => state.checks);
 
@@ -71,17 +73,17 @@ export function StatsScreen() {
 
   // Prepare chart data
   const chartData = useMemo(() => {
-    const days = ['월', '화', '수', '목', '금', '토', '일'];
-    return days.map((day, index) => {
+    const weekdayKeys = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+    return weekdayKeys.map((key, index) => {
       const date = format(addDays(weekStart, index), 'yyyy-MM-dd');
       const stats = dailyStatsRange.find((s: { date: string }) => s.date === date);
       return {
-        day,
+        day: t(`common:weekdays.short.${key}`),
         completed: stats?.completedCount || 0,
         total: stats?.totalHabits || 0,
       };
     });
-  }, [weekStart, dailyStatsRange]);
+  }, [weekStart, dailyStatsRange, t]);
 
   // Habit-specific stats (with createdAt and frequency validation)
   const habitStats = useMemo(() => {
@@ -188,7 +190,7 @@ export function StatsScreen() {
     <ThemedView className="flex-1">
       {/* Header */}
       <View className="bg-white px-4 pb-4 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
-        <ThemedText className="pb-4 text-3xl font-bold">통계</ThemedText>
+        <ThemedText className="pb-4 text-3xl font-bold">{t('screens:stats.title')}</ThemedText>
         {viewMode === 'weekly' ? (
           <View className="flex-row items-center justify-between">
             <Pressable
@@ -201,8 +203,8 @@ export function StatsScreen() {
               />
             </Pressable>
             <ThemedText className="text-sm text-gray-600 dark:text-gray-400">
-              {format(weekStart, 'M월 d일', { locale: ko })} ~{' '}
-              {format(weekEnd, 'M월 d일', { locale: ko })}
+              {format(weekStart, getDateFormat(language, 'weekRange'), { locale })} ~{' '}
+              {format(weekEnd, getDateFormat(language, 'weekRange'), { locale })}
             </ThemedText>
             <Pressable
               className="h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700"
@@ -226,7 +228,7 @@ export function StatsScreen() {
               />
             </Pressable>
             <ThemedText className="text-sm text-gray-600 dark:text-gray-400">
-              {format(currentMonthDate, 'yyyy년 M월', { locale: ko })}
+              {format(currentMonthDate, getDateFormat(language, 'yearMonth'), { locale })}
             </ThemedText>
             <Pressable
               className="h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700"
@@ -252,7 +254,9 @@ export function StatsScreen() {
             {/* Overall Stats */}
             <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
               <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
-                {isThisWeek(currentWeekDate) ? '이번 주 요약' : '주간 요약'}
+                {isThisWeek(currentWeekDate)
+                  ? t('screens:stats.thisWeek')
+                  : t('screens:stats.weeklySummary')}
               </ThemedText>
 
               <View className="flex-row justify-between">
@@ -261,7 +265,7 @@ export function StatsScreen() {
                     {weeklyStats.completionRate}%
                   </ThemedText>
                   <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    완료율
+                    {t('screens:stats.completionRate')}
                   </ThemedText>
                 </View>
 
@@ -270,7 +274,7 @@ export function StatsScreen() {
                     {weeklyStats.completedCount}
                   </ThemedText>
                   <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    완료한 습관
+                    {t('screens:stats.completedHabits')}
                   </ThemedText>
                 </View>
 
@@ -279,7 +283,7 @@ export function StatsScreen() {
                     {weeklyStats.streakDays}
                   </ThemedText>
                   <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                    연속 달성일
+                    {t('screens:stats.streakDays')}
                   </ThemedText>
                 </View>
               </View>
@@ -288,7 +292,7 @@ export function StatsScreen() {
             {/* Weekly Chart */}
             <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
               <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
-                주간 완료 현황
+                {t('screens:stats.weeklyStatus')}
               </ThemedText>
               <WeeklyChart data={chartData} />
             </View>
@@ -296,12 +300,12 @@ export function StatsScreen() {
             {/* Habit-specific Stats */}
             <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
               <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
-                습관별 달성률
+                {t('screens:stats.habitCompletion')}
               </ThemedText>
 
               {habitStats.length === 0 ? (
                 <ThemedText className="text-center text-gray-500 dark:text-gray-400">
-                  습관을 추가하면 통계가 표시됩니다.
+                  {t('screens:stats.addHabitsPrompt')}
                 </ThemedText>
               ) : (
                 habitStats
@@ -337,7 +341,10 @@ export function StatsScreen() {
                         </View>
 
                         <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                          {stat.completedDays}/{stat.totalDays}일 완료
+                          {t('screens:stats.completedDays', {
+                            completed: stat.completedDays,
+                            total: stat.totalDays,
+                          })}
                         </ThemedText>
                       </View>
                     )

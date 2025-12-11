@@ -7,6 +7,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useSettingsStore } from '@/features/habits/stores';
 import type { ThemeType, LanguageType } from '@/features/habits/types';
+import { useI18n } from '@/hooks';
 
 /**
  * Settings screen
@@ -14,6 +15,7 @@ import type { ThemeType, LanguageType } from '@/features/habits/types';
 export function SettingsScreen() {
   const insets = useSafeAreaInsets();
   const { settings, updateSettings } = useSettingsStore();
+  const { t } = useI18n();
 
   const handleThemeChange = (theme: ThemeType) => {
     updateSettings({ theme });
@@ -27,25 +29,27 @@ export function SettingsScreen() {
     <ThemedView className="flex-1">
       {/* Header */}
       <View className="bg-white px-4 pb-4 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
-        <ThemedText className="text-3xl font-bold">설정</ThemedText>
+        <ThemedText className="text-3xl font-bold">{t('screens:settings.title')}</ThemedText>
       </View>
 
       <ScrollView className="flex-1 p-4">
         {/* Appearance Section */}
         <View className="mb-4 rounded-xl bg-white p-4 dark:bg-gray-800">
-          <ThemedText className="mb-3 text-lg font-bold">화면 설정</ThemedText>
+          <ThemedText className="mb-3 text-lg font-bold">
+            {t('screens:settings.appearance')}
+          </ThemedText>
 
           <ThemedText className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-            테마
+            {t('screens:settings.themeLabel')}
           </ThemedText>
 
           <View className="flex-row">
             {(['system', 'light', 'dark'] as ThemeType[]).map((theme) => {
               const isSelected = settings.theme === theme;
               const labels: Record<ThemeType, string> = {
-                system: '시스템',
-                light: '라이트',
-                dark: '다크',
+                system: t('common:theme.system'),
+                light: t('common:theme.light'),
+                dark: t('common:theme.dark'),
               };
 
               return (
@@ -70,18 +74,20 @@ export function SettingsScreen() {
 
         {/* Language Section */}
         <View className="mb-4 rounded-xl bg-white p-4 dark:bg-gray-800">
-          <ThemedText className="mb-3 text-lg font-bold">언어 설정</ThemedText>
+          <ThemedText className="mb-3 text-lg font-bold">
+            {t('screens:settings.languageSection')}
+          </ThemedText>
 
           <ThemedText className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-            언어
+            {t('screens:settings.languageLabel')}
           </ThemedText>
 
           <View className="flex-row">
             {(['ko', 'en'] as LanguageType[]).map((language) => {
               const isSelected = settings.language === language;
               const labels: Record<LanguageType, string> = {
-                ko: '한국어',
-                en: 'English',
+                ko: t('common:language.korean'),
+                en: t('common:language.english'),
               };
 
               return (
@@ -106,13 +112,19 @@ export function SettingsScreen() {
 
         {/* Premium Section */}
         <View className="mb-4 rounded-xl bg-white p-4 dark:bg-gray-800">
-          <ThemedText className="mb-3 text-lg font-bold">프리미엄</ThemedText>
+          <ThemedText className="mb-3 text-lg font-bold">
+            {t('screens:settings.premium')}
+          </ThemedText>
 
           <View className="flex-row items-center justify-between">
             <View className="flex-1">
-              <ThemedText className="font-semibold">프리미엄 상태</ThemedText>
+              <ThemedText className="font-semibold">
+                {t('screens:settings.premiumStatus')}
+              </ThemedText>
               <ThemedText className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                {settings.isPro ? '프리미엄 회원' : '무료 회원'}
+                {settings.isPro
+                  ? t('screens:settings.premiumMember')
+                  : t('screens:settings.freeMember')}
               </ThemedText>
             </View>
 
@@ -136,7 +148,7 @@ export function SettingsScreen() {
               <View className="flex-row items-center justify-center">
                 <MaterialCommunityIcons name="crown" size={20} color="white" />
                 <ThemedText className="ml-2 font-semibold text-white">
-                  프리미엄으로 업그레이드
+                  {t('screens:settings.upgrade')}
                 </ThemedText>
               </View>
             </Pressable>
@@ -145,16 +157,20 @@ export function SettingsScreen() {
 
         {/* About Section */}
         <View className="rounded-xl bg-white p-4 dark:bg-gray-800">
-          <ThemedText className="mb-3 text-lg font-bold">정보</ThemedText>
+          <ThemedText className="mb-3 text-lg font-bold">{t('screens:settings.about')}</ThemedText>
 
           <View className="mb-3 flex-row items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-700">
-            <ThemedText className="text-gray-600 dark:text-gray-400">버전</ThemedText>
+            <ThemedText className="text-gray-600 dark:text-gray-400">
+              {t('screens:settings.version')}
+            </ThemedText>
             <ThemedText className="font-semibold">1.0.0</ThemedText>
           </View>
 
           <View className="flex-row items-center justify-between">
-            <ThemedText className="text-gray-600 dark:text-gray-400">앱 이름</ThemedText>
-            <ThemedText className="font-semibold">HabitFlow</ThemedText>
+            <ThemedText className="text-gray-600 dark:text-gray-400">
+              {t('screens:settings.appName')}
+            </ThemedText>
+            <ThemedText className="font-semibold">{t('common:appName')}</ThemedText>
           </View>
         </View>
       </ScrollView>

@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/ThemedText';
-import { useTheme } from '@/hooks';
+import { useTheme, useI18n } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { HabitIconName } from '@/features/habits/types';
 
@@ -36,11 +36,12 @@ interface IconPickerProps {
  */
 export function IconPicker({ selectedIcon, selectedColor, onSelect }: IconPickerProps) {
   const colorScheme = useTheme();
+  const { t } = useI18n();
 
   return (
     <View>
       <ThemedText className="mb-3 text-sm font-medium text-gray-600 dark:text-gray-400">
-        아이콘 선택
+        {t('components:iconPicker.title')}
       </ThemedText>
       <View className="flex-row flex-wrap justify-between">
         {ICONS.map((icon, index) => {

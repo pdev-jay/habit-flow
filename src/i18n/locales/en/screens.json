@@ -1,0 +1,56 @@
+{
+  "today": {
+    "title": "HabitFlow",
+    "noHabits": "No active habits for today.",
+    "addHabit": "Add your first habit to get started!"
+  },
+  "habits": {
+    "title": "My Habits",
+    "totalCount": "{{count}} habits total",
+    "empty": "No habits yet.",
+    "addFirst": "Add your first habit to get started!",
+    "deleteTitle": "Delete Habit",
+    "deleteMessage": "Are you sure you want to delete \"{{name}}\"?\nAll records will be deleted as well.",
+    "deleteCancel": "Cancel",
+    "deleteConfirm": "Delete"
+  },
+  "stats": {
+    "title": "Statistics",
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "thisWeek": "This Week Summary",
+    "weeklySummary": "Weekly Summary",
+    "completionRate": "Completion Rate",
+    "completedHabits": "Completed Habits",
+    "streakDays": "Streak Days",
+    "weeklyStatus": "Weekly Completion Status",
+    "habitCompletion": "Habit Completion Rate",
+    "addHabitsPrompt": "Add habits to see your statistics.",
+    "completedDays": "{{completed}}/{{total}} days completed",
+    "today": "Today",
+    "days": "days",
+    "habits": "habits",
+    "noData": "No data yet",
+    "monthlyComparison": "Monthly Comparison",
+    "lastMonth": "Last Month",
+    "thisMonth": "This Month",
+    "habitRanking": "Habit Ranking",
+    "times": "times",
+    "rank": ""
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": "Appearance",
+    "themeLabel": "Theme",
+    "languageSection": "Language",
+    "languageLabel": "Language",
+    "premium": "Premium",
+    "premiumStatus": "Premium Status",
+    "freeMember": "Free Member",
+    "premiumMember": "Premium Member",
+    "upgrade": "Upgrade to Premium",
+    "about": "About",
+    "version": "Version",
+    "appName": "App Name"
+  }
+}

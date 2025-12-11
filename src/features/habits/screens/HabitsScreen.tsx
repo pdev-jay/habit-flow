@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { useTheme } from '@/hooks';
+import { useTheme, useI18n } from '@/hooks';
 import { useHabits, useHabitStreaks } from '@/features/habits/hooks';
 import { Habit } from '@/features/habits/types';
 import { getFrequencyLabel, groupHabitsByWeekday } from '@/features/habits/utils';
@@ -19,12 +19,14 @@ interface HabitItemProps {
 }
 
 function HabitItem({ habit, streak, onPress, onLongPress }: HabitItemProps) {
+  const { language } = useI18n();
+
   const frequencyLabel = useMemo(() => {
     if (habit.customDays) {
-      return getFrequencyLabel(habit.customDays);
+      return getFrequencyLabel(habit.customDays, language);
     }
     return '';
-  }, [habit.customDays]);
+  }, [habit.customDays, language]);
 
   return (
     <Pressable
@@ -66,11 +68,12 @@ export function HabitsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const colorScheme = useTheme();
+  const { t, language } = useI18n();
   const { habits, remove } = useHabits();
   const streaks = useHabitStreaks(habits);
 
   // Group habits by weekday
-  const weekdayGroups = useMemo(() => groupHabitsByWeekday(habits), [habits]);
+  const weekdayGroups = useMemo(() => groupHabitsByWeekday(habits, language), [habits, language]);
 
   const handlePress = (habitId: string) => {
     router.push(`/habit/${habitId}`);
@@ -78,15 +81,15 @@ export function HabitsScreen() {
 
   const handleLongPress = (habitId: string, habitName: string) => {
     Alert.alert(
-      '습관 삭제',
-      `"${habitName}" 습관을 삭제하시겠습니까?\n모든 기록도 함께 삭제됩니다.`,
+      t('screens:habits.deleteTitle'),
+      t('screens:habits.deleteMessage', { name: habitName }),
       [
         {
-          text: '취소',
+          text: t('screens:habits.deleteCancel'),
           style: 'cancel',
         },
         {
-          text: '삭제',
+          text: t('screens:habits.deleteConfirm'),
           style: 'destructive',
           onPress: () => remove(habitId),
         },
@@ -123,9 +126,9 @@ export function HabitsScreen() {
       <View className="bg-white px-4 pb-4 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
         <View className="flex-row items-center justify-between">
           <View className="flex-1">
-            <ThemedText className="text-3xl font-bold">내 습관</ThemedText>
+            <ThemedText className="text-3xl font-bold">{t('screens:habits.title')}</ThemedText>
             <ThemedText className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-              총 {habits.length}개의 습관
+              {t('screens:habits.totalCount', { count: habits.length })}
             </ThemedText>
           </View>
           <Pressable onPress={handleAddHabit} className="p-2">
@@ -147,8 +150,9 @@ export function HabitsScreen() {
             color={colorScheme === 'dark' ? '#6B7280' : '#9CA3AF'}
           />
           <ThemedText className="mt-4 text-center text-base text-gray-500 dark:text-gray-400">
-            아직 습관이 없습니다.{'\n'}
-            새로운 습관을 추가해보세요!
+            {t('screens:habits.empty')}
+            {'\n'}
+            {t('screens:habits.addFirst')}
           </ThemedText>
         </View>
       ) : (
