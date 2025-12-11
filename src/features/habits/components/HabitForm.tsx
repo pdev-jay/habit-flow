@@ -172,7 +172,7 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
 
     return (
       <ThemedView className="flex-1">
-        <ScrollView className="flex-1 p-4">
+        <ScrollView className="flex-1 p-4" contentContainerStyle={{ paddingBottom: 80 }}>
           {/* Name Input */}
           <View className="mb-6">
             <ThemedText className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">

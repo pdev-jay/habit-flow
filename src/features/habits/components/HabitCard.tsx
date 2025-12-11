@@ -41,7 +41,7 @@ export function HabitCard({
     <Pressable
       onPress={onPress}
       onLongPress={onLongPress}
-      className="mb-3 rounded-xl bg-white p-4 dark:bg-gray-800"
+      className={cn('mb-3 rounded-xl bg-white p-4 dark:bg-gray-800', checked && 'opacity-50')}
       style={styles.card}>
       <View className="flex-row items-center">
         <View
