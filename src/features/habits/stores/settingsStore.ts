@@ -12,6 +12,7 @@ const defaultSettings: UserSettings = {
   theme: 'system',
   language: 'ko',
   isPro: false,
+  notificationsEnabled: true,
 };
 
 export const useSettingsStore = create<SettingsStore>()(

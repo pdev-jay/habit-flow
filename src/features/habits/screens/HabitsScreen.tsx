@@ -123,7 +123,9 @@ export function HabitsScreen() {
   return (
     <ThemedView className="flex-1">
       {/* Header */}
-      <View className="bg-white px-4 pb-4 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
+      <View
+        className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-800 dark:bg-gray-900"
+        style={[{ paddingTop: insets.top }, styles.headerShadow]}>
         <View className="flex-row items-center justify-between">
           <View className="flex-1">
             <ThemedText className="text-3xl font-bold">{t('screens:habits.title')}</ThemedText>
@@ -143,7 +145,7 @@ export function HabitsScreen() {
 
       {/* Habits List */}
       {habits.length === 0 ? (
-        <View className="flex-1 items-center justify-center px-8">
+        <View className="flex-1 items-center justify-center border-t border-gray-200 px-8 dark:border-gray-800">
           <MaterialCommunityIcons
             name="clipboard-text-outline"
             size={64}
@@ -179,6 +181,13 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
+    elevation: 2,
+  },
+  headerShadow: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
     elevation: 2,
   },
 });

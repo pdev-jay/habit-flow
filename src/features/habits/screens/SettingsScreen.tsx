@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Linking, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -7,7 +7,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useSettingsStore } from '@/features/habits/stores';
 import type { ThemeType, LanguageType } from '@/features/habits/types';
-import { useI18n } from '@/hooks';
+import { useI18n, useTheme } from '@/hooks';
 
 /**
  * Settings screen
@@ -16,6 +16,7 @@ export function SettingsScreen() {
   const insets = useSafeAreaInsets();
   const { settings, updateSettings } = useSettingsStore();
   const { t } = useI18n();
+  const colorScheme = useTheme();
 
   const handleThemeChange = (theme: ThemeType) => {
     updateSettings({ theme });
@@ -25,19 +26,55 @@ export function SettingsScreen() {
     updateSettings({ language });
   };
 
+  const handleNotificationsToggle = () => {
+    updateSettings({ notificationsEnabled: !settings.notificationsEnabled });
+  };
+
+  const handleContactUs = async () => {
+    const email = 'support@habitflow.com';
+    const subject = 'HabitFlow Support Inquiry';
+    const body = '';
+    const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    try {
+      const canOpen = await Linking.canOpenURL(url);
+      if (canOpen) {
+        await Linking.openURL(url);
+      } else {
+        Alert.alert(t('screens:settings.contactError'), t('screens:settings.contactErrorMessage'));
+      }
+    } catch {
+      Alert.alert(t('screens:settings.contactError'), t('screens:settings.contactErrorMessage'));
+    }
+  };
+
   return (
     <ThemedView className="flex-1">
       {/* Header */}
-      <View className="bg-white px-4 pb-4 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
+      <View
+        className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-800 dark:bg-gray-900"
+        style={[{ paddingTop: insets.top }, styles.headerShadow]}>
         <ThemedText className="text-3xl font-bold">{t('screens:settings.title')}</ThemedText>
       </View>
 
-      <ScrollView className="flex-1 p-4">
+      <ScrollView
+        className="flex-1 px-4"
+        contentContainerStyle={{ paddingTop: 16, paddingBottom: insets.bottom }}>
         {/* Appearance Section */}
-        <View className="mb-4 rounded-xl bg-white p-4 dark:bg-gray-800">
-          <ThemedText className="mb-3 text-lg font-bold">
-            {t('screens:settings.appearance')}
-          </ThemedText>
+        <View
+          className="mb-6 rounded-xl bg-white p-4 dark:bg-gray-800"
+          style={[styles.card, { borderLeftWidth: 4, borderLeftColor: '#3B82F6' }]}>
+          <View className="mb-3 flex-row items-center">
+            <MaterialCommunityIcons
+              name="palette"
+              size={22}
+              color="#3B82F6"
+              style={{ marginRight: 8 }}
+            />
+            <ThemedText className="text-lg font-bold">
+              {t('screens:settings.appearance')}
+            </ThemedText>
+          </View>
 
           <ThemedText className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
             {t('screens:settings.themeLabel')}
@@ -73,10 +110,20 @@ export function SettingsScreen() {
         </View>
 
         {/* Language Section */}
-        <View className="mb-4 rounded-xl bg-white p-4 dark:bg-gray-800">
-          <ThemedText className="mb-3 text-lg font-bold">
-            {t('screens:settings.languageSection')}
-          </ThemedText>
+        <View
+          className="mb-6 rounded-xl bg-white p-4 dark:bg-gray-800"
+          style={[styles.card, { borderLeftWidth: 4, borderLeftColor: '#A855F7' }]}>
+          <View className="mb-3 flex-row items-center">
+            <MaterialCommunityIcons
+              name="translate"
+              size={22}
+              color="#A855F7"
+              style={{ marginRight: 8 }}
+            />
+            <ThemedText className="text-lg font-bold">
+              {t('screens:settings.languageSection')}
+            </ThemedText>
+          </View>
 
           <ThemedText className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
             {t('screens:settings.languageLabel')}
@@ -110,11 +157,58 @@ export function SettingsScreen() {
           </View>
         </View>
 
+        {/* Notifications Section */}
+        <View
+          className="mb-6 rounded-xl bg-white p-4 dark:bg-gray-800"
+          style={[styles.card, { borderLeftWidth: 4, borderLeftColor: '#10B981' }]}>
+          <View className="mb-3 flex-row items-center">
+            <MaterialCommunityIcons
+              name="bell-ring-outline"
+              size={22}
+              color="#10B981"
+              style={{ marginRight: 8 }}
+            />
+            <ThemedText className="text-lg font-bold">
+              {t('screens:settings.notificationsSection')}
+            </ThemedText>
+          </View>
+
+          <View className="flex-row items-center justify-between">
+            <View className="mr-3 flex-1">
+              <ThemedText className="font-semibold">
+                {t('screens:settings.notificationsLabel')}
+              </ThemedText>
+              <ThemedText className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                {t('screens:settings.notificationsDescription')}
+              </ThemedText>
+            </View>
+
+            <Switch
+              value={settings.notificationsEnabled}
+              onValueChange={handleNotificationsToggle}
+              trackColor={{
+                false: colorScheme === 'dark' ? '#374151' : '#D1D5DB',
+                true: '#60A5FA',
+              }}
+              thumbColor={settings.notificationsEnabled ? '#3B82F6' : '#F3F4F6'}
+              ios_backgroundColor={colorScheme === 'dark' ? '#374151' : '#D1D5DB'}
+            />
+          </View>
+        </View>
+
         {/* Premium Section */}
-        <View className="mb-4 rounded-xl bg-white p-4 dark:bg-gray-800">
-          <ThemedText className="mb-3 text-lg font-bold">
-            {t('screens:settings.premium')}
-          </ThemedText>
+        <View
+          className="mb-6 rounded-xl bg-white p-4 dark:bg-gray-800"
+          style={[styles.card, { borderLeftWidth: 4, borderLeftColor: '#F59E0B' }]}>
+          <View className="mb-3 flex-row items-center">
+            <MaterialCommunityIcons
+              name="crown"
+              size={22}
+              color="#F59E0B"
+              style={{ marginRight: 8 }}
+            />
+            <ThemedText className="text-lg font-bold">{t('screens:settings.premium')}</ThemedText>
+          </View>
 
           <View className="flex-row items-center justify-between">
             <View className="flex-1">
@@ -142,9 +236,7 @@ export function SettingsScreen() {
           </View>
 
           {!settings.isPro && (
-            <Pressable
-              className="mt-3 rounded-lg bg-gradient-to-r from-yellow-400 to-yellow-500 py-3"
-              style={styles.premiumButton}>
+            <Pressable className="mt-3 rounded-lg py-3" style={styles.premiumButton}>
               <View className="flex-row items-center justify-center">
                 <MaterialCommunityIcons name="crown" size={20} color="white" />
                 <ThemedText className="ml-2 font-semibold text-white">
@@ -156,8 +248,18 @@ export function SettingsScreen() {
         </View>
 
         {/* About Section */}
-        <View className="rounded-xl bg-white p-4 dark:bg-gray-800">
-          <ThemedText className="mb-3 text-lg font-bold">{t('screens:settings.about')}</ThemedText>
+        <View
+          className="rounded-xl bg-white p-4 dark:bg-gray-800"
+          style={[styles.card, { borderLeftWidth: 4, borderLeftColor: '#6B7280' }]}>
+          <View className="mb-3 flex-row items-center">
+            <MaterialCommunityIcons
+              name="information-outline"
+              size={22}
+              color="#6B7280"
+              style={{ marginRight: 8 }}
+            />
+            <ThemedText className="text-lg font-bold">{t('screens:settings.about')}</ThemedText>
+          </View>
 
           <View className="mb-3 flex-row items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-700">
             <ThemedText className="text-gray-600 dark:text-gray-400">
@@ -166,12 +268,25 @@ export function SettingsScreen() {
             <ThemedText className="font-semibold">1.0.0</ThemedText>
           </View>
 
-          <View className="flex-row items-center justify-between">
+          <View className="mb-3 flex-row items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-700">
             <ThemedText className="text-gray-600 dark:text-gray-400">
               {t('screens:settings.appName')}
             </ThemedText>
             <ThemedText className="font-semibold">{t('common:appName')}</ThemedText>
           </View>
+
+          <Pressable
+            onPress={handleContactUs}
+            className="mt-3 flex-row items-center justify-center rounded-lg border border-gray-300 bg-white py-3 active:bg-gray-50 dark:border-gray-600 dark:bg-gray-700 dark:active:bg-gray-600">
+            <MaterialCommunityIcons
+              name="email-outline"
+              size={20}
+              color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+            />
+            <ThemedText className="ml-2 font-semibold text-gray-700 dark:text-gray-300">
+              {t('screens:settings.contactUs')}
+            </ThemedText>
+          </Pressable>
         </View>
       </ScrollView>
     </ThemedView>
@@ -179,6 +294,20 @@ export function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
+  headerShadow: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  card: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
+  },
   optionButton: {
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -187,9 +316,10 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   premiumButton: {
+    backgroundColor: '#F59E0B',
     shadowColor: '#F59E0B',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 3,
   },

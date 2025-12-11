@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -55,7 +55,9 @@ export function TodayScreen() {
   return (
     <ThemedView className="flex-1 bg-white dark:bg-gray-900">
       {/* Header */}
-      <View className="bg-white px-4 pb-4 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
+      <View
+        className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-800 dark:bg-gray-900"
+        style={[{ paddingTop: insets.top }, styles.headerShadow]}>
         <ThemedText className="text-3xl font-bold">{t('screens:today.title')}</ThemedText>
       </View>
 
@@ -69,12 +71,12 @@ export function TodayScreen() {
       </View>
 
       {/* Weekly Stats Card */}
-      <View className="px-4 pt-4">
+      <View className="px-4 pb-4 pt-4">
         <WeeklyStatsCard selectedDate={selectedDate} />
       </View>
 
       {/* Habits List */}
-      <View className="flex-1 pt-4">
+      <View className="flex-1">
         {activeHabits.length === 0 ? (
           <View className="flex-1 items-center justify-center px-8">
             <MaterialCommunityIcons
@@ -92,7 +94,7 @@ export function TodayScreen() {
           <FlatList
             data={activeHabits}
             keyExtractor={(item) => item.id}
-            contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 80 }}
+            contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 80 }}
             renderItem={({ item }) => (
               <HabitCard
                 name={item.name}
@@ -110,3 +112,13 @@ export function TodayScreen() {
     </ThemedView>
   );
 }
+
+const styles = StyleSheet.create({
+  headerShadow: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+});

@@ -44,6 +44,9 @@
     "themeLabel": "테마",
     "languageSection": "언어 설정",
     "languageLabel": "언어",
+    "notificationsSection": "알림 설정",
+    "notificationsLabel": "습관 알림",
+    "notificationsDescription": "설정한 시간에 습관 알림을 받습니다",
     "premium": "프리미엄",
     "premiumStatus": "프리미엄 상태",
     "freeMember": "무료 회원",
@@ -51,6 +54,9 @@
     "upgrade": "프리미엄으로 업그레이드",
     "about": "정보",
     "version": "버전",
-    "appName": "앱 이름"
+    "appName": "앱 이름",
+    "contactUs": "문의하기",
+    "contactError": "이메일 오류",
+    "contactErrorMessage": "이메일 앱을 열 수 없습니다. 이메일 앱이 설치되어 있는지 확인해주세요."
   }
 }

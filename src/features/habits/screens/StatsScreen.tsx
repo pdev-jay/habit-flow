@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import { ScrollView, View, Pressable } from 'react-native';
+import { ScrollView, StyleSheet, View, Pressable } from 'react-native';
 import {
   startOfWeek,
   addDays,
@@ -189,7 +189,9 @@ export function StatsScreen() {
   return (
     <ThemedView className="flex-1">
       {/* Header */}
-      <View className="bg-white px-4 pb-4 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
+      <View
+        className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-800 dark:bg-gray-900"
+        style={[{ paddingTop: insets.top }, styles.headerShadow]}>
         <ThemedText className="pb-4 text-3xl font-bold">{t('screens:stats.title')}</ThemedText>
         {viewMode === 'weekly' ? (
           <View className="flex-row items-center justify-between">
@@ -244,11 +246,11 @@ export function StatsScreen() {
       </View>
 
       {/* Segment Control */}
-      <View className="px-4 py-2">
+      <View className="px-4 py-4">
         <SegmentControl value={viewMode} onChange={handleViewModeChange} />
       </View>
 
-      <ScrollView className="flex-1 pt-4">
+      <ScrollView className="flex-1" contentContainerStyle={{ paddingTop: 16 }}>
         {viewMode === 'weekly' && (
           <View>
             {/* Overall Stats */}
@@ -376,3 +378,13 @@ export function StatsScreen() {
     </ThemedView>
   );
 }
+
+const styles = StyleSheet.create({
+  headerShadow: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+});

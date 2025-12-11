@@ -137,6 +137,7 @@ export interface UserSettings {
   theme: ThemeType;
   language: LanguageType;
   isPro: boolean;
+  notificationsEnabled: boolean;
 }
 
 /**

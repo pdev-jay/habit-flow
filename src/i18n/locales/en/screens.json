@@ -44,6 +44,9 @@
     "themeLabel": "Theme",
     "languageSection": "Language",
     "languageLabel": "Language",
+    "notificationsSection": "Notifications",
+    "notificationsLabel": "Habit Reminders",
+    "notificationsDescription": "Receive notifications at scheduled times",
     "premium": "Premium",
     "premiumStatus": "Premium Status",
     "freeMember": "Free Member",
@@ -51,6 +54,9 @@
     "upgrade": "Upgrade to Premium",
     "about": "About",
     "version": "Version",
-    "appName": "App Name"
+    "appName": "App Name",
+    "contactUs": "Contact Us",
+    "contactError": "Email Error",
+    "contactErrorMessage": "Unable to open email app. Please check if an email app is installed."
   }
 }
