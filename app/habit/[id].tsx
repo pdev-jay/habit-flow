@@ -5,6 +5,7 @@ import { useLocalSearchParams, useRouter, useNavigation } from 'expo-router';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
+import { useTheme } from '@/hooks';
 import { useHabits } from '@/features/habits/hooks';
 import { useHabitCheckStore } from '@/features/habits/stores';
 import { HabitForm, type HabitFormRef } from '@/features/habits/components/HabitForm';
@@ -18,6 +19,7 @@ export default function EditHabitScreen() {
   const { deleteChecksByHabitId } = useHabitCheckStore();
   const formRef = useRef<HabitFormRef>(null);
   const [isValid, setIsValid] = useState(true); // Default true for edit since name exists
+  const colorScheme = useTheme();
 
   const habit = useMemo(() => {
     return habits.find((h: { id: string }) => h.id === id);
@@ -47,11 +49,23 @@ export default function EditHabitScreen() {
     navigation.setOptions({
       headerRight: () => (
         <Pressable onPress={() => formRef.current?.submit()} disabled={!isValid}>
-          <Text style={{ fontSize: 17, color: isValid ? '#3B82F6' : '#9CA3AF' }}>저장</Text>
+          <Text
+            style={{
+              fontSize: 17,
+              color: isValid
+                ? colorScheme === 'dark'
+                  ? '#60A5FA'
+                  : '#3B82F6'
+                : colorScheme === 'dark'
+                  ? '#6B7280'
+                  : '#9CA3AF',
+            }}>
+            저장
+          </Text>
         </Pressable>
       ),
     });
-  }, [isValid, navigation]);
+  }, [isValid, navigation, colorScheme]);
 
   const handleValidationChange = (valid: boolean) => {
     setIsValid(valid);
@@ -105,9 +119,15 @@ export default function EditHabitScreen() {
       <SafeAreaView
         edges={['bottom', 'right']}
         className="border-t border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
-        <View className="px-4 pb-2 pt-3">
-          <Pressable onPress={handleDelete} className="self-end active:opacity-70">
-            <Text style={{ fontSize: 17, color: '#EF4444' }}>삭제</Text>
+        <View className="pt-3">
+          <Pressable onPress={handleDelete} className="self-center active:opacity-70">
+            <Text
+              style={{
+                fontSize: 17,
+                color: colorScheme === 'dark' ? '#F87171' : '#EF4444',
+              }}>
+              삭제
+            </Text>
           </Pressable>
         </View>
       </SafeAreaView>

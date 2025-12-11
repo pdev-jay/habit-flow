@@ -4,6 +4,7 @@ import { startOfWeek, endOfWeek, format, isSameDay, addDays, addWeeks, subWeeks 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/ThemedText';
+import { useTheme } from '@/hooks';
 import { cn } from '@/lib/utils';
 
 interface WeekCalendarProps {
@@ -19,6 +20,8 @@ const WEEKDAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
  * Displays 7 days with week navigation
  */
 export function WeekCalendar({ selectedDate, onSelectDate, onExpand }: WeekCalendarProps) {
+  const colorScheme = useTheme();
+
   const weekDays = useMemo(() => {
     const weekStart = startOfWeek(selectedDate);
     return Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
@@ -53,21 +56,33 @@ export function WeekCalendar({ selectedDate, onSelectDate, onExpand }: WeekCalen
           <Pressable
             onPress={handlePrevWeek}
             className="h-8 w-8 items-center justify-center rounded-lg active:bg-gray-100 dark:active:bg-gray-700">
-            <MaterialCommunityIcons name="chevron-left" size={20} color="#6B7280" />
+            <MaterialCommunityIcons
+              name="chevron-left"
+              size={20}
+              color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+            />
           </Pressable>
 
           {/* Next week */}
           <Pressable
             onPress={handleNextWeek}
             className="h-8 w-8 items-center justify-center rounded-lg active:bg-gray-100 dark:active:bg-gray-700">
-            <MaterialCommunityIcons name="chevron-right" size={20} color="#6B7280" />
+            <MaterialCommunityIcons
+              name="chevron-right"
+              size={20}
+              color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+            />
           </Pressable>
 
           {/* Toggle to Month view */}
           <Pressable
             onPress={onExpand}
             className="flex-row items-center gap-1 rounded-lg bg-gray-100 px-3 py-1.5 active:bg-gray-200 dark:bg-gray-700 dark:active:bg-gray-600">
-            <MaterialCommunityIcons name="view-week" size={16} color="#6B7280" />
+            <MaterialCommunityIcons
+              name="view-week"
+              size={16}
+              color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+            />
             <ThemedText className="text-sm font-medium text-gray-600 dark:text-gray-300">
               Week
             </ThemedText>

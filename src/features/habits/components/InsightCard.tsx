@@ -2,6 +2,7 @@ import { View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useTheme } from '@/hooks';
 import type { MonthlyInsight } from '../types/stats.types';
 import type { HabitIconName } from '../types';
 
@@ -10,6 +11,8 @@ interface Props {
 }
 
 export function InsightCard({ insight }: Props) {
+  const colorScheme = useTheme();
+
   if (!insight.mvpHabit && !insight.needsAttention) {
     return null;
   }
@@ -24,7 +27,11 @@ export function InsightCard({ insight }: Props) {
       {insight.mvpHabit && (
         <View className="mb-3 rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
           <View className="mb-2 flex-row items-center">
-            <MaterialCommunityIcons name="trophy" size={20} color="#10b981" />
+            <MaterialCommunityIcons
+              name="trophy"
+              size={20}
+              color={colorScheme === 'dark' ? '#34D399' : '#10B981'}
+            />
             <ThemedText className="ml-2 text-sm font-medium text-green-600 dark:text-green-400">
               MVP 습관
             </ThemedText>
@@ -35,7 +42,7 @@ export function InsightCard({ insight }: Props) {
                 <MaterialCommunityIcons
                   name={insight.mvpHabit.habitIcon as HabitIconName}
                   size={18}
-                  color="#10b981"
+                  color={colorScheme === 'dark' ? '#34D399' : '#10B981'}
                 />
               </View>
               <ThemedText className="ml-3 text-base font-medium text-gray-900 dark:text-white">
@@ -58,7 +65,11 @@ export function InsightCard({ insight }: Props) {
       {insight.needsAttention && (
         <View className="rounded-lg bg-orange-50 p-3 dark:bg-orange-900/20">
           <View className="mb-2 flex-row items-center">
-            <MaterialCommunityIcons name="alert-circle" size={20} color="#f97316" />
+            <MaterialCommunityIcons
+              name="alert-circle"
+              size={20}
+              color={colorScheme === 'dark' ? '#FB923C' : '#F97316'}
+            />
             <ThemedText className="ml-2 text-sm font-medium text-orange-600 dark:text-orange-400">
               주의 필요
             </ThemedText>
@@ -69,7 +80,7 @@ export function InsightCard({ insight }: Props) {
                 <MaterialCommunityIcons
                   name={insight.needsAttention.habitIcon as HabitIconName}
                   size={18}
-                  color="#f97316"
+                  color={colorScheme === 'dark' ? '#FB923C' : '#F97316'}
                 />
               </View>
               <ThemedText className="ml-3 text-base font-medium text-gray-900 dark:text-white">

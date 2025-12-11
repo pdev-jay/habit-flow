@@ -5,6 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/ThemedText';
+import { useTheme } from '@/hooks';
 import { DateGrid } from './DateGrid';
 
 interface CalendarModalProps {
@@ -27,6 +28,7 @@ export function CalendarModal({
   const [currentDate, setCurrentDate] = useState(selectedDate);
   const slideAnim = useRef(new Animated.Value(300)).current;
   const insets = useSafeAreaInsets();
+  const colorScheme = useTheme();
 
   // Animate slide when modal opens/closes
   useEffect(() => {
@@ -75,7 +77,11 @@ export function CalendarModal({
               <Pressable
                 onPress={handlePrevMonth}
                 className="h-10 w-10 items-center justify-center rounded-lg bg-gray-100 active:bg-gray-200 dark:bg-gray-700 dark:active:bg-gray-600">
-                <MaterialCommunityIcons name="chevron-left" size={24} color="#6B7280" />
+                <MaterialCommunityIcons
+                  name="chevron-left"
+                  size={24}
+                  color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+                />
               </Pressable>
 
               <ThemedText className="text-lg font-semibold">{monthYearText}</ThemedText>
@@ -83,7 +89,11 @@ export function CalendarModal({
               <Pressable
                 onPress={handleNextMonth}
                 className="h-10 w-10 items-center justify-center rounded-lg bg-gray-100 active:bg-gray-200 dark:bg-gray-700 dark:active:bg-gray-600">
-                <MaterialCommunityIcons name="chevron-right" size={24} color="#6B7280" />
+                <MaterialCommunityIcons
+                  name="chevron-right"
+                  size={24}
+                  color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+                />
               </Pressable>
             </View>
 

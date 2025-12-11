@@ -14,6 +14,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useTheme } from '@/hooks';
 import { cn } from '@/lib/utils';
 import type { FrequencyType, HabitIconName } from '@/features/habits/types';
 
@@ -81,6 +82,7 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
     });
     const [showTimePicker, setShowTimePicker] = useState(false);
     const slideAnim = useRef(new Animated.Value(300)).current;
+    const colorScheme = useTheme();
 
     // Animate slide when time picker opens/closes
     useEffect(() => {
@@ -179,7 +181,7 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
               value={name}
               onChangeText={setName}
               placeholder="예: 물 마시기"
-              placeholderTextColor="#9CA3AF"
+              placeholderTextColor={colorScheme === 'dark' ? '#6B7280' : '#9CA3AF'}
               className="h-12 rounded-lg border border-gray-300 bg-white px-4 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
               maxLength={50}
             />
@@ -244,7 +246,11 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
                 className="flex-1 text-base text-gray-900 dark:text-white"
                 pointerEvents="none"
               />
-              <MaterialCommunityIcons name="clock-outline" size={24} color="#6B7280" />
+              <MaterialCommunityIcons
+                name="clock-outline"
+                size={24}
+                color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+              />
             </Pressable>
 
             {/* iOS: Modal with Spinner */}
@@ -276,7 +282,7 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
                         is24Hour={false}
                         display="spinner"
                         onChange={handleTimeChange}
-                        textColor="#000000"
+                        textColor={colorScheme === 'dark' ? '#FFFFFF' : '#000000'}
                         style={styles.iosTimePicker}
                       />
                     </Animated.View>

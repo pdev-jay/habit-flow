@@ -2,16 +2,20 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { useTheme } from '@/hooks';
+
 export default function TabLayout() {
+  const colorScheme = useTheme();
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: '#3B82F6',
-        tabBarInactiveTintColor: '#9CA3AF',
+        tabBarInactiveTintColor: colorScheme === 'dark' ? '#9CA3AF' : '#6B7280',
         tabBarStyle: {
-          backgroundColor: '#FFFFFF',
-          borderTopColor: '#E5E7EB',
+          backgroundColor: colorScheme === 'dark' ? '#111827' : '#FFFFFF',
+          borderTopColor: colorScheme === 'dark' ? '#374151' : '#E5E7EB',
         },
       }}>
       <Tabs.Screen

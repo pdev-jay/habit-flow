@@ -1,5 +1,6 @@
-import { View, Pressable, useColorScheme } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
+import { useTheme } from '@/hooks';
 import { cn } from '@/lib/utils';
 
 interface SegmentControlProps {
@@ -8,7 +9,7 @@ interface SegmentControlProps {
 }
 
 export function SegmentControl({ value, onChange }: SegmentControlProps) {
-  const colorScheme = useColorScheme();
+  const colorScheme = useTheme();
   const isDark = colorScheme === 'dark';
 
   // shadow-sm을 inline style로 구현 (NativeWind navigation context 버그 우회)

@@ -4,8 +4,9 @@ import { useEffect } from 'react';
 import { LogBox, useColorScheme as rnUseColorScheme } from 'react-native';
 import { Stack } from 'expo-router';
 import * as SystemUI from 'expo-system-ui';
+import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { colorScheme } from 'nativewind';
+import { useColorScheme } from 'nativewind';
 
 import { useSettingsStore } from '@/features/habits/stores';
 
@@ -15,14 +16,19 @@ LogBox.ignoreLogs(['SafeAreaView has been deprecated']);
 export default function RootLayout() {
   const systemColorScheme = rnUseColorScheme();
   const { settings } = useSettingsStore();
+  const { setColorScheme } = useColorScheme();
 
-  // Determine effective theme
-  const theme = settings.theme === 'system' ? systemColorScheme : settings.theme;
-
-  // NativeWind dark mode 동기화 - React Navigation theme context 문제 해결
+  // NativeWind dark mode 동기화
   useEffect(() => {
-    colorScheme.set(theme === 'dark' ? 'dark' : 'light');
-  }, [theme]);
+    if (settings.theme === 'system') {
+      setColorScheme('system');
+    } else {
+      setColorScheme(settings.theme as 'light' | 'dark');
+    }
+  }, [settings.theme, setColorScheme]);
+
+  // Determine effective theme for UI
+  const theme = settings.theme === 'system' ? systemColorScheme : settings.theme;
 
   // Set system UI colors
   useEffect(() => {
@@ -35,11 +41,19 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
+      <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
       <Stack
         screenOptions={{
           headerShown: false,
           contentStyle: {
             backgroundColor: theme === 'dark' ? '#111827' : '#FFFFFF',
+          },
+          headerStyle: {
+            backgroundColor: theme === 'dark' ? '#1F2937' : '#FFFFFF',
+          },
+          headerTintColor: theme === 'dark' ? '#FFFFFF' : '#000000',
+          headerTitleStyle: {
+            color: theme === 'dark' ? '#FFFFFF' : '#000000',
           },
         }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

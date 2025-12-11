@@ -2,6 +2,7 @@ import { View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useTheme } from '@/hooks';
 import type { MonthComparison } from '../types/stats.types';
 
 interface Props {
@@ -9,18 +10,20 @@ interface Props {
 }
 
 export function MonthComparisonCard({ comparison }: Props) {
+  const colorScheme = useTheme();
+
   const renderDiff = (diff: number, label: string) => {
     let icon: 'arrow-up' | 'arrow-down' | 'equal' = 'equal';
-    let color = '#6b7280';
+    let color = colorScheme === 'dark' ? '#9CA3AF' : '#6B7280';
     let text = '변화 없음';
 
     if (diff > 0) {
       icon = 'arrow-up';
-      color = '#10b981';
+      color = colorScheme === 'dark' ? '#34D399' : '#10B981';
       text = '증가';
     } else if (diff < 0) {
       icon = 'arrow-down';
-      color = '#ef4444';
+      color = colorScheme === 'dark' ? '#F87171' : '#EF4444';
       text = '감소';
     }
 

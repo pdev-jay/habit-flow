@@ -16,6 +16,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useTheme } from '@/hooks';
 import {
   useHabits,
   useWeeklyStats,
@@ -38,6 +39,7 @@ import { DayDetailModal } from '../components/DayDetailModal';
  */
 export function StatsScreen() {
   const insets = useSafeAreaInsets();
+  const colorScheme = useTheme();
   const { habits } = useHabits();
   const checks = useHabitCheckStore((state) => state.checks);
 
@@ -186,15 +188,19 @@ export function StatsScreen() {
     <ThemedView className="flex-1">
       {/* Header */}
       <View
-        className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-700 dark:bg-gray-900"
-        style={{ paddingTop: insets.top + 24 }}>
-        <ThemedText className="pb-2 text-2xl font-bold">통계</ThemedText>
+        className="bg-white px-4 pb-4 dark:bg-gray-900"
+        style={{ paddingTop: insets.top }}>
+        <ThemedText className="pb-4 text-3xl font-bold">통계</ThemedText>
         {viewMode === 'weekly' ? (
-          <View className="mt-1 flex-row items-center justify-between">
+          <View className="flex-row items-center justify-between">
             <Pressable
               className="h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700"
               onPress={handlePreviousWeek}>
-              <MaterialCommunityIcons name="chevron-left" size={20} color="#6b7280" />
+              <MaterialCommunityIcons
+                name="chevron-left"
+                size={20}
+                color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+              />
             </Pressable>
             <ThemedText className="text-sm text-gray-600 dark:text-gray-400">
               {format(weekStart, 'M월 d일', { locale: ko })} ~{' '}
@@ -203,15 +209,23 @@ export function StatsScreen() {
             <Pressable
               className="h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700"
               onPress={handleNextWeek}>
-              <MaterialCommunityIcons name="chevron-right" size={20} color="#6b7280" />
+              <MaterialCommunityIcons
+                name="chevron-right"
+                size={20}
+                color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+              />
             </Pressable>
           </View>
         ) : (
-          <View className="mt-1 flex-row items-center justify-between">
+          <View className="flex-row items-center justify-between">
             <Pressable
               className="h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700"
               onPress={handlePreviousMonth}>
-              <MaterialCommunityIcons name="chevron-left" size={20} color="#6b7280" />
+              <MaterialCommunityIcons
+                name="chevron-left"
+                size={20}
+                color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+              />
             </Pressable>
             <ThemedText className="text-sm text-gray-600 dark:text-gray-400">
               {format(currentMonthDate, 'yyyy년 M월', { locale: ko })}
@@ -219,18 +233,22 @@ export function StatsScreen() {
             <Pressable
               className="h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700"
               onPress={handleNextMonth}>
-              <MaterialCommunityIcons name="chevron-right" size={20} color="#6b7280" />
+              <MaterialCommunityIcons
+                name="chevron-right"
+                size={20}
+                color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+              />
             </Pressable>
           </View>
         )}
       </View>
 
       {/* Segment Control */}
-      <View className="px-4 py-3">
+      <View className="px-4 py-2">
         <SegmentControl value={viewMode} onChange={handleViewModeChange} />
       </View>
 
-      <ScrollView className="flex-1">
+      <ScrollView className="flex-1 px-4">
         {viewMode === 'weekly' && (
           <View>
             {/* Overall Stats */}

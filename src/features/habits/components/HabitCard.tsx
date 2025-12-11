@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/ThemedText';
+import { useTheme } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { HabitIconName } from '@/features/habits/types';
 
@@ -34,6 +35,8 @@ export function HabitCard({
   onPress,
   onLongPress,
 }: HabitCardProps) {
+  const colorScheme = useTheme();
+
   return (
     <Pressable
       onPress={onPress}
@@ -64,8 +67,14 @@ export function HabitCard({
 
         {streak !== undefined && streak > 0 && (
           <View className="mr-3 flex-row items-center">
-            <MaterialCommunityIcons name="fire" size={20} color="#F97316" />
-            <ThemedText className="ml-1 text-sm font-semibold text-orange-500">{streak}</ThemedText>
+            <MaterialCommunityIcons
+              name="fire"
+              size={20}
+              color={colorScheme === 'dark' ? '#FB923C' : '#F97316'}
+            />
+            <ThemedText className="ml-1 text-sm font-semibold text-orange-500 dark:text-orange-400">
+              {streak}
+            </ThemedText>
           </View>
         )}
 

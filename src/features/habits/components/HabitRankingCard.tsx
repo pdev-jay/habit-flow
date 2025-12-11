@@ -2,6 +2,7 @@ import { View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useTheme } from '@/hooks';
 import type { HabitInsight } from '../types/stats.types';
 import type { HabitIconName } from '../types';
 
@@ -10,6 +11,8 @@ interface Props {
 }
 
 export function HabitRankingCard({ topThree }: Props) {
+  const colorScheme = useTheme();
+
   if (topThree.length === 0) {
     return null;
   }
@@ -43,7 +46,7 @@ export function HabitRankingCard({ topThree }: Props) {
               <MaterialCommunityIcons
                 name={habit.habitIcon as HabitIconName}
                 size={24}
-                color="#6b7280"
+                color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
               />
             </View>
             <View className="ml-3 flex-1">

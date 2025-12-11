@@ -119,11 +119,11 @@ export function HabitsScreen() {
     <ThemedView className="flex-1">
       {/* Header */}
       <View
-        className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-700 dark:bg-gray-900"
-        style={{ paddingTop: insets.top + 24 }}>
+        className="bg-white px-4 pb-4 dark:bg-gray-900"
+        style={{ paddingTop: insets.top }}>
         <View className="flex-row items-center justify-between">
           <View className="flex-1">
-            <ThemedText className="text-2xl font-bold">내 습관</ThemedText>
+            <ThemedText className="text-3xl font-bold">내 습관</ThemedText>
             <ThemedText className="mt-1 text-sm text-gray-600 dark:text-gray-400">
               총 {habits.length}개의 습관
             </ThemedText>

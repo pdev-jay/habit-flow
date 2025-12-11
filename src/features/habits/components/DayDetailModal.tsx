@@ -4,6 +4,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { format, isToday } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { useTheme } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { useHabits } from '../hooks/useHabits';
 import { useHabitCheckStore } from '../stores';
@@ -18,6 +19,7 @@ interface Props {
 export function DayDetailModal({ visible, date, onClose }: Props) {
   const { getActiveHabitsForDate } = useHabits();
   const getChecksByDate = useHabitCheckStore((state) => state.getChecksByDate);
+  const colorScheme = useTheme();
 
   if (!date) return null;
 
@@ -56,7 +58,11 @@ export function DayDetailModal({ visible, date, onClose }: Props) {
             <Pressable
               className="h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700"
               onPress={onClose}>
-              <MaterialCommunityIcons name="close" size={20} color="#6b7280" />
+              <MaterialCommunityIcons
+                name="close"
+                size={20}
+                color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
+              />
             </Pressable>
           </View>
 

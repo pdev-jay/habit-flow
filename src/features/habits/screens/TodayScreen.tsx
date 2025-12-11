@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useTheme } from '@/hooks';
 import { useHabits, useHabitCheck, useHabitStreaks } from '@/features/habits/hooks';
 
 import { HabitCard } from '../components/HabitCard';
@@ -19,6 +20,7 @@ import { ExpandableCalendar } from '../components/ExpandableCalendar';
 export function TodayScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const colorScheme = useTheme();
   const { getActiveHabitsForDate } = useHabits();
   const { getCheckStatus, toggle } = useHabitCheck();
 
@@ -44,17 +46,17 @@ export function TodayScreen() {
   return (
     <ThemedView className="flex-1 bg-white dark:bg-gray-900">
       {/* Header */}
-      <View className="px-4" style={{ paddingTop: insets.top + 24 }}>
+      <View className="bg-white px-4 pb-4 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
         <ThemedText className="text-3xl font-bold">HabitFlow</ThemedText>
       </View>
 
       {/* Expandable Calendar */}
-      <View className="">
+      <View className="px-4 pt-4">
         <ExpandableCalendar selectedDate={selectedDate} onSelectDate={setSelectedDate} />
       </View>
 
       {/* Weekly Stats Card */}
-      <View className="px-4">
+      <View className="px-4 pt-4">
         <WeeklyStatsCard selectedDate={selectedDate} />
       </View>
 
@@ -62,7 +64,11 @@ export function TodayScreen() {
       <View className="flex-1 pt-4">
         {activeHabits.length === 0 ? (
           <View className="flex-1 items-center justify-center px-8">
-            <MaterialCommunityIcons name="calendar-check" size={64} color="#9CA3AF" />
+            <MaterialCommunityIcons
+              name="calendar-check"
+              size={64}
+              color={colorScheme === 'dark' ? '#6B7280' : '#9CA3AF'}
+            />
             <ThemedText className="mt-4 text-center text-base text-gray-500 dark:text-gray-400">
               오늘 활성화된 습관이 없습니다.{'\n'}
               새로운 습관을 추가해보세요!

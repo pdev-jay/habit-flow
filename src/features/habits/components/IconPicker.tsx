@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { ThemedText } from '@/components/ThemedText';
+import { useTheme } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { HabitIconName } from '@/features/habits/types';
 
@@ -34,6 +35,8 @@ interface IconPickerProps {
  * Icon picker component
  */
 export function IconPicker({ selectedIcon, selectedColor, onSelect }: IconPickerProps) {
+  const colorScheme = useTheme();
+
   return (
     <View>
       <ThemedText className="mb-3 text-sm font-medium text-gray-600 dark:text-gray-400">
@@ -61,7 +64,7 @@ export function IconPicker({ selectedIcon, selectedColor, onSelect }: IconPicker
               <MaterialCommunityIcons
                 name={icon}
                 size={32}
-                color={isSelected ? selectedColor : '#6B7280'}
+                color={isSelected ? selectedColor : colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
               />
             </Pressable>
           );

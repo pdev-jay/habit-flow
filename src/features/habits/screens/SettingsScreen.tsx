@@ -27,12 +27,12 @@ export function SettingsScreen() {
     <ThemedView className="flex-1">
       {/* Header */}
       <View
-        className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-700 dark:bg-gray-900"
-        style={{ paddingTop: insets.top + 24 }}>
-        <ThemedText className="text-2xl font-bold">설정</ThemedText>
+        className="bg-white px-4 pb-4 dark:bg-gray-900"
+        style={{ paddingTop: insets.top }}>
+        <ThemedText className="text-3xl font-bold">설정</ThemedText>
       </View>
 
-      <ScrollView className="flex-1 pb-4">
+      <ScrollView className="flex-1 p-4">
         {/* Appearance Section */}
         <View className="mb-4 rounded-xl bg-white p-4 dark:bg-gray-800">
           <ThemedText className="mb-3 text-lg font-bold">화면 설정</ThemedText>
