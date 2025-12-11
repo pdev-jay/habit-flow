@@ -26,9 +26,7 @@ export function SettingsScreen() {
   return (
     <ThemedView className="flex-1">
       {/* Header */}
-      <View
-        className="bg-white px-4 pb-4 dark:bg-gray-900"
-        style={{ paddingTop: insets.top }}>
+      <View className="bg-white px-4 pb-4 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
         <ThemedText className="text-3xl font-bold">설정</ThemedText>
       </View>
 
@@ -54,12 +52,14 @@ export function SettingsScreen() {
                 <Pressable
                   key={theme}
                   onPress={() => handleThemeChange(theme)}
-                  className={`mr-2 flex-1 items-center justify-center rounded-lg py-3 ${isSelected ? 'bg-blue-500' : 'bg-gray-100 dark:bg-gray-700'
-                    }`}
+                  className={`mr-2 flex-1 items-center justify-center rounded-lg py-3 ${
+                    isSelected ? 'bg-blue-500' : 'bg-gray-100 dark:bg-gray-700'
+                  }`}
                   style={styles.optionButton}>
                   <ThemedText
-                    className={`text-sm font-semibold ${isSelected ? 'text-white' : 'text-gray-700 dark:text-gray-300'
-                      }`}>
+                    className={`text-sm font-semibold ${
+                      isSelected ? 'text-white' : 'text-gray-700 dark:text-gray-300'
+                    }`}>
                     {labels[theme]}
                   </ThemedText>
                 </Pressable>
@@ -88,12 +88,14 @@ export function SettingsScreen() {
                 <Pressable
                   key={language}
                   onPress={() => handleLanguageChange(language)}
-                  className={`mr-2 flex-1 items-center justify-center rounded-lg py-3 ${isSelected ? 'bg-blue-500' : 'bg-gray-100 dark:bg-gray-700'
-                    }`}
+                  className={`mr-2 flex-1 items-center justify-center rounded-lg py-3 ${
+                    isSelected ? 'bg-blue-500' : 'bg-gray-100 dark:bg-gray-700'
+                  }`}
                   style={styles.optionButton}>
                   <ThemedText
-                    className={`text-sm font-semibold ${isSelected ? 'text-white' : 'text-gray-700 dark:text-gray-300'
-                      }`}>
+                    className={`text-sm font-semibold ${
+                      isSelected ? 'text-white' : 'text-gray-700 dark:text-gray-300'
+                    }`}>
                     {labels[language]}
                   </ThemedText>
                 </Pressable>
@@ -115,11 +117,13 @@ export function SettingsScreen() {
             </View>
 
             <View
-              className={`rounded-full px-3 py-1 ${settings.isPro ? 'bg-yellow-100' : 'bg-gray-100 dark:bg-gray-700'
-                }`}>
+              className={`rounded-full px-3 py-1 ${
+                settings.isPro ? 'bg-yellow-100' : 'bg-gray-100 dark:bg-gray-700'
+              }`}>
               <ThemedText
-                className={`text-xs font-bold ${settings.isPro ? 'text-yellow-700' : 'text-gray-500'
-                  }`}>
+                className={`text-xs font-bold ${
+                  settings.isPro ? 'text-yellow-700' : 'text-gray-500'
+                }`}>
                 {settings.isPro ? 'PRO' : 'FREE'}
               </ThemedText>
             </View>

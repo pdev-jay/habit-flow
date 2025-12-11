@@ -187,9 +187,7 @@ export function StatsScreen() {
   return (
     <ThemedView className="flex-1">
       {/* Header */}
-      <View
-        className="bg-white px-4 pb-4 dark:bg-gray-900"
-        style={{ paddingTop: insets.top }}>
+      <View className="bg-white px-4 pb-4 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
         <ThemedText className="pb-4 text-3xl font-bold">통계</ThemedText>
         {viewMode === 'weekly' ? (
           <View className="flex-row items-center justify-between">
@@ -248,39 +246,39 @@ export function StatsScreen() {
         <SegmentControl value={viewMode} onChange={handleViewModeChange} />
       </View>
 
-      <ScrollView className="flex-1 px-4">
+      <ScrollView className="flex-1 pt-4">
         {viewMode === 'weekly' && (
           <View>
             {/* Overall Stats */}
-            <View className="mb-4 rounded-xl bg-white p-4 dark:bg-gray-800">
-              <ThemedText className="mb-4 text-lg font-bold">
+            <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
+              <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
                 {isThisWeek(currentWeekDate) ? '이번 주 요약' : '주간 요약'}
               </ThemedText>
 
-              <View className="flex-row justify-around">
-                <View className="items-center">
-                  <ThemedText className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+              <View className="flex-row justify-between">
+                <View className="flex-1 items-center">
+                  <ThemedText className="text-2xl font-bold text-blue-500">
                     {weeklyStats.completionRate}%
                   </ThemedText>
-                  <ThemedText className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                  <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                     완료율
                   </ThemedText>
                 </View>
 
-                <View className="items-center">
-                  <ThemedText className="text-3xl font-bold text-green-600 dark:text-green-400">
+                <View className="flex-1 items-center">
+                  <ThemedText className="text-2xl font-bold text-green-500">
                     {weeklyStats.completedCount}
                   </ThemedText>
-                  <ThemedText className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                  <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                     완료한 습관
                   </ThemedText>
                 </View>
 
-                <View className="items-center">
-                  <ThemedText className="text-3xl font-bold text-purple-600 dark:text-purple-400">
+                <View className="flex-1 items-center">
+                  <ThemedText className="text-2xl font-bold text-purple-500">
                     {weeklyStats.streakDays}
                   </ThemedText>
-                  <ThemedText className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                  <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                     연속 달성일
                   </ThemedText>
                 </View>
@@ -288,13 +286,18 @@ export function StatsScreen() {
             </View>
 
             {/* Weekly Chart */}
-            <View className="mb-4">
+            <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
+              <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
+                주간 완료 현황
+              </ThemedText>
               <WeeklyChart data={chartData} />
             </View>
 
             {/* Habit-specific Stats */}
-            <View className="rounded-xl bg-white p-4 dark:bg-gray-800">
-              <ThemedText className="mb-4 text-lg font-bold">습관별 달성률</ThemedText>
+            <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
+              <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
+                습관별 달성률
+              </ThemedText>
 
               {habitStats.length === 0 ? (
                 <ThemedText className="text-center text-gray-500 dark:text-gray-400">
@@ -314,7 +317,7 @@ export function StatsScreen() {
                     }) => (
                       <View
                         key={stat.id}
-                        className="mb-3 border-b border-gray-100 pb-3 last:mb-0 last:border-b-0 last:pb-0 dark:border-gray-700">
+                        className="mb-3 border-b border-gray-200 pb-3 last:mb-0 last:border-b-0 last:pb-0 dark:border-gray-700">
                         <View className="mb-2 flex-row items-center justify-between">
                           <ThemedText className="flex-1 font-semibold">{stat.name}</ThemedText>
                           <ThemedText className="text-sm font-bold text-blue-600 dark:text-blue-400">

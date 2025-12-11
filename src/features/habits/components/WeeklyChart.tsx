@@ -16,12 +16,11 @@ interface WeeklyChartProps {
 
 /**
  * Weekly chart component
+ * Note: Card wrapper and title are managed by parent component (StatsScreen)
  */
 export function WeeklyChart({ data }: WeeklyChartProps) {
   return (
-    <View className="rounded-xl bg-white p-4 dark:bg-gray-800">
-      <ThemedText className="mb-4 text-lg font-bold">주간 완료 현황</ThemedText>
-
+    <View>
       <View className="flex-row items-end justify-between">
         {data.map((dayData, index) => {
           const completionRate = dayData.total > 0 ? dayData.completed / dayData.total : 0;

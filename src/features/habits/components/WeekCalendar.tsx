@@ -11,6 +11,7 @@ interface WeekCalendarProps {
   selectedDate: Date;
   onSelectDate: (date: Date) => void;
   onExpand: () => void;
+  hasHabits?: (date: Date) => boolean;
 }
 
 const WEEKDAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -19,7 +20,12 @@ const WEEKDAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
  * WeekCalendar component
  * Displays 7 days with week navigation
  */
-export function WeekCalendar({ selectedDate, onSelectDate, onExpand }: WeekCalendarProps) {
+export function WeekCalendar({
+  selectedDate,
+  onSelectDate,
+  onExpand,
+  hasHabits,
+}: WeekCalendarProps) {
   const colorScheme = useTheme();
 
   const weekDays = useMemo(() => {
@@ -46,7 +52,7 @@ export function WeekCalendar({ selectedDate, onSelectDate, onExpand }: WeekCalen
   };
 
   return (
-    <View className="rounded-xl bg-white p-4 dark:bg-gray-800">
+    <View className="rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
       {/* Header with week range and navigation */}
       <View className="mb-4 flex-row items-center justify-between">
         <ThemedText className="text-base font-semibold">{weekRange}</ThemedText>
@@ -97,33 +103,38 @@ export function WeekCalendar({ selectedDate, onSelectDate, onExpand }: WeekCalen
           const isToday = isSameDay(date, today);
 
           return (
-            <Pressable
-              key={format(date, 'yyyy-MM-dd')}
-              onPress={() => onSelectDate(date)}
-              className="items-center">
+            <View key={format(date, 'yyyy-MM-dd')} className="items-center">
               {/* Day label */}
               <ThemedText className="mb-2 text-xs font-medium text-gray-500 dark:text-gray-400">
                 {WEEKDAY_LABELS[index]}
               </ThemedText>
 
               {/* Date */}
-              <View
+              <Pressable
+                onPress={() => onSelectDate(date)}
                 className={cn(
                   'h-10 w-10 items-center justify-center rounded-full',
-                  isToday && 'bg-emerald-500',
-                  isSelected && !isToday && 'bg-blue-100 dark:bg-blue-900'
+                  isToday && isSelected && 'bg-emerald-500',
+                  isToday && !isSelected && 'border-2 border-emerald-500',
+                  isSelected && !isToday && 'bg-blue-500 dark:bg-blue-600'
                 )}>
                 <ThemedText
                   className={cn(
                     'text-sm font-semibold',
-                    isToday && 'text-white',
-                    isSelected && !isToday && 'text-blue-700 dark:text-blue-300',
+                    isToday && isSelected && 'text-white',
+                    isToday && !isSelected && 'text-emerald-500',
+                    isSelected && !isToday && 'text-white',
                     !isSelected && !isToday && 'text-gray-900 dark:text-white'
                   )}>
                   {format(date, 'd')}
                 </ThemedText>
-              </View>
-            </Pressable>
+              </Pressable>
+
+              {/* Habit indicator */}
+              {hasHabits?.(date) && (
+                <View className="mt-1 h-1.5 w-1.5 rounded-full bg-blue-300 dark:bg-blue-300" />
+              )}
+            </View>
           );
         })}
       </View>

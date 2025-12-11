@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -35,6 +35,14 @@ export function TodayScreen() {
 
   const streaks = useHabitStreaks(activeHabits);
 
+  // Check if a date has any active habits
+  const hasHabitsForDate = useCallback(
+    (date: Date) => {
+      return getActiveHabitsForDate(date).length > 0;
+    },
+    [getActiveHabitsForDate]
+  );
+
   const handleCheck = (habitId: string) => {
     toggle(habitId, selectedDateString);
   };
@@ -52,7 +60,11 @@ export function TodayScreen() {
 
       {/* Expandable Calendar */}
       <View className="px-4 pt-4">
-        <ExpandableCalendar selectedDate={selectedDate} onSelectDate={setSelectedDate} />
+        <ExpandableCalendar
+          selectedDate={selectedDate}
+          onSelectDate={setSelectedDate}
+          hasHabits={hasHabitsForDate}
+        />
       </View>
 
       {/* Weekly Stats Card */}

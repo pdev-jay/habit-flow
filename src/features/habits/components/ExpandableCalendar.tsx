@@ -12,13 +12,18 @@ import { MonthCalendar } from './MonthCalendar';
 interface ExpandableCalendarProps {
   selectedDate: Date;
   onSelectDate: (date: Date) => void;
+  hasHabits?: (date: Date) => boolean;
 }
 
 /**
  * ExpandableCalendar component
  * Auto height with fade animation - no fixed heights needed
  */
-export function ExpandableCalendar({ selectedDate, onSelectDate }: ExpandableCalendarProps) {
+export function ExpandableCalendar({
+  selectedDate,
+  onSelectDate,
+  hasHabits,
+}: ExpandableCalendarProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const opacity = useSharedValue(1);
 
@@ -53,12 +58,14 @@ export function ExpandableCalendar({ selectedDate, onSelectDate }: ExpandableCal
           selectedDate={selectedDate}
           onSelectDate={onSelectDate}
           onCollapse={handleCollapse}
+          hasHabits={hasHabits}
         />
       ) : (
         <WeekCalendar
           selectedDate={selectedDate}
           onSelectDate={onSelectDate}
           onExpand={handleExpand}
+          hasHabits={hasHabits}
         />
       )}
     </Animated.View>

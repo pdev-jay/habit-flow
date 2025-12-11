@@ -1,7 +1,6 @@
 import { View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { useTheme } from '@/hooks';
 import type { MonthComparison } from '../types/stats.types';
 
@@ -45,7 +44,7 @@ export function MonthComparisonCard({ comparison }: Props) {
   };
 
   return (
-    <ThemedView className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
+    <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
       <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
         지난 달 대비
       </ThemedText>
@@ -54,6 +53,6 @@ export function MonthComparisonCard({ comparison }: Props) {
         {renderDiff(comparison.perfectDaysDiff, '완벽한 날')}
         {renderDiff(comparison.streakDiff, '최장 스트릭')}
       </View>
-    </ThemedView>
+    </View>
   );
 }

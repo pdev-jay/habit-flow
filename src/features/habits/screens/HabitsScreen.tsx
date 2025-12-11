@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { useTheme } from '@/hooks';
 import { useHabits, useHabitStreaks } from '@/features/habits/hooks';
 import { Habit } from '@/features/habits/types';
 import { getFrequencyLabel, groupHabitsByWeekday } from '@/features/habits/utils';
@@ -64,6 +65,7 @@ function HabitItem({ habit, streak, onPress, onLongPress }: HabitItemProps) {
 export function HabitsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const colorScheme = useTheme();
   const { habits, remove } = useHabits();
   const streaks = useHabitStreaks(habits);
 
@@ -118,9 +120,7 @@ export function HabitsScreen() {
   return (
     <ThemedView className="flex-1">
       {/* Header */}
-      <View
-        className="bg-white px-4 pb-4 dark:bg-gray-900"
-        style={{ paddingTop: insets.top }}>
+      <View className="bg-white px-4 pb-4 dark:bg-gray-900" style={{ paddingTop: insets.top }}>
         <View className="flex-row items-center justify-between">
           <View className="flex-1">
             <ThemedText className="text-3xl font-bold">내 습관</ThemedText>
@@ -129,7 +129,11 @@ export function HabitsScreen() {
             </ThemedText>
           </View>
           <Pressable onPress={handleAddHabit} className="p-2">
-            <MaterialCommunityIcons name="plus" size={28} color="#3B82F6" />
+            <MaterialCommunityIcons
+              name="plus"
+              size={28}
+              color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
+            />
           </Pressable>
         </View>
       </View>
@@ -137,7 +141,11 @@ export function HabitsScreen() {
       {/* Habits List */}
       {habits.length === 0 ? (
         <View className="flex-1 items-center justify-center px-8">
-          <MaterialCommunityIcons name="clipboard-text-outline" size={64} color="#9CA3AF" />
+          <MaterialCommunityIcons
+            name="clipboard-text-outline"
+            size={64}
+            color={colorScheme === 'dark' ? '#6B7280' : '#9CA3AF'}
+          />
           <ThemedText className="mt-4 text-center text-base text-gray-500 dark:text-gray-400">
             아직 습관이 없습니다.{'\n'}
             새로운 습관을 추가해보세요!

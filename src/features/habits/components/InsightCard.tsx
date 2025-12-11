@@ -1,7 +1,6 @@
 import { View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { useTheme } from '@/hooks';
 import type { MonthlyInsight } from '../types/stats.types';
 import type { HabitIconName } from '../types';
@@ -18,7 +17,7 @@ export function InsightCard({ insight }: Props) {
   }
 
   return (
-    <ThemedView className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
+    <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
       <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
         이번 달 인사이트
       </ThemedText>
@@ -93,6 +92,6 @@ export function InsightCard({ insight }: Props) {
           </View>
         </View>
       )}
-    </ThemedView>
+    </View>
   );
 }

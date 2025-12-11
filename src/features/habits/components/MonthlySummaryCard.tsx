@@ -1,6 +1,5 @@
 import { View } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import type { MonthlyStats } from '../types/stats.types';
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
 
 export function MonthlySummaryCard({ stats }: Props) {
   return (
-    <ThemedView className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
+    <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
       <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
         이번 달 요약
       </ThemedText>
@@ -37,6 +36,6 @@ export function MonthlySummaryCard({ stats }: Props) {
           </ThemedText>
         </View>
       </View>
-    </ThemedView>
+    </View>
   );
 }

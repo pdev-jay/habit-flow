@@ -51,7 +51,7 @@ export default function RootLayout() {
           headerStyle: {
             backgroundColor: theme === 'dark' ? '#1F2937' : '#FFFFFF',
           },
-          headerTintColor: theme === 'dark' ? '#FFFFFF' : '#000000',
+          headerTintColor: theme === 'dark' ? '#60A5FA' : '#3B82F6',
           headerTitleStyle: {
             color: theme === 'dark' ? '#FFFFFF' : '#000000',
           },

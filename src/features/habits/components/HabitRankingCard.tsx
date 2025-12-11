@@ -1,7 +1,6 @@
 import { View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { useTheme } from '@/hooks';
 import type { HabitInsight } from '../types/stats.types';
 import type { HabitIconName } from '../types';
@@ -28,7 +27,7 @@ export function HabitRankingCard({ topThree }: Props) {
   };
 
   return (
-    <ThemedView className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
+    <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
       <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
         습관 랭킹 TOP 3
       </ThemedText>
@@ -65,6 +64,6 @@ export function HabitRankingCard({ topThree }: Props) {
           </View>
         </View>
       ))}
-    </ThemedView>
+    </View>
   );
 }

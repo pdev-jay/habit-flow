@@ -19,6 +19,7 @@ interface MonthCalendarProps {
   selectedDate: Date;
   onSelectDate: (date: Date) => void;
   onCollapse: () => void;
+  hasHabits?: (date: Date) => boolean;
 }
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -27,7 +28,12 @@ const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
  * MonthCalendar component
  * Displays full month calendar grid with navigation
  */
-export function MonthCalendar({ selectedDate, onSelectDate, onCollapse }: MonthCalendarProps) {
+export function MonthCalendar({
+  selectedDate,
+  onSelectDate,
+  onCollapse,
+  hasHabits,
+}: MonthCalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(selectedDate);
   const colorScheme = useTheme();
 
@@ -59,7 +65,7 @@ export function MonthCalendar({ selectedDate, onSelectDate, onCollapse }: MonthC
   const monthYearText = format(currentMonth, 'MMMM yyyy');
 
   return (
-    <View className="rounded-xl bg-white p-4 dark:bg-gray-800">
+    <View className="rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
       {/* Header with month/year and navigation */}
       <View className="mb-4 flex-row items-center justify-between">
         <ThemedText className="text-base font-semibold">{monthYearText}</ThemedText>
@@ -123,26 +129,34 @@ export function MonthCalendar({ selectedDate, onSelectDate, onCollapse }: MonthC
           const isCurrentMonth = isSameMonth(date, currentMonth);
 
           return (
-            <Pressable
-              key={dateString}
-              onPress={() => onSelectDate(date)}
-              className={cn(
-                'mb-2 h-10 w-[14.28%] items-center justify-center rounded-lg',
-                isToday && 'bg-emerald-500',
-                isSelected && !isToday && 'bg-blue-100 dark:bg-blue-900',
-                !isSelected && !isToday && !isCurrentMonth && 'bg-gray-50 dark:bg-gray-800'
-              )}>
-              <ThemedText
+            <View key={dateString} className="mb-2 w-[14.28%] items-center justify-center">
+              <Pressable
+                onPress={() => onSelectDate(date)}
                 className={cn(
-                  'text-sm font-medium',
-                  isToday && 'text-white',
-                  isSelected && !isToday && 'text-blue-700 dark:text-blue-300',
-                  !isSelected && !isToday && isCurrentMonth && 'text-gray-900 dark:text-white',
-                  !isSelected && !isToday && !isCurrentMonth && 'text-gray-300 dark:text-gray-500'
+                  'h-10 w-10 items-center justify-center rounded-full',
+                  isToday && isSelected && 'bg-emerald-500',
+                  isToday && !isSelected && 'border-2 border-emerald-500',
+                  isSelected && !isToday && 'bg-blue-500 dark:bg-blue-600',
+                  !isSelected && !isToday && !isCurrentMonth && 'bg-gray-50 dark:bg-gray-800'
                 )}>
-                {format(date, 'd')}
-              </ThemedText>
-            </Pressable>
+                <ThemedText
+                  className={cn(
+                    'text-sm font-medium',
+                    isToday && isSelected && 'text-white',
+                    isToday && !isSelected && 'text-emerald-500',
+                    isSelected && !isToday && 'text-white',
+                    !isSelected && !isToday && isCurrentMonth && 'text-gray-900 dark:text-white',
+                    !isSelected && !isToday && !isCurrentMonth && 'text-gray-300 dark:text-gray-500'
+                  )}>
+                  {format(date, 'd')}
+                </ThemedText>
+              </Pressable>
+
+              {/* Habit indicator */}
+              {hasHabits?.(date) && isCurrentMonth && (
+                <View className="mt-0.5 h-1 w-1 rounded-full bg-blue-300 dark:bg-blue-300" />
+              )}
+            </View>
           );
         })}
       </View>

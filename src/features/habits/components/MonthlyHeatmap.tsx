@@ -1,7 +1,6 @@
 import { useMemo, useCallback } from 'react';
 import { View, Pressable } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { format, isFuture, startOfDay } from 'date-fns';
 import { cn } from '@/lib/utils';
 import type { DayCompletionData } from '../types/stats.types';
@@ -49,7 +48,7 @@ export function MonthlyHeatmap({ currentDate, heatmapData, onDayPress }: Props) 
   );
 
   return (
-    <ThemedView className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
+    <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
       <ThemedText className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
         월간 히트맵
       </ThemedText>
@@ -83,6 +82,6 @@ export function MonthlyHeatmap({ currentDate, heatmapData, onDayPress }: Props) 
           </Pressable>
         ))}
       </View>
-    </ThemedView>
+    </View>
   );
 }
