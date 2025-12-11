@@ -44,13 +44,17 @@ export function TodayScreen() {
   return (
     <ThemedView className="flex-1 bg-white dark:bg-gray-900">
       {/* Header */}
-      <View className="px-4 pb-4" style={{ paddingTop: insets.top + 24 }}>
+      <View className="px-4" style={{ paddingTop: insets.top + 24 }}>
         <ThemedText className="text-3xl font-bold">HabitFlow</ThemedText>
+      </View>
 
-        {/* Expandable Calendar */}
+      {/* Expandable Calendar */}
+      <View className="">
         <ExpandableCalendar selectedDate={selectedDate} onSelectDate={setSelectedDate} />
+      </View>
 
-        {/* Weekly Stats Card */}
+      {/* Weekly Stats Card */}
+      <View className="px-4">
         <WeeklyStatsCard selectedDate={selectedDate} />
       </View>
 

@@ -188,7 +188,7 @@ export function StatsScreen() {
       <View
         className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-700 dark:bg-gray-900"
         style={{ paddingTop: insets.top + 24 }}>
-        <ThemedText className="text-2xl font-bold">통계</ThemedText>
+        <ThemedText className="pb-2 text-2xl font-bold">통계</ThemedText>
         {viewMode === 'weekly' ? (
           <View className="mt-1 flex-row items-center justify-between">
             <Pressable
@@ -230,7 +230,7 @@ export function StatsScreen() {
         <SegmentControl value={viewMode} onChange={handleViewModeChange} />
       </View>
 
-      <ScrollView className="flex-1 p-4">
+      <ScrollView className="flex-1">
         {viewMode === 'weekly' && (
           <View>
             {/* Overall Stats */}
