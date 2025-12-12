@@ -11,7 +11,7 @@ interface WeekCalendarProps {
   selectedDate: Date;
   onSelectDate: (date: Date) => void;
   onExpand: () => void;
-  hasHabits?: (date: Date) => boolean;
+  getCompletionRate?: (date: Date) => number;
 }
 
 const WEEKDAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -24,7 +24,7 @@ export function WeekCalendar({
   selectedDate,
   onSelectDate,
   onExpand,
-  hasHabits,
+  getCompletionRate,
 }: WeekCalendarProps) {
   const colorScheme = useTheme();
 
@@ -101,6 +101,17 @@ export function WeekCalendar({
         {weekDays.map((date, index) => {
           const isSelected = isSameDay(date, selectedDate);
           const isToday = isSameDay(date, today);
+          const completionRate = getCompletionRate?.(date) ?? 0;
+
+          // 완료율에 따른 색상 결정
+          const getDotColor = () => {
+            if (completionRate === 0) return null; // 0%면 표시 안 함
+            if (completionRate < 0.5) return 'bg-red-400 dark:bg-red-400'; // 50% 미만
+            if (completionRate < 1.0) return 'bg-yellow-400 dark:bg-yellow-400'; // 50~99%
+            return 'bg-green-400 dark:bg-green-400'; // 100%
+          };
+
+          const dotColor = getDotColor();
 
           return (
             <View key={format(date, 'yyyy-MM-dd')} className="items-center">
@@ -130,10 +141,8 @@ export function WeekCalendar({
                 </ThemedText>
               </Pressable>
 
-              {/* Habit indicator */}
-              {hasHabits?.(date) && (
-                <View className="mt-1 h-1.5 w-1.5 rounded-full bg-blue-300 dark:bg-blue-300" />
-              )}
+              {/* Completion indicator */}
+              {dotColor && <View className={cn('mt-1 h-1.5 w-1.5 rounded-full', dotColor)} />}
             </View>
           );
         })}

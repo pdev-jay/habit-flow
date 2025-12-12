@@ -1,6 +1,5 @@
 import React, { useLayoutEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { Pressable, Text, Alert, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter, useNavigation } from 'expo-router';
 
 import { ThemedView } from '@/components/ThemedView';
@@ -10,6 +9,7 @@ import { useHabits } from '@/features/habits/hooks';
 import { useHabitCheckStore } from '@/features/habits/stores';
 import { HabitForm, type HabitFormRef } from '@/features/habits/components/HabitForm';
 import type { HabitIconName, FrequencyType } from '@/features/habits/types';
+import { cn } from '@/lib/utils';
 
 export default function EditHabitScreen() {
   const router = useRouter();
@@ -116,22 +116,23 @@ export default function EditHabitScreen() {
         onCancel={handleCancel}
         onValidationChange={handleValidationChange}
         submitLabel={t('common:save')}
+        renderFooter={() => (
+          <View className="mt-4">
+            <Pressable
+              onPress={handleDelete}
+              className={cn(
+                'items-center justify-center rounded-lg border border-red-200 bg-white py-4',
+                'active:bg-red-50 dark:border-red-900 dark:bg-gray-800 dark:active:bg-gray-700'
+              )}>
+              <ThemedText
+                className="font-semibold"
+                style={{ color: colorScheme === 'dark' ? '#F87171' : '#EF4444' }}>
+                {t('common:delete')}
+              </ThemedText>
+            </Pressable>
+          </View>
+        )}
       />
-      <SafeAreaView
-        edges={['bottom', 'right']}
-        className="border-t border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900">
-        <View className="pt-3">
-          <Pressable onPress={handleDelete} className="self-center active:opacity-70">
-            <Text
-              style={{
-                fontSize: 17,
-                color: colorScheme === 'dark' ? '#F87171' : '#EF4444',
-              }}>
-              {t('common:delete')}
-            </Text>
-          </Pressable>
-        </View>
-      </SafeAreaView>
     </ThemedView>
   );
 }

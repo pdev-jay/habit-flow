@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -36,12 +36,23 @@ export function TodayScreen() {
 
   const streaks = useHabitStreaks(activeHabits);
 
-  // Check if a date has any active habits
-  const hasHabitsForDate = useCallback(
-    (date: Date) => {
-      return getActiveHabitsForDate(date).length > 0;
+  // Get completion rate for a date (0.0 to 1.0)
+  const getCompletionRateForDate = useCallback(
+    (date: Date): number => {
+      const dateString = format(date, 'yyyy-MM-dd');
+      const activeHabitsForDate = getActiveHabitsForDate(date);
+
+      if (activeHabitsForDate.length === 0) {
+        return 0;
+      }
+
+      const completedCount = activeHabitsForDate.filter((habit) =>
+        getCheckStatus(habit.id, dateString)
+      ).length;
+
+      return completedCount / activeHabitsForDate.length;
     },
-    [getActiveHabitsForDate]
+    [getActiveHabitsForDate, getCheckStatus]
   );
 
   const handleCheck = (habitId: string) => {
@@ -50,6 +61,10 @@ export function TodayScreen() {
 
   const handleCardPress = (habitId: string) => {
     router.push(`/habit/${habitId}`);
+  };
+
+  const handleAddHabit = () => {
+    router.push('/habit/new');
   };
 
   return (
@@ -66,7 +81,7 @@ export function TodayScreen() {
         <ExpandableCalendar
           selectedDate={selectedDate}
           onSelectDate={setSelectedDate}
-          hasHabits={hasHabitsForDate}
+          getCompletionRate={getCompletionRateForDate}
         />
       </View>
 
@@ -89,12 +104,19 @@ export function TodayScreen() {
               {'\n'}
               {t('screens:today.addHabit')}
             </ThemedText>
+
+            {/* Add Habit Button */}
+            <Pressable onPress={handleAddHabit} className="mt-6 active:opacity-70">
+              <Text className="text-base font-semibold text-blue-500 dark:text-blue-400">
+                {t('common:add')} →
+              </Text>
+            </Pressable>
           </View>
         ) : (
           <FlatList
             data={activeHabits}
             keyExtractor={(item) => item.id}
-            contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 16, paddingBottom: 80 }}
+            contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 8, paddingBottom: 80 }}
             renderItem={({ item }) => (
               <HabitCard
                 name={item.name}

@@ -101,16 +101,69 @@ export function HabitsScreen() {
     router.push('/habit/new');
   };
 
-  const renderSectionHeader = ({ section }: { section: { weekday: string; habits: Habit[] } }) => (
-    <View className="ml-4 mt-6 border-l-4 border-gray-300 px-4 py-3 dark:border-gray-600">
-      <ThemedText className="text-base font-semibold text-gray-900 dark:text-gray-100">
-        {section.weekday} ({section.habits.length})
-      </ThemedText>
-    </View>
-  );
+  const renderSectionHeader = ({ section }: { section: { weekday: string; habits: Habit[] } }) => {
+    // 요일별 색상 매핑
+    const weekdayColors: Record<string, string> = {
+      Sunday: '#EF4444',
+      Monday: '#3B82F6',
+      Tuesday: '#10B981',
+      Wednesday: '#F59E0B',
+      Thursday: '#A855F7',
+      Friday: '#EC4899',
+      Saturday: '#EF4444',
+      // 한국어 요일
+      일요일: '#EF4444',
+      월요일: '#3B82F6',
+      화요일: '#10B981',
+      수요일: '#F59E0B',
+      목요일: '#A855F7',
+      금요일: '#EC4899',
+      토요일: '#EF4444',
+    };
 
-  const renderItem = ({ item, index }: { item: Habit; index: number }) => (
-    <View className={`px-4 ${index === 0 ? 'mt-3' : ''}`}>
+    const weekdayIcons: Record<string, 'calendar-today'> = {
+      Sunday: 'calendar-today',
+      Monday: 'calendar-today',
+      Tuesday: 'calendar-today',
+      Wednesday: 'calendar-today',
+      Thursday: 'calendar-today',
+      Friday: 'calendar-today',
+      Saturday: 'calendar-today',
+      일요일: 'calendar-today',
+      월요일: 'calendar-today',
+      화요일: 'calendar-today',
+      수요일: 'calendar-today',
+      목요일: 'calendar-today',
+      금요일: 'calendar-today',
+      토요일: 'calendar-today',
+    };
+
+    const color = weekdayColors[section.weekday] || '#6B7280';
+    const icon = weekdayIcons[section.weekday] || ('calendar-today' as const);
+
+    return (
+      <View className="mb-3 mt-6 px-4">
+        <View
+          className="rounded-xl bg-white p-4 dark:bg-gray-800"
+          style={[styles.card, { borderLeftWidth: 4, borderLeftColor: color }]}>
+          <View className="flex-row items-center">
+            <MaterialCommunityIcons
+              name={icon}
+              size={22}
+              color={color}
+              style={{ marginRight: 8 }}
+            />
+            <ThemedText className="text-lg font-bold">
+              {section.weekday} ({section.habits.length})
+            </ThemedText>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
+  const renderItem = ({ item }: { item: Habit }) => (
+    <View className="px-4">
       <HabitItem
         habit={item}
         streak={streaks[item.id]}

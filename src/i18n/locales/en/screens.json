@@ -58,5 +58,21 @@
     "contactUs": "Contact Us",
     "contactError": "Email Error",
     "contactErrorMessage": "Unable to open email app. Please check if an email app is installed."
+  },
+  "habitDetail": {
+    "stats": "Statistics",
+    "frequency": "Frequency",
+    "reminder": "Reminder",
+    "currentStreak": "Current Streak",
+    "totalCompletions": "Total Completions",
+    "bestStreak": "Best Streak",
+    "completionRate": "Completion Rate",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this habit?",
+    "noStatsYet": "No statistics yet",
+    "notFound": "Habit not found",
+    "days": "days",
+    "times": "times"
   }
 }

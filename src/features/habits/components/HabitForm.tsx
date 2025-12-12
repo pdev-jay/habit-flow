@@ -41,13 +41,14 @@ interface HabitFormProps {
   onCancel: () => void;
   submitLabel?: string;
   onValidationChange?: (isValid: boolean) => void;
+  renderFooter?: () => React.ReactNode;
 }
 
 /**
  * Habit form component
  */
 export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
-  ({ initialData, onSubmit, onCancel, submitLabel, onValidationChange }, ref) => {
+  ({ initialData, onSubmit, onCancel, submitLabel, onValidationChange, renderFooter }, ref) => {
     const { t } = useI18n();
 
     const WEEKDAYS = [
@@ -307,6 +308,9 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
               />
             )}
           </View>
+
+          {/* Footer (optional) */}
+          {renderFooter && renderFooter()}
         </ScrollView>
       </ThemedView>
     );

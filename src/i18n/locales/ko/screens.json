@@ -58,5 +58,21 @@
     "contactUs": "문의하기",
     "contactError": "이메일 오류",
     "contactErrorMessage": "이메일 앱을 열 수 없습니다. 이메일 앱이 설치되어 있는지 확인해주세요."
+  },
+  "habitDetail": {
+    "stats": "통계",
+    "frequency": "빈도",
+    "reminder": "알림",
+    "currentStreak": "현재 연속",
+    "totalCompletions": "전체 완료",
+    "bestStreak": "최장 연속",
+    "completionRate": "달성률",
+    "edit": "편집",
+    "delete": "삭제",
+    "deleteConfirm": "이 습관을 삭제하시겠습니까?",
+    "noStatsYet": "아직 통계가 없습니다",
+    "notFound": "습관을 찾을 수 없습니다",
+    "days": "일",
+    "times": "회"
   }
 }

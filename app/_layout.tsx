@@ -71,7 +71,16 @@ function RootLayoutContent() {
           }}
         />
         <Stack.Screen
-          name="habit/[id]"
+          name="habit/[id]/index"
+          options={{
+            presentation: 'card',
+            headerShown: true,
+            headerTitle: t('navigation:screens.habitDetail'),
+            headerBackTitle: t('common:back'),
+          }}
+        />
+        <Stack.Screen
+          name="habit/[id]/edit"
           options={{
             presentation: 'card',
             headerShown: true,

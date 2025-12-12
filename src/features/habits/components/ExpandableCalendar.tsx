@@ -12,7 +12,7 @@ import { MonthCalendar } from './MonthCalendar';
 interface ExpandableCalendarProps {
   selectedDate: Date;
   onSelectDate: (date: Date) => void;
-  hasHabits?: (date: Date) => boolean;
+  getCompletionRate?: (date: Date) => number;
 }
 
 /**
@@ -22,7 +22,7 @@ interface ExpandableCalendarProps {
 export function ExpandableCalendar({
   selectedDate,
   onSelectDate,
-  hasHabits,
+  getCompletionRate,
 }: ExpandableCalendarProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const opacity = useSharedValue(1);
@@ -58,14 +58,14 @@ export function ExpandableCalendar({
           selectedDate={selectedDate}
           onSelectDate={onSelectDate}
           onCollapse={handleCollapse}
-          hasHabits={hasHabits}
+          getCompletionRate={getCompletionRate}
         />
       ) : (
         <WeekCalendar
           selectedDate={selectedDate}
           onSelectDate={onSelectDate}
           onExpand={handleExpand}
-          hasHabits={hasHabits}
+          getCompletionRate={getCompletionRate}
         />
       )}
     </Animated.View>

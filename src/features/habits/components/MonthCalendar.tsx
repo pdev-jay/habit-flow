@@ -19,7 +19,7 @@ interface MonthCalendarProps {
   selectedDate: Date;
   onSelectDate: (date: Date) => void;
   onCollapse: () => void;
-  hasHabits?: (date: Date) => boolean;
+  getCompletionRate?: (date: Date) => number;
 }
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -32,7 +32,7 @@ export function MonthCalendar({
   selectedDate,
   onSelectDate,
   onCollapse,
-  hasHabits,
+  getCompletionRate,
 }: MonthCalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(selectedDate);
   const colorScheme = useTheme();
@@ -127,6 +127,17 @@ export function MonthCalendar({
           const isSelected = isSameDay(date, selectedDate);
           const isToday = isSameDay(date, today);
           const isCurrentMonth = isSameMonth(date, currentMonth);
+          const completionRate = getCompletionRate?.(date) ?? 0;
+
+          // 완료율에 따른 색상 결정
+          const getDotColor = () => {
+            if (completionRate === 0) return null; // 0%면 표시 안 함
+            if (completionRate < 0.5) return 'bg-red-400 dark:bg-red-400'; // 50% 미만
+            if (completionRate < 1.0) return 'bg-yellow-400 dark:bg-yellow-400'; // 50~99%
+            return 'bg-green-400 dark:bg-green-400'; // 100%
+          };
+
+          const dotColor = getDotColor();
 
           return (
             <View key={dateString} className="mb-2 w-[14.28%] items-center justify-center">
@@ -152,9 +163,9 @@ export function MonthCalendar({
                 </ThemedText>
               </Pressable>
 
-              {/* Habit indicator */}
-              {hasHabits?.(date) && isCurrentMonth && (
-                <View className="mt-0.5 h-1 w-1 rounded-full bg-blue-300 dark:bg-blue-300" />
+              {/* Completion indicator */}
+              {dotColor && isCurrentMonth && (
+                <View className={cn('mt-0.5 h-1 w-1 rounded-full', dotColor)} />
               )}
             </View>
           );
