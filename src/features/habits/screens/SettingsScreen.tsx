@@ -2,12 +2,16 @@ import React from 'react';
 import { Alert, Linking, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import * as Haptics from 'expo-haptics';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useSettingsStore } from '@/features/habits/stores';
 import type { ThemeType, LanguageType } from '@/features/habits/types';
 import { useI18n, useTheme } from '@/hooks';
+import { useNotificationPermissions } from '@/hooks/useNotificationPermissions';
+import { rescheduleAllHabits, cancelAllNotifications } from '@/services/notificationService';
+import { useHabitStore } from '@/features/habits/stores/habitStore';
 
 /**
  * Settings screen
@@ -17,6 +21,8 @@ export function SettingsScreen() {
   const { settings, updateSettings } = useSettingsStore();
   const { t } = useI18n();
   const colorScheme = useTheme();
+  const { requestPermission } = useNotificationPermissions();
+  const habits = useHabitStore((state) => state.habits);
 
   const handleThemeChange = (theme: ThemeType) => {
     updateSettings({ theme });
@@ -26,8 +32,26 @@ export function SettingsScreen() {
     updateSettings({ language });
   };
 
-  const handleNotificationsToggle = () => {
-    updateSettings({ notificationsEnabled: !settings.notificationsEnabled });
+  // Notification toggle with permission handling
+  const handleNotificationsToggle = async (value: boolean) => {
+    if (value) {
+      // Request permission first
+      const granted = await requestPermission();
+      if (granted) {
+        updateSettings({ notificationsEnabled: true });
+        // Schedule all notifications
+        await rescheduleAllHabits(habits);
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      } else {
+        // Permission denied, keep toggle off
+        updateSettings({ notificationsEnabled: false });
+      }
+    } else {
+      // Disable notifications
+      updateSettings({ notificationsEnabled: false });
+      await cancelAllNotifications();
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    }
   };
 
   const handleContactUs = async () => {

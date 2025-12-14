@@ -2,6 +2,12 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { zustandStorage } from './storage';
 import type { Habit, CreateHabitInput } from '../types';
+import {
+  scheduleHabitReminders,
+  cancelHabitNotifications,
+  clearHabitMilestone,
+} from '@/services/notificationService';
+import { useSettingsStore } from './settingsStore';
 
 interface HabitStore {
   habits: Habit[];
@@ -24,6 +30,15 @@ export const useHabitStore = create<HabitStore>()(
             createdAt: new Date().toISOString(),
             order: state.habits.length,
           };
+
+          // Schedule notifications if enabled
+          const settings = useSettingsStore.getState().settings;
+          if (settings.notificationsEnabled && newHabit.reminderEnabled) {
+            scheduleHabitReminders(newHabit).catch((error) => {
+              console.error('Failed to schedule habit reminders:', error);
+            });
+          }
+
           return {
             habits: [...state.habits, newHabit],
           };
@@ -31,13 +46,42 @@ export const useHabitStore = create<HabitStore>()(
       },
 
       updateHabit: (id: string, updates: Partial<Habit>) => {
-        set((state) => ({
-          habits: state.habits.map((habit) => (habit.id === id ? { ...habit, ...updates } : habit)),
-        }));
+        set((state) => {
+          const updatedHabits = state.habits.map((habit) =>
+            habit.id === id ? { ...habit, ...updates } : habit
+          );
+
+          // Update notifications if enabled
+          const settings = useSettingsStore.getState().settings;
+          if (settings.notificationsEnabled) {
+            const updatedHabit = updatedHabits.find((h) => h.id === id);
+            if (updatedHabit) {
+              cancelHabitNotifications(id)
+                .then(() => {
+                  if (updatedHabit.reminderEnabled) {
+                    return scheduleHabitReminders(updatedHabit);
+                  }
+                })
+                .catch((error) => {
+                  console.error('Failed to update habit notifications:', error);
+                });
+            }
+          }
+
+          return { habits: updatedHabits };
+        });
       },
 
       deleteHabit: (id: string) => {
         set((state) => {
+          // Cancel notifications for deleted habit
+          cancelHabitNotifications(id).catch((error) => {
+            console.error('Failed to cancel habit notifications:', error);
+          });
+
+          // Clear achievement milestone data
+          clearHabitMilestone(id);
+
           const filteredHabits = state.habits.filter((habit) => habit.id !== id);
           // 삭제 후 order 재정렬
           return {

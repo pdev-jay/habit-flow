@@ -1,7 +1,19 @@
+// External libraries
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { zustandStorage } from './storage';
+
+// Internal imports
+import {
+  checkAndUpdateMilestone,
+  triggerAchievementNotification,
+} from '@/services/notificationService';
+
+// Relative imports
 import type { HabitCheck } from '../types';
+import { zustandStorage } from './storage';
+import { useHabitStore } from './habitStore';
+import { useSettingsStore } from './settingsStore';
+import { calculateStreak } from '../utils/streakUtils';
 
 interface HabitCheckStore {
   checks: Record<string, HabitCheck>;
@@ -20,31 +32,49 @@ export const useHabitCheckStore = create<HabitCheckStore>()(
         set((state) => {
           const key = `${habitId}_${date}`;
           const existingCheck = state.checks[key];
+          const newCompleted = existingCheck ? !existingCheck.completed : true;
 
-          if (existingCheck) {
-            // 기존 체크가 있으면 completed 토글
-            return {
-              checks: {
+          const newChecks = existingCheck
+            ? {
                 ...state.checks,
                 [key]: {
                   ...existingCheck,
-                  completed: !existingCheck.completed,
+                  completed: newCompleted,
                 },
-              },
-            };
-          } else {
-            // 새로운 체크 생성
-            return {
-              checks: {
+              }
+            : {
                 ...state.checks,
                 [key]: {
                   habitId,
                   date,
                   completed: true,
                 },
-              },
-            };
+              };
+
+          // Check for achievement milestone when completing a check
+          if (newCompleted) {
+            const settings = useSettingsStore.getState().settings;
+            if (settings.notificationsEnabled) {
+              const habits = useHabitStore.getState().habits;
+              const habit = habits.find((h) => h.id === habitId);
+
+              if (habit) {
+                // Get all checks for this habit
+                const allChecks = Object.values(newChecks).filter((c) => c.habitId === habitId);
+                const currentStreak = calculateStreak(habit, allChecks);
+
+                // Check if a milestone was reached
+                const milestone = checkAndUpdateMilestone(habitId, currentStreak);
+                if (milestone) {
+                  triggerAchievementNotification(habit.name, milestone).catch((error) => {
+                    console.error('Failed to trigger achievement notification:', error);
+                  });
+                }
+              }
+            }
           }
+
+          return { checks: newChecks };
         });
       },
 

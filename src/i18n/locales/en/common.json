@@ -8,6 +8,7 @@
   "edit": "Edit",
   "close": "Close",
   "confirm": "Confirm",
+  "settings": "Settings",
   "appName": "HabitFlow",
   "theme": {
     "system": "System",
@@ -36,6 +37,24 @@
       "thursday": "Thursday",
       "friday": "Friday",
       "saturday": "Saturday"
+    }
+  },
+  "notifications": {
+    "habitReminder": {
+      "title": "Habit Reminder",
+      "body": "Time to {{habitName}}!"
+    },
+    "endOfDay": {
+      "title": "Daily Habit Check",
+      "body": "You have incomplete habits. Check them now!"
+    },
+    "achievement": {
+      "title": "Congratulations! 🎉",
+      "body": "{{habitName}} - {{days}} days streak!"
+    },
+    "permissionDenied": {
+      "title": "Notification Permission Required",
+      "message": "Please enable notification permission in Settings."
     }
   }
 }

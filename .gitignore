@@ -114,7 +114,6 @@ CLAUDE.md
 .plan/
 .plans/
 
-COMPONENT_API.md
-FRONTEND_IMPLEMENTATION.md
-PROJECT_STRUCTURE.md
-QUICK_START.md
+# Claude generated documentation (exclude all-caps markdown files except README.md)
+[A-Z]*.md
+!README.md

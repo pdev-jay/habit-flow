@@ -8,6 +8,7 @@
   "edit": "편집",
   "close": "닫기",
   "confirm": "확인",
+  "settings": "설정",
   "appName": "HabitFlow",
   "theme": {
     "system": "시스템",
@@ -36,6 +37,24 @@
       "thursday": "목요일",
       "friday": "금요일",
       "saturday": "토요일"
+    }
+  },
+  "notifications": {
+    "habitReminder": {
+      "title": "습관 리마인더",
+      "body": "{{habitName}} 할 시간이에요!"
+    },
+    "endOfDay": {
+      "title": "오늘의 습관 체크",
+      "body": "완료하지 않은 습관이 있어요. 지금 확인해보세요!"
+    },
+    "achievement": {
+      "title": "축하합니다! 🎉",
+      "body": "{{habitName}} {{days}}일 연속 달성!"
+    },
+    "permissionDenied": {
+      "title": "알림 권한이 필요합니다",
+      "message": "설정에서 알림 권한을 허용해주세요."
     }
   }
 }
