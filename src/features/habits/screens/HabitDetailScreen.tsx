@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter, useNavigation } from 'expo-router';
@@ -32,16 +32,18 @@ export function HabitDetailScreen() {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Pressable onPress={() => router.push(`/habit/${id}/edit`)} className="active:opacity-70">
-          <MaterialCommunityIcons
-            name="pencil"
-            size={24}
-            color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
-          />
+        <Pressable onPress={() => router.push(`/habit/${id}/edit`)}>
+          <Text
+            style={{
+              fontSize: 17,
+              color: colorScheme === 'dark' ? '#60A5FA' : '#3B82F6',
+            }}>
+            {t('common:edit')}
+          </Text>
         </Pressable>
       ),
     });
-  }, [id, navigation, router, colorScheme]);
+  }, [id, navigation, router, colorScheme, t]);
 
   const handleDelete = () => {
     if (!id) return;
