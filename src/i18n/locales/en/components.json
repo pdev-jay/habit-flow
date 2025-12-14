@@ -74,6 +74,8 @@
   },
   "weeklyStats": {
     "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
     "selected": "Selected",
     "done": "done"
   },

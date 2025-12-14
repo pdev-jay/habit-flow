@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
-import { format, isSameDay } from 'date-fns';
+import { format, isToday, isYesterday, isTomorrow } from 'date-fns';
 
 import { ThemedText } from '@/components/ThemedText';
 import { useI18n } from '@/hooks';
@@ -23,9 +23,6 @@ export function WeeklyStatsCard({ selectedDate }: WeeklyStatsCardProps) {
 
   const selectedDateString = useMemo(() => format(selectedDate, 'yyyy-MM-dd'), [selectedDate]);
 
-  // Check if selected date is today
-  const isToday = useMemo(() => isSameDay(selectedDate, new Date()), [selectedDate]);
-
   // Format date for display
   const dateText = useMemo(() => {
     const locale = getDateLocale(language);
@@ -34,6 +31,23 @@ export function WeeklyStatsCard({ selectedDate }: WeeklyStatsCardProps) {
     const dayName = format(selectedDate, 'EEE', { locale });
     return `${formattedDate} (${dayName})`;
   }, [selectedDate, language]);
+
+  // Get label for selected date (Today, Yesterday, Monday, etc.)
+  const dateLabel = useMemo(() => {
+    if (isToday(selectedDate)) {
+      return t('components:weeklyStats.today');
+    }
+    if (isYesterday(selectedDate)) {
+      return t('components:weeklyStats.yesterday');
+    }
+    if (isTomorrow(selectedDate)) {
+      return t('components:weeklyStats.tomorrow');
+    }
+    // Always show weekday name for other dates
+    const dayOfWeek = selectedDate.getDay();
+    const weekdayKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    return t(`common:weekdays.full.${weekdayKeys[dayOfWeek]}`);
+  }, [selectedDate, t]);
 
   // Get selected date's active habits
   const activeHabits = useMemo(() => {
@@ -55,7 +69,7 @@ export function WeeklyStatsCard({ selectedDate }: WeeklyStatsCardProps) {
     <View className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
       <View className="flex-row items-center justify-between">
         <ThemedText className="text-base font-medium text-gray-600 dark:text-gray-300">
-          {isToday ? t('components:weeklyStats.today') : t('components:weeklyStats.selected')}
+          {dateLabel}
         </ThemedText>
         <ThemedText className="text-sm text-gray-500 dark:text-gray-400">{dateText}</ThemedText>
       </View>

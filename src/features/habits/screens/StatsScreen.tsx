@@ -53,7 +53,7 @@ export function StatsScreen() {
 
   // Get week range
   const weekStart = useMemo(
-    () => startOfWeek(currentWeekDate, { weekStartsOn: 1 }),
+    () => startOfWeek(currentWeekDate, { weekStartsOn: 0 }),
     [currentWeekDate]
   );
   const weekEnd = useMemo(() => addDays(weekStart, 6), [weekStart]);
@@ -73,7 +73,7 @@ export function StatsScreen() {
 
   // Prepare chart data
   const chartData = useMemo(() => {
-    const weekdayKeys = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+    const weekdayKeys = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
     return weekdayKeys.map((key, index) => {
       const date = format(addDays(weekStart, index), 'yyyy-MM-dd');
       const stats = dailyStatsRange.find((s: { date: string }) => s.date === date);
