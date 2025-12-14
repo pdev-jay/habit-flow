@@ -45,7 +45,15 @@ export function WeeklyStatsCard({ selectedDate }: WeeklyStatsCardProps) {
     }
     // Always show weekday name for other dates
     const dayOfWeek = selectedDate.getDay();
-    const weekdayKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const weekdayKeys = [
+      'sunday',
+      'monday',
+      'tuesday',
+      'wednesday',
+      'thursday',
+      'friday',
+      'saturday',
+    ];
     return t(`common:weekdays.full.${weekdayKeys[dayOfWeek]}`);
   }, [selectedDate, t]);
 

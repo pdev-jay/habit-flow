@@ -4,10 +4,7 @@
     "slug": "habit-flow",
     "version": "1.0.0",
     "scheme": "habit-flow",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "web": {
       "bundler": "metro",
       "output": "static",
@@ -44,17 +41,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.jkim-1101.habitflow",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "UIBackgroundModes": [
-          "remote-notification"
-        ]
+        "UIBackgroundModes": ["remote-notification"],
+        "NSPhotoLibraryAddUsageDescription": "습관 통계 이미지를 저장하기 위해 사진 라이브러리 접근 권한이 필요합니다.",
+        "NSPhotoLibraryUsageDescription": "습관 통계 이미지를 저장하기 위해 사진 라이브러리 접근 권한이 필요합니다."
       },
       "deploymentTarget": "16.0"
     },
@@ -67,7 +62,10 @@
       "permissions": [
         "POST_NOTIFICATIONS",
         "RECEIVE_BOOT_COMPLETED",
-        "VIBRATE"
+        "VIBRATE",
+        "READ_MEDIA_IMAGES",
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE"
       ]
     },
     "extra": {
