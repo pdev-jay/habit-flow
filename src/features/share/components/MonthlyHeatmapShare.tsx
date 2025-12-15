@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
+import { getHeatmapHexColor } from '@/features/habits/utils/colorUtils';
 import type { MonthlyHeatmapShareProps } from '../types/share.types';
 
 /**
@@ -14,20 +15,6 @@ export function MonthlyHeatmapShare({
   totalHabits,
   perfectDays,
 }: MonthlyHeatmapShareProps) {
-  /**
-   * Get color based on completion rate
-   * @param rate - Completion rate (0-100)
-   * @returns Color hex string
-   */
-  const getColor = (rate: number): string => {
-    if (rate === 0) return '#F3F4F6';
-    if (rate < 25) return '#DBEAFE';
-    if (rate < 50) return '#93C5FD';
-    if (rate < 75) return '#3B82F6';
-    if (rate < 100) return '#1D4ED8';
-    return '#1E3A8A';
-  };
-
   return (
     <View className="w-[350px] overflow-hidden rounded-3xl bg-white shadow-2xl">
       {/* Header */}
@@ -62,7 +49,9 @@ export function MonthlyHeatmapShare({
                     key={day}
                     className="h-8 w-8 rounded"
                     style={{
-                      backgroundColor: dayData ? getColor(dayData.completionRate) : '#F3F4F6',
+                      backgroundColor: dayData
+                        ? getHeatmapHexColor(dayData.completionRate)
+                        : '#F3F4F6',
                     }}
                   />
                 );
@@ -78,7 +67,7 @@ export function MonthlyHeatmapShare({
             <View
               key={rate}
               className="h-4 w-4 rounded"
-              style={{ backgroundColor: getColor(rate) }}
+              style={{ backgroundColor: getHeatmapHexColor(rate) }}
             />
           ))}
           <Text className="ml-2 text-xs text-gray-500">많음</Text>

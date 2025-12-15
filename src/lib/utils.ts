@@ -11,6 +11,7 @@ export function cn(...classes: (string | boolean | undefined | null)[]): string 
 
 /**
  * Formats date to YYYY-MM-DD
+ * @deprecated Use formatDateToKey from @/lib/dateUtils instead
  */
 export function formatDate(date: Date): string {
   return date.toISOString().split('T')[0];
@@ -18,6 +19,7 @@ export function formatDate(date: Date): string {
 
 /**
  * Gets today's date string (YYYY-MM-DD)
+ * @deprecated Use getTodayString from @/lib/dateUtils instead
  */
 export function getTodayString(): string {
   return formatDate(new Date());

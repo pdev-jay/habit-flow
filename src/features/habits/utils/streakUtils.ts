@@ -1,48 +1,6 @@
+import { formatDateToKey } from '@/lib/dateUtils';
+import { isActiveDayForHabit, getActiveDays } from './habitUtils';
 import type { Habit, HabitCheck } from '../types/habit.types';
-
-/**
- * 날짜 문자열을 YYYY-MM-DD 형식으로 변환
- * @param date - Date 객체
- * @returns YYYY-MM-DD 형식 문자열
- */
-function formatDateToKey(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
-/**
- * 습관의 활성 요일 목록 가져오기
- * @param habit - 습관 객체
- * @returns 활성 요일 인덱스 배열 (0=일, 1=월, ..., 6=토)
- */
-function getActiveDays(habit: Habit): number[] {
-  switch (habit.frequency) {
-    case 'daily':
-      return [0, 1, 2, 3, 4, 5, 6];
-    case 'weekdays':
-      return [1, 2, 3, 4, 5];
-    case 'weekends':
-      return [0, 6];
-    case 'custom':
-      return habit.customDays || [];
-    default:
-      return [];
-  }
-}
-
-/**
- * 특정 날짜가 습관의 활성 요일인지 확인
- * @param habit - 습관 객체
- * @param date - 확인할 날짜 (Date 객체)
- * @returns 활성 요일 여부
- */
-function isActiveDayForHabit(habit: Habit, date: Date): boolean {
-  const weekdayIndex = date.getDay();
-  const activeDays = getActiveDays(habit);
-  return activeDays.includes(weekdayIndex);
-}
 
 /**
  * 연속 달성 일수(스트릭) 계산

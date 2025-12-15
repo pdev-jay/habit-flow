@@ -14,38 +14,12 @@ import { useHabits } from '@/features/habits/hooks';
 import { useHabitCheckStore } from '@/features/habits/api';
 import { calculateStreak } from '@/features/habits/utils/streakUtils';
 import { isHabitCreatedByDate } from '@/features/habits/utils/dateUtils';
+import { isActiveDayForHabit } from '@/features/habits/utils/habitUtils';
 import { getDateLocale, getDateFormat } from '@/lib/dateLocales';
 import type { Habit, LanguageType } from '@/features/habits/types';
 
 // Relative imports
 import type { WeeklyStats, MonthlyStats, HabitProgress } from '../types/share.types';
-
-/**
- * Get active days for a habit based on frequency
- */
-function getActiveDays(habit: Habit): number[] {
-  switch (habit.frequency) {
-    case 'daily':
-      return [0, 1, 2, 3, 4, 5, 6];
-    case 'weekdays':
-      return [1, 2, 3, 4, 5];
-    case 'weekends':
-      return [0, 6];
-    case 'custom':
-      return habit.customDays || [];
-    default:
-      return [];
-  }
-}
-
-/**
- * Check if a date is an active day for a habit
- */
-function isActiveDayForHabit(habit: Habit, date: Date): boolean {
-  const weekdayIndex = date.getDay();
-  const activeDays = getActiveDays(habit);
-  return activeDays.includes(weekdayIndex);
-}
 
 /**
  * Calculate habit progress for a given date range

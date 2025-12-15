@@ -1,9 +1,11 @@
 import { useMemo, useCallback } from 'react';
 import { View, Pressable } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
 import { format, isFuture, startOfDay } from 'date-fns';
+
+import { ThemedText } from '@/components/ThemedText';
 import { useI18n } from '@/hooks';
 import { cn } from '@/lib/utils';
+import { getHeatmapColorClass } from '../utils/colorUtils';
 import type { DayCompletionData } from '../types/stats.types';
 
 interface Props {
@@ -20,18 +22,7 @@ export function MonthlyHeatmap({ currentDate, heatmapData, onDayPress }: Props) 
       const completionRate =
         dayData.totalHabits > 0 ? (dayData.completedCount / dayData.totalHabits) * 100 : 0;
 
-      let colorClass = '';
-      if (completionRate >= 90) {
-        colorClass = 'bg-green-600 dark:bg-green-500';
-      } else if (completionRate >= 70) {
-        colorClass = 'bg-green-500 dark:bg-green-400';
-      } else if (completionRate >= 50) {
-        colorClass = 'bg-green-400 dark:bg-green-300';
-      } else if (completionRate >= 30) {
-        colorClass = 'bg-gray-400 dark:bg-gray-500';
-      } else {
-        colorClass = 'bg-gray-300 dark:bg-gray-600';
-      }
+      const colorClass = getHeatmapColorClass(completionRate);
 
       return {
         date: dayData.date,

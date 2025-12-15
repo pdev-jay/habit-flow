@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 import { startOfWeek, endOfWeek } from 'date-fns';
+
+import { formatDateToKey } from '@/lib/dateUtils';
 import { useHabitStore, useHabitCheckStore } from '../api';
 import { isHabitCreatedByDateString } from '../utils/dateUtils';
 import type { WeeklyStats, DailyStats, Habit } from '../types';
@@ -32,7 +34,7 @@ export function useWeeklyStats(startDate?: Date, endDate?: Date): WeeklyStats {
     const dates: string[] = [];
     const current = new Date(defaultStartDate);
     while (current <= defaultEndDate) {
-      dates.push(formatDate(current));
+      dates.push(formatDateToKey(current));
       current.setDate(current.getDate() + 1);
     }
 
@@ -101,7 +103,7 @@ export function useDailyStatsRange(
     const current = new Date(defaultStartDate);
 
     while (current <= defaultEndDate) {
-      const date = formatDate(current);
+      const date = formatDateToKey(current);
 
       let totalHabitsForDay = 0;
       let completedCountForDay = 0;
@@ -131,16 +133,6 @@ export function useDailyStatsRange(
   }, [habits, checks, defaultStartDate, defaultEndDate]);
 
   return dailyStats;
-}
-
-/**
- * 날짜 포맷팅 (YYYY-MM-DD)
- */
-function formatDate(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
 }
 
 /**
@@ -183,7 +175,7 @@ function calculateWeeklyStreak(
   checks: Record<string, { completed: boolean }>
 ): number {
   let streak = 0;
-  const today = formatDate(new Date());
+  const today = formatDateToKey(new Date());
 
   // 오늘 제외하고 어제까지의 날짜만 필터링 (오늘은 아직 진행 중)
   const pastDates = dates.filter((date) => date < today);
