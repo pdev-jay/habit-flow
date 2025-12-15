@@ -7,7 +7,7 @@ import * as Notifications from 'expo-notifications';
 // Internal imports
 import i18n from '@/i18n';
 import type { Habit } from '@/features/habits/types';
-import { storage } from '@/features/habits/stores/storage';
+import { storage } from '@/features/habits/api/storage';
 import { isHabitActiveOnDate, formatDate } from '@/lib/utils';
 import {
   NotificationType,

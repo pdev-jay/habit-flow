@@ -5,7 +5,7 @@ import { startOfMonth, startOfWeek, format, isSameMonth, isSameDay } from 'date-
 import { ThemedText } from '@/components/ThemedText';
 import { cn } from '@/lib/utils';
 import { useHabits } from '@/features/habits/hooks';
-import { useHabitCheckStore } from '@/features/habits/stores';
+import { useHabitCheckStore } from '@/features/habits/api';
 
 interface HabitDotData {
   id: string;

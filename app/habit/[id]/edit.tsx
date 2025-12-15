@@ -6,7 +6,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { useTheme, useI18n } from '@/hooks';
 import { useHabits } from '@/features/habits/hooks';
-import { useHabitCheckStore } from '@/features/habits/stores';
+import { useHabitCheckStore } from '@/features/habits/api';
 import { HabitForm, type HabitFormRef } from '@/features/habits/components/HabitForm';
 import type { HabitIconName, FrequencyType } from '@/features/habits/types';
 import { cn } from '@/lib/utils';

@@ -7,7 +7,7 @@ import { useTheme, useI18n } from '@/hooks';
 import { getDateLocale, getDateFormat } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { useHabits } from '../hooks/useHabits';
-import { useHabitCheckStore } from '../stores';
+import { useHabitCheckStore } from '../api';
 import type { Habit } from '../types';
 
 interface Props {

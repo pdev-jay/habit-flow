@@ -7,12 +7,14 @@ import navigationKo from './locales/ko/navigation.json';
 import screensKo from './locales/ko/screens.json';
 import componentsKo from './locales/ko/components.json';
 import validationKo from './locales/ko/validation.json';
+import shareKo from './locales/ko/share.json';
 
 import commonEn from './locales/en/common.json';
 import navigationEn from './locales/en/navigation.json';
 import screensEn from './locales/en/screens.json';
 import componentsEn from './locales/en/components.json';
 import validationEn from './locales/en/validation.json';
+import shareEn from './locales/en/share.json';
 
 const resources = {
   ko: {
@@ -21,6 +23,7 @@ const resources = {
     screens: screensKo,
     components: componentsKo,
     validation: validationKo,
+    share: shareKo,
   },
   en: {
     common: commonEn,
@@ -28,6 +31,7 @@ const resources = {
     screens: screensEn,
     components: componentsEn,
     validation: validationEn,
+    share: shareEn,
   },
 };
 
@@ -36,7 +40,7 @@ i18n.use(initReactI18next).init({
   lng: 'ko',
   fallbackLng: 'ko',
   defaultNS: 'common',
-  ns: ['common', 'navigation', 'screens', 'components', 'validation'],
+  ns: ['common', 'navigation', 'screens', 'components', 'validation', 'share'],
   interpolation: {
     escapeValue: false,
   },

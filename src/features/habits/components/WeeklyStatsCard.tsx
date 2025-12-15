@@ -6,7 +6,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { useI18n } from '@/hooks';
 import { getDateLocale, getDateFormat } from '@/i18n';
 import { useHabits } from '@/features/habits/hooks';
-import { useHabitCheckStore } from '@/features/habits/stores';
+import { useHabitCheckStore } from '@/features/habits/api';
 
 interface WeeklyStatsCardProps {
   selectedDate: Date;

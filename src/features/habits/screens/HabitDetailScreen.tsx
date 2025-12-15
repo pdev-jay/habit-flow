@@ -7,7 +7,7 @@ import { useLocalSearchParams, useRouter, useNavigation } from 'expo-router';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useHabits, useHabitDetailStats } from '@/features/habits/hooks';
-import { useHabitCheckStore } from '@/features/habits/stores';
+import { useHabitCheckStore } from '@/features/habits/api';
 import { getFrequencyLabel } from '@/features/habits/utils/frequencyUtils';
 import { useI18n, useTheme } from '@/hooks';
 import { cn } from '@/lib/utils';

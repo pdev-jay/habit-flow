@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { startOfWeek, endOfWeek } from 'date-fns';
-import { useHabitStore, useHabitCheckStore } from '../stores';
+import { useHabitStore, useHabitCheckStore } from '../api';
 import { isHabitCreatedByDateString } from '../utils/dateUtils';
 import type { WeeklyStats, DailyStats, Habit } from '../types';
 

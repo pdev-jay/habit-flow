@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+
+import { useI18n } from '@/hooks';
 import type { WeeklyStats, MonthlyStats } from '../../types/share.types';
 
 interface WrappedWeeklyProps {
@@ -12,6 +14,8 @@ interface WrappedWeeklyProps {
  * Spotify Wrapped-inspired design with gradient backgrounds
  */
 export function WrappedWeekly({ stats }: WrappedWeeklyProps) {
+  const { t } = useI18n();
+
   return (
     <View className="w-[380px]">
       <LinearGradient
@@ -21,7 +25,7 @@ export function WrappedWeekly({ stats }: WrappedWeeklyProps) {
         style={{ paddingVertical: 32, paddingHorizontal: 32 }}>
         {/* Header */}
         <View className="mb-5 flex-row items-start justify-between">
-          <Text className="text-[22px] font-extrabold text-white">HabitFlow</Text>
+          <Text className="text-[22px] font-extrabold text-white">{t('common:appName')}</Text>
           <View className="rounded-[20px] bg-[#1db954] px-[14px] py-[6px]">
             <Text className="text-[11px] font-bold text-black">WEEK {stats.weekNumber}</Text>
           </View>
@@ -29,30 +33,36 @@ export function WrappedWeekly({ stats }: WrappedWeeklyProps) {
 
         {/* Intro Section */}
         <View className="mb-4">
-          <Text className="mb-2 text-[13px] text-white/60">이번 주 당신은</Text>
+          <Text className="mb-2 text-[13px] text-white/60">{t('share:wrapped.weekly.intro')}</Text>
           <Text className="text-[28px] font-extrabold leading-[34px] text-white">
-            <Text className="text-[#1db954]">{stats.completedCount}개</Text>의 습관을{'\n'}
-            완료했어요
+            <Text className="text-[#1db954]">
+              {stats.completedCount}
+              {t('share:wrapped.weekly.habitsCompleted')}
+            </Text>
+            {t('share:wrapped.weekly.ofHabits')}
+            {'\n'}
+            {t('share:wrapped.weekly.completed')}
           </Text>
         </View>
 
         {/* Hero Card */}
         <View className="border-white/8 mb-4 rounded-2xl border bg-white/5 p-5">
           <Text className="mb-2 text-[11px] uppercase tracking-[2px] text-white/50">
-            주간 완료율
+            {t('share:wrapped.weekly.completionRate')}
           </Text>
           <Text className="text-[64px] font-black leading-[64px] text-[#1db954]">
             {Math.round(stats.completionRate)}%
           </Text>
           <Text className="mt-1 text-[13px] text-white/60">
-            {stats.habits.length}개의 습관 중 평균 달성
+            {stats.habits.length}
+            {t('share:wrapped.weekly.averageAchievement')}
           </Text>
         </View>
 
         {/* Habits Section */}
         <View className="mb-4">
           <Text className="mb-3 text-[11px] font-bold uppercase tracking-[2px] text-[#1db954]">
-            이번 주 Top Habits
+            {t('share:wrapped.weekly.topHabits')}
           </Text>
 
           {stats.habits.slice(0, 3).map((habit, index) => (
@@ -67,7 +77,8 @@ export function WrappedWeekly({ stats }: WrappedWeeklyProps) {
                   {habit.name}
                 </Text>
                 <Text className="mt-[2px] w-full text-[10px] text-white/40" numberOfLines={1}>
-                  {habit.completedDays}/{habit.totalDays}일 완료
+                  {habit.completedDays}/{habit.totalDays}
+                  {t('share:wrapped.weekly.daysCompleted')}
                 </Text>
               </View>
               <Text
@@ -80,7 +91,7 @@ export function WrappedWeekly({ stats }: WrappedWeeklyProps) {
         </View>
 
         {/* Footer */}
-        <Text className="pt-3 text-[11px] text-white/30">#HabitFlow</Text>
+        <Text className="pt-3 text-[11px] text-white/30">#{t('common:appName')}</Text>
       </LinearGradient>
     </View>
   );
@@ -95,6 +106,14 @@ interface WrappedMonthlyProps {
  * Spotify Wrapped-inspired design with gradient backgrounds
  */
 export function WrappedMonthly({ stats }: WrappedMonthlyProps) {
+  const { t, language } = useI18n();
+
+  // Extract month display based on language
+  const monthDisplay =
+    language === 'ko' && stats.month.includes('년 ')
+      ? stats.month.split('년 ')[1] // Extract "12월" from "2025년 12월"
+      : stats.month; // Use full format for other languages
+
   return (
     <View className="w-[380px]">
       <LinearGradient
@@ -104,7 +123,7 @@ export function WrappedMonthly({ stats }: WrappedMonthlyProps) {
         style={{ paddingVertical: 32, paddingHorizontal: 32 }}>
         {/* Header */}
         <View className="mb-3 flex-row items-center justify-between">
-          <Text className="text-[22px] font-extrabold text-black">HabitFlow</Text>
+          <Text className="text-[22px] font-extrabold text-black">{t('common:appName')}</Text>
           <Text className="text-[14px] font-bold text-black/60">{stats.year}</Text>
         </View>
 
@@ -112,9 +131,12 @@ export function WrappedMonthly({ stats }: WrappedMonthlyProps) {
         <View className="mb-3 items-center">
           <Text className="mb-2 text-[36px]">🏆</Text>
           <Text className="mb-1 text-center text-[26px] font-black leading-[32px] text-black">
-            완벽한 {stats.month.split('년 ')[1]}을{'\n'}보냈어요!
+            {t('share:wrapped.monthly.perfect')} {monthDisplay}
+            {t('share:wrapped.monthly.monthSuffix')}
           </Text>
-          <Text className="text-[12px] text-black/70">당신의 꾸준함이 빛났습니다</Text>
+          <Text className="text-[12px] text-black/70">
+            {t('share:wrapped.monthly.perseverance')}
+          </Text>
         </View>
 
         {/* Stats Card */}
@@ -123,20 +145,28 @@ export function WrappedMonthly({ stats }: WrappedMonthlyProps) {
             <Text className="text-[60px] font-black leading-[60px] text-white">
               {Math.round(stats.averageCompletionRate)}%
             </Text>
-            <Text className="mt-1 text-[12px] text-white/80">평균 완료율</Text>
+            <Text className="mt-1 text-[12px] text-white/80">
+              {t('share:wrapped.monthly.averageCompletionRate')}
+            </Text>
           </View>
           <View className="flex-row justify-around">
             <View className="items-center">
               <Text className="text-[22px] font-extrabold text-white">{stats.perfectDays}</Text>
-              <Text className="mt-[2px] text-[10px] text-white/70">완벽한 날</Text>
+              <Text className="mt-[2px] text-[10px] text-white/70">
+                {t('share:wrapped.monthly.perfectDays')}
+              </Text>
             </View>
             <View className="items-center">
               <Text className="text-[22px] font-extrabold text-white">{stats.maxStreak}</Text>
-              <Text className="mt-[2px] text-[10px] text-white/70">최장 스트릭</Text>
+              <Text className="mt-[2px] text-[10px] text-white/70">
+                {t('share:wrapped.monthly.maxStreak')}
+              </Text>
             </View>
             <View className="items-center">
               <Text className="text-[22px] font-extrabold text-white">{stats.totalHabits}</Text>
-              <Text className="mt-[2px] text-[10px] text-white/70">습관 수</Text>
+              <Text className="mt-[2px] text-[10px] text-white/70">
+                {t('share:wrapped.monthly.totalHabits')}
+              </Text>
             </View>
           </View>
         </View>
@@ -163,7 +193,8 @@ export function WrappedMonthly({ stats }: WrappedMonthlyProps) {
                   {habit.name}
                 </Text>
                 <Text className="w-full text-[10px] text-white/40" numberOfLines={1}>
-                  {habit.completedDays}회 완료 {habit.streak > 0 && `🔥`}
+                  {habit.completedDays}
+                  {t('share:wrapped.monthly.timesCompleted')} {habit.streak > 0 && `🔥`}
                 </Text>
               </View>
               <View className="flex-shrink-0 rounded-lg bg-[#1db954]/15 px-[10px] py-1">
@@ -176,7 +207,9 @@ export function WrappedMonthly({ stats }: WrappedMonthlyProps) {
         </View>
 
         {/* Footer */}
-        <Text className="mt-3 text-center text-[10px] text-white/30">#HabitFlow #2025Wrapped</Text>
+        <Text className="mt-3 text-center text-[10px] text-white/30">
+          #{t('common:appName')} #{stats.year}Wrapped
+        </Text>
       </LinearGradient>
     </View>
   );

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useHabitCheckStore } from '../stores';
+import { useHabitCheckStore } from '../api';
 import { calculateStreak } from '../utils/streakUtils';
 import type { Habit } from '../types/habit.types';
 

@@ -6,12 +6,12 @@ import * as Haptics from 'expo-haptics';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { useSettingsStore } from '@/features/habits/stores';
+import { useSettingsStore } from '@/features/habits/api';
 import type { ThemeType, LanguageType } from '@/features/habits/types';
 import { useI18n, useTheme } from '@/hooks';
 import { useNotificationPermissions } from '@/hooks/useNotificationPermissions';
 import { rescheduleAllHabits, cancelAllNotifications } from '@/services/notificationService';
-import { useHabitStore } from '@/features/habits/stores/habitStore';
+import { useHabitStore } from '@/features/habits/api/habitStore';
 
 /**
  * Settings screen

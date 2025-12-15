@@ -27,7 +27,7 @@ import {
   useMonthlyInsight,
   useMonthComparison,
 } from '@/features/habits/hooks';
-import { useHabitCheckStore } from '@/features/habits/stores';
+import { useHabitCheckStore } from '@/features/habits/api';
 import type { Habit } from '@/features/habits/types';
 
 import { WeeklyChart } from '../components/WeeklyChart';

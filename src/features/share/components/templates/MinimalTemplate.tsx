@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import type { WeeklyStats, MonthlyStats } from '../../types/share.types';
+import { useI18n } from '@/hooks';
 
 interface MinimalWeeklyProps {
   stats: WeeklyStats;
@@ -11,27 +12,34 @@ interface MinimalWeeklyProps {
  * Clean, simple design with black and white color scheme
  */
 export function MinimalWeekly({ stats }: MinimalWeeklyProps) {
+  const { t } = useI18n();
+
   return (
     <View className="w-[380px] bg-white p-8">
       {/* Header */}
       <View className="mb-6 flex-row items-center justify-between">
-        <Text className="text-[24px] font-bold text-black">HabitFlow</Text>
+        <Text className="text-[24px] font-bold text-black">{t('common:appName')}</Text>
         <Text className="text-[14px] text-gray-500">WEEK {stats.weekNumber}</Text>
       </View>
 
       {/* Hero Section */}
       <View className="mb-8 items-center border-b border-gray-200 pb-8">
-        <Text className="mb-2 text-[14px] uppercase tracking-wider text-gray-500">주간 완료율</Text>
+        <Text className="mb-2 text-[14px] uppercase tracking-wider text-gray-500">
+          {t('share:minimal.weekly.completionRate')}
+        </Text>
         <Text className="text-[96px] font-bold leading-[96px] text-black">
           {Math.round(stats.completionRate)}%
         </Text>
-        <Text className="mt-2 text-[15px] text-gray-600">{stats.completedCount}개의 습관 완료</Text>
+        <Text className="mt-2 text-[15px] text-gray-600">
+          {stats.completedCount}
+          {t('share:minimal.weekly.habitsCompleted')}
+        </Text>
       </View>
 
       {/* Habits Section */}
       <View className="mb-6">
         <Text className="mb-4 text-[12px] font-semibold uppercase tracking-wider text-gray-500">
-          Top 3 Habits
+          {t('share:minimal.weekly.topHabits')}
         </Text>
 
         {stats.habits.slice(0, 3).map((habit, index) => (
@@ -46,7 +54,8 @@ export function MinimalWeekly({ stats }: MinimalWeeklyProps) {
                 {habit.name}
               </Text>
               <Text className="w-full text-[12px] text-gray-500" numberOfLines={1}>
-                {habit.completedDays}/{habit.totalDays}일 완료
+                {habit.completedDays}/{habit.totalDays}
+                {t('share:minimal.weekly.daysCompleted')}
               </Text>
             </View>
             <Text className="flex-shrink-0 text-[18px] font-bold text-black" numberOfLines={1}>
@@ -57,7 +66,7 @@ export function MinimalWeekly({ stats }: MinimalWeeklyProps) {
       </View>
 
       {/* Footer */}
-      <Text className="mt-auto text-center text-[11px] text-gray-400">#HabitFlow</Text>
+      <Text className="mt-auto text-center text-[11px] text-gray-400">#{t('common:appName')}</Text>
     </View>
   );
 }
@@ -71,18 +80,22 @@ interface MinimalMonthlyProps {
  * Clean, simple design with black and white color scheme
  */
 export function MinimalMonthly({ stats }: MinimalMonthlyProps) {
+  const { t } = useI18n();
+
   return (
     <View className="w-[380px] bg-white p-8">
       {/* Header */}
       <View className="mb-5 flex-row items-center justify-between">
-        <Text className="text-[24px] font-bold text-black">HabitFlow</Text>
+        <Text className="text-[24px] font-bold text-black">{t('common:appName')}</Text>
         <Text className="text-[14px] text-gray-500">{stats.year}</Text>
       </View>
 
       {/* Hero Section */}
       <View className="mb-6 items-center border-b border-gray-200 pb-6">
         <Text className="mb-1 text-[32px] font-bold leading-[38px] text-black">{stats.month}</Text>
-        <Text className="text-[14px] text-gray-500">월간 리포트</Text>
+        <Text className="text-[14px] text-gray-500">
+          {t('share:minimal.monthly.monthlyReport')}
+        </Text>
       </View>
 
       {/* Stats Grid */}
@@ -91,22 +104,28 @@ export function MinimalMonthly({ stats }: MinimalMonthlyProps) {
           <Text className="text-[36px] font-bold text-black">
             {Math.round(stats.averageCompletionRate)}%
           </Text>
-          <Text className="mt-1 text-[11px] text-gray-500">평균 완료율</Text>
+          <Text className="mt-1 text-[11px] text-gray-500">
+            {t('share:minimal.monthly.averageCompletionRate')}
+          </Text>
         </View>
         <View className="items-center">
           <Text className="text-[36px] font-bold text-black">{stats.perfectDays}</Text>
-          <Text className="mt-1 text-[11px] text-gray-500">완벽한 날</Text>
+          <Text className="mt-1 text-[11px] text-gray-500">
+            {t('share:minimal.monthly.perfectDays')}
+          </Text>
         </View>
         <View className="items-center">
           <Text className="text-[36px] font-bold text-black">{stats.maxStreak}</Text>
-          <Text className="mt-1 text-[11px] text-gray-500">최장 스트릭</Text>
+          <Text className="mt-1 text-[11px] text-gray-500">
+            {t('share:minimal.monthly.maxStreak')}
+          </Text>
         </View>
       </View>
 
       {/* Habits Section */}
       <View className="mb-5">
         <Text className="mb-4 text-[12px] font-semibold uppercase tracking-wider text-gray-500">
-          Top 3 Habits
+          {t('share:minimal.weekly.topHabits')}
         </Text>
 
         {stats.habits.slice(0, 3).map((habit, index) => (
@@ -121,7 +140,8 @@ export function MinimalMonthly({ stats }: MinimalMonthlyProps) {
                 {habit.name}
               </Text>
               <Text className="w-full text-[11px] text-gray-500" numberOfLines={1}>
-                {habit.completedDays}회 완료 {habit.streak > 0 && '🔥'}
+                {habit.completedDays}
+                {t('share:minimal.monthly.timesCompleted')} {habit.streak > 0 && '🔥'}
               </Text>
             </View>
             <Text className="flex-shrink-0 text-[16px] font-bold text-black" numberOfLines={1}>
@@ -133,7 +153,7 @@ export function MinimalMonthly({ stats }: MinimalMonthlyProps) {
 
       {/* Footer */}
       <Text className="mt-auto text-center text-[11px] text-gray-400">
-        #HabitFlow #{stats.year}Wrapped
+        #{t('common:appName')} #{stats.year}Wrapped
       </Text>
     </View>
   );

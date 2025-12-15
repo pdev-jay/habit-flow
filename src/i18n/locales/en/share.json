@@ -1,0 +1,94 @@
+{
+  "screen": {
+    "styleSelect": "Style",
+    "periodSelect": "Period",
+    "weekly": "Weekly",
+    "monthly": "Monthly"
+  },
+  "wrapped": {
+    "weekly": {
+      "intro": "This week you",
+      "ofHabits": " ",
+      "completed": "completed",
+      "completionRate": "Weekly Completion",
+      "averageAchievement": "average among habits",
+      "topHabits": "Top Habits This Week",
+      "daysCompleted": "days completed",
+      "habitsCompleted": "habits"
+    },
+    "monthly": {
+      "perfect": "Perfect",
+      "monthSuffix": "!",
+      "perseverance": "Your consistency shined",
+      "averageCompletionRate": "Average Completion",
+      "perfectDays": "Perfect Days",
+      "maxStreak": "Max Streak",
+      "totalHabits": "Total Habits",
+      "timesCompleted": "times completed"
+    }
+  },
+  "minimal": {
+    "weekly": {
+      "completionRate": "Weekly Completion",
+      "habitsCompleted": "habits completed",
+      "topHabits": "Top 3 Habits",
+      "daysCompleted": "days completed"
+    },
+    "monthly": {
+      "monthlyReport": "Monthly Report",
+      "averageCompletionRate": "Average Completion",
+      "perfectDays": "Perfect Days",
+      "maxStreak": "Max Streak",
+      "timesCompleted": "times completed"
+    }
+  },
+  "glassmorphism": {
+    "weekly": {
+      "completionRate": "Weekly Completion",
+      "habitsCompleted": "habits completed",
+      "topHabits": "Top 3 Habits",
+      "days": "days"
+    },
+    "monthly": {
+      "monthlyReport": "Monthly Report",
+      "averageCompletionRate": "Average Completion",
+      "perfectDays": "Perfect Days",
+      "maxStreak": "Max Streak",
+      "totalHabits": "Total Habits",
+      "times": "times"
+    }
+  },
+  "brutalist": {
+    "weekly": {
+      "achievement": "Weekly Achievement",
+      "done": "DONE"
+    },
+    "monthly": {
+      "report": "REPORT",
+      "average": "AVERAGE",
+      "perfect": "Perfect",
+      "streak": "Streak",
+      "habits": "Habits",
+      "topHabits": "TOP 3 HABITS",
+      "times": "TIMES"
+    }
+  },
+  "ticket": {
+    "weekly": {
+      "subtitle": "WEEKLY PROGRESS TICKET",
+      "date": "DATE",
+      "week": "WEEK",
+      "year": "YEAR",
+      "completionRate": "Completion Rate"
+    },
+    "monthly": {
+      "subtitle": "MONTHLY PROGRESS TICKET",
+      "month": "MONTH",
+      "year": "YEAR",
+      "averageCompletionRate": "Avg Completion",
+      "perfectDays": "Perfect Days",
+      "maxStreak": "Max Streak",
+      "totalHabits": "Total Habits"
+    }
+  }
+}

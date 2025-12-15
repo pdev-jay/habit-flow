@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import type { WeeklyStats, MonthlyStats } from '../../types/share.types';
+import { useI18n } from '@/hooks';
 
 interface GlassmorphismWeeklyProps {
   stats: WeeklyStats;
@@ -12,6 +13,8 @@ interface GlassmorphismWeeklyProps {
  * Semi-transparent glass effect with soft gradients
  */
 export function GlassmorphismWeekly({ stats }: GlassmorphismWeeklyProps) {
+  const { t } = useI18n();
+
   return (
     <View className="w-[380px]">
       <LinearGradient
@@ -21,7 +24,7 @@ export function GlassmorphismWeekly({ stats }: GlassmorphismWeeklyProps) {
         style={{ paddingVertical: 32, paddingHorizontal: 32 }}>
         {/* Header */}
         <View className="mb-5 flex-row items-center justify-between">
-          <Text className="text-[22px] font-bold text-white">HabitFlow</Text>
+          <Text className="text-[22px] font-bold text-white">{t('common:appName')}</Text>
           <View className="rounded-full bg-white/20 px-3 py-1">
             <Text className="text-[11px] font-semibold text-white">WEEK {stats.weekNumber}</Text>
           </View>
@@ -30,18 +33,21 @@ export function GlassmorphismWeekly({ stats }: GlassmorphismWeeklyProps) {
         {/* Glass Card - Hero */}
         <View className="mb-5 rounded-3xl border border-white/30 bg-white/10 p-6">
           <Text className="mb-3 text-[13px] uppercase tracking-wider text-white/70">
-            주간 완료율
+            {t('share:glassmorphism.weekly.completionRate')}
           </Text>
           <Text className="text-[80px] font-black leading-[80px] text-white">
             {Math.round(stats.completionRate)}%
           </Text>
-          <Text className="mt-2 text-[14px] text-white/80">{stats.completedCount}개 습관 완료</Text>
+          <Text className="mt-2 text-[14px] text-white/80">
+            {stats.completedCount}
+            {t('share:glassmorphism.weekly.habitsCompleted')}
+          </Text>
         </View>
 
         {/* Glass Card - Habits */}
         <View className="mb-4 rounded-3xl border border-white/30 bg-white/10 p-5">
           <Text className="mb-4 text-[11px] font-bold uppercase tracking-wider text-white/70">
-            Top 3 Habits
+            {t('share:glassmorphism.weekly.topHabits')}
           </Text>
 
           {stats.habits.slice(0, 3).map((habit, index) => (
@@ -55,7 +61,8 @@ export function GlassmorphismWeekly({ stats }: GlassmorphismWeeklyProps) {
                     {habit.name}
                   </Text>
                   <Text className="w-full text-[11px] text-white/60" numberOfLines={1}>
-                    {habit.completedDays}/{habit.totalDays}일
+                    {habit.completedDays}/{habit.totalDays}
+                    {t('share:glassmorphism.weekly.days')}
                   </Text>
                 </View>
                 <View className="rounded-full bg-white/20 px-3 py-1">
@@ -69,7 +76,9 @@ export function GlassmorphismWeekly({ stats }: GlassmorphismWeeklyProps) {
         </View>
 
         {/* Footer */}
-        <Text className="mt-auto text-center text-[11px] text-white/50">#HabitFlow</Text>
+        <Text className="mt-auto text-center text-[11px] text-white/50">
+          #{t('common:appName')}
+        </Text>
       </LinearGradient>
     </View>
   );
@@ -84,6 +93,8 @@ interface GlassmorphismMonthlyProps {
  * Semi-transparent glass effect with soft gradients
  */
 export function GlassmorphismMonthly({ stats }: GlassmorphismMonthlyProps) {
+  const { t } = useI18n();
+
   return (
     <View className="w-[380px]">
       <LinearGradient
@@ -93,14 +104,16 @@ export function GlassmorphismMonthly({ stats }: GlassmorphismMonthlyProps) {
         style={{ paddingVertical: 32, paddingHorizontal: 32 }}>
         {/* Header */}
         <View className="mb-4 flex-row items-center justify-between">
-          <Text className="text-[22px] font-bold text-gray-800">HabitFlow</Text>
+          <Text className="text-[22px] font-bold text-gray-800">{t('common:appName')}</Text>
           <Text className="text-[13px] font-semibold text-gray-600">{stats.year}</Text>
         </View>
 
         {/* Glass Card - Hero */}
         <View className="mb-4 items-center rounded-3xl border border-white/50 bg-white/20 p-5">
           <Text className="mb-1 text-[28px] font-black text-gray-800">{stats.month}</Text>
-          <Text className="text-[12px] text-gray-600">월간 리포트</Text>
+          <Text className="text-[12px] text-gray-600">
+            {t('share:glassmorphism.monthly.monthlyReport')}
+          </Text>
         </View>
 
         {/* Glass Card - Stats */}
@@ -109,20 +122,28 @@ export function GlassmorphismMonthly({ stats }: GlassmorphismMonthlyProps) {
             <Text className="text-[64px] font-black leading-[64px] text-gray-800">
               {Math.round(stats.averageCompletionRate)}%
             </Text>
-            <Text className="mt-1 text-[12px] text-gray-600">평균 완료율</Text>
+            <Text className="mt-1 text-[12px] text-gray-600">
+              {t('share:glassmorphism.monthly.averageCompletionRate')}
+            </Text>
           </View>
           <View className="flex-row justify-around">
             <View className="items-center">
               <Text className="text-[28px] font-bold text-gray-800">{stats.perfectDays}</Text>
-              <Text className="text-[10px] text-gray-600">완벽한 날</Text>
+              <Text className="text-[10px] text-gray-600">
+                {t('share:glassmorphism.monthly.perfectDays')}
+              </Text>
             </View>
             <View className="items-center">
               <Text className="text-[28px] font-bold text-gray-800">{stats.maxStreak}</Text>
-              <Text className="text-[10px] text-gray-600">최장 스트릭</Text>
+              <Text className="text-[10px] text-gray-600">
+                {t('share:glassmorphism.monthly.maxStreak')}
+              </Text>
             </View>
             <View className="items-center">
               <Text className="text-[28px] font-bold text-gray-800">{stats.totalHabits}</Text>
-              <Text className="text-[10px] text-gray-600">습관 수</Text>
+              <Text className="text-[10px] text-gray-600">
+                {t('share:glassmorphism.monthly.totalHabits')}
+              </Text>
             </View>
           </View>
         </View>
@@ -130,7 +151,7 @@ export function GlassmorphismMonthly({ stats }: GlassmorphismMonthlyProps) {
         {/* Glass Card - Habits */}
         <View className="mb-3 rounded-3xl border border-white/50 bg-white/20 p-4">
           <Text className="mb-3 text-[11px] font-bold uppercase tracking-wider text-gray-700">
-            Top 3 Habits
+            {t('share:glassmorphism.weekly.topHabits')}
           </Text>
 
           {stats.habits.slice(0, 3).map((habit, index) => (
@@ -146,7 +167,8 @@ export function GlassmorphismMonthly({ stats }: GlassmorphismMonthlyProps) {
                     {habit.name}
                   </Text>
                   <Text className="w-full text-[10px] text-gray-600" numberOfLines={1}>
-                    {habit.completedDays}회 {habit.streak > 0 && '🔥'}
+                    {habit.completedDays}
+                    {t('share:glassmorphism.monthly.times')} {habit.streak > 0 && '🔥'}
                   </Text>
                 </View>
                 <View className="rounded-full bg-white/30 px-2.5 py-1">
@@ -161,7 +183,7 @@ export function GlassmorphismMonthly({ stats }: GlassmorphismMonthlyProps) {
 
         {/* Footer */}
         <Text className="mt-auto text-center text-[10px] text-gray-600">
-          #HabitFlow #{stats.year}Wrapped
+          #{t('common:appName')} #{stats.year}Wrapped
         </Text>
       </LinearGradient>
     </View>

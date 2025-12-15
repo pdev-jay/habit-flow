@@ -1,6 +1,6 @@
 import { useColorScheme as useSystemColorScheme } from 'react-native';
 
-import { useSettingsStore } from '@/features/habits/stores';
+import { useSettingsStore } from '@/features/habits/api';
 
 /**
  * Custom hook for theme management

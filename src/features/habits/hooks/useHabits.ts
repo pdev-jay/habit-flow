@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useHabitStore } from '../stores';
+import { useHabitStore } from '../api';
 import { isHabitCreatedByDate } from '../utils/dateUtils';
 import type { Habit } from '../types';
 

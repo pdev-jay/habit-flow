@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 
-import { useSettingsStore } from '@/features/habits/stores';
+import { useSettingsStore } from '@/features/habits/api';
 
 /**
  * Custom hook for i18n

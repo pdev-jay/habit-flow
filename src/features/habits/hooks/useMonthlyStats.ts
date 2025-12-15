@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { startOfMonth, endOfMonth, eachDayOfInterval, format, isFuture, isBefore } from 'date-fns';
-import { useHabitStore } from '../stores/habitStore';
-import { useHabitCheckStore } from '../stores/habitCheckStore';
+import { useHabitStore } from '../api/habitStore';
+import { useHabitCheckStore } from '../api/habitCheckStore';
 import { calculateStreak } from '../utils/streakUtils';
 import { isHabitCreatedByDate } from '../utils/dateUtils';
 import type { MonthlyStats, DayCompletionData, HabitInsight } from '../types/stats.types';

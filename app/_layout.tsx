@@ -10,10 +10,10 @@ import { useColorScheme } from 'nativewind';
 import { I18nextProvider } from 'react-i18next';
 import * as Notifications from 'expo-notifications';
 
-import { useSettingsStore } from '@/features/habits/stores';
+import { useSettingsStore } from '@/features/habits/api';
 import i18n from '@/i18n';
 import { useI18n } from '@/hooks';
-import { useHabitStore } from '@/features/habits/stores/habitStore';
+import { useHabitStore } from '@/features/habits/api/habitStore';
 import { rescheduleAllHabits, shouldReschedule } from '@/services/notificationService';
 
 // Ignore SafeAreaView deprecation warning from expo-router

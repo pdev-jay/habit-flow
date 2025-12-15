@@ -1,0 +1,94 @@
+{
+  "screen": {
+    "styleSelect": "스타일 선택",
+    "periodSelect": "기간 선택",
+    "weekly": "주간",
+    "monthly": "월간"
+  },
+  "wrapped": {
+    "weekly": {
+      "intro": "이번 주 당신은",
+      "ofHabits": "의 습관을",
+      "completed": "완료했어요",
+      "completionRate": "주간 완료율",
+      "averageAchievement": "개의 습관 중 평균 달성",
+      "topHabits": "이번 주 Top Habits",
+      "daysCompleted": "일 완료",
+      "habitsCompleted": "개"
+    },
+    "monthly": {
+      "perfect": "완벽한",
+      "monthSuffix": "을\n보냈어요!",
+      "perseverance": "당신의 꾸준함이 빛났습니다",
+      "averageCompletionRate": "평균 완료율",
+      "perfectDays": "완벽한 날",
+      "maxStreak": "최장 스트릭",
+      "totalHabits": "습관 수",
+      "timesCompleted": "회 완료"
+    }
+  },
+  "minimal": {
+    "weekly": {
+      "completionRate": "주간 완료율",
+      "habitsCompleted": "개의 습관 완료",
+      "topHabits": "Top 3 Habits",
+      "daysCompleted": "일 완료"
+    },
+    "monthly": {
+      "monthlyReport": "월간 리포트",
+      "averageCompletionRate": "평균 완료율",
+      "perfectDays": "완벽한 날",
+      "maxStreak": "최장 스트릭",
+      "timesCompleted": "회 완료"
+    }
+  },
+  "glassmorphism": {
+    "weekly": {
+      "completionRate": "주간 완료율",
+      "habitsCompleted": "개 습관 완료",
+      "topHabits": "Top 3 Habits",
+      "days": "일"
+    },
+    "monthly": {
+      "monthlyReport": "월간 리포트",
+      "averageCompletionRate": "평균 완료율",
+      "perfectDays": "완벽한 날",
+      "maxStreak": "최장 스트릭",
+      "totalHabits": "습관 수",
+      "times": "회"
+    }
+  },
+  "brutalist": {
+    "weekly": {
+      "achievement": "주간 성과",
+      "done": "DONE"
+    },
+    "monthly": {
+      "report": "REPORT",
+      "average": "AVERAGE",
+      "perfect": "완벽",
+      "streak": "스트릭",
+      "habits": "습관",
+      "topHabits": "TOP 3 HABITS",
+      "times": "TIMES"
+    }
+  },
+  "ticket": {
+    "weekly": {
+      "subtitle": "WEEKLY PROGRESS TICKET",
+      "date": "DATE",
+      "week": "WEEK",
+      "year": "YEAR",
+      "completionRate": "완료율"
+    },
+    "monthly": {
+      "subtitle": "MONTHLY PROGRESS TICKET",
+      "month": "MONTH",
+      "year": "YEAR",
+      "averageCompletionRate": "평균 완료율",
+      "perfectDays": "완벽한 날",
+      "maxStreak": "최장 스트릭",
+      "totalHabits": "습관 수"
+    }
+  }
+}

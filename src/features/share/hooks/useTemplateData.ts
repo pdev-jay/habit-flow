@@ -11,13 +11,14 @@ import {
 
 // Internal imports
 import { useHabits } from '@/features/habits/hooks';
-import { useHabitCheckStore } from '@/features/habits/stores';
+import { useHabitCheckStore } from '@/features/habits/api';
 import { calculateStreak } from '@/features/habits/utils/streakUtils';
 import { isHabitCreatedByDate } from '@/features/habits/utils/dateUtils';
+import { getDateLocale, getDateFormat } from '@/lib/dateLocales';
+import type { Habit, LanguageType } from '@/features/habits/types';
 
 // Relative imports
 import type { WeeklyStats, MonthlyStats, HabitProgress } from '../types/share.types';
-import type { Habit } from '@/features/habits/types';
 
 /**
  * Get active days for a habit based on frequency
@@ -136,12 +137,17 @@ function calculateMaxStreak(
  * Template data hook
  * Calculates weekly and monthly statistics from actual habit data
  *
+ * @param language - Current language for date formatting (defaults to 'ko')
  * @param date - Reference date (defaults to today)
  * @returns Weekly and monthly statistics
  */
-export function useTemplateData(date: Date = new Date()) {
+export function useTemplateData(language: LanguageType = 'ko', date: Date = new Date()) {
   const { habits } = useHabits();
   const checks = useHabitCheckStore((state) => state.checks);
+
+  const locale = getDateLocale(language);
+  const monthDayFormat = getDateFormat(language, 'monthDay');
+  const yearMonthFormat = getDateFormat(language, 'yearMonth');
 
   // Weekly statistics calculation
   const weeklyStats = useMemo((): WeeklyStats => {
@@ -168,11 +174,11 @@ export function useTemplateData(date: Date = new Date()) {
       completedCount,
       totalCount,
       streakDays,
-      dateRange: `${format(startDate, 'M월 d일')} ~ ${format(endDate, 'M월 d일')}`,
+      dateRange: `${format(startDate, monthDayFormat, { locale })} ~ ${format(endDate, monthDayFormat, { locale })}`,
       weekNumber: getWeek(date),
       habits: habitProgress.sort((a, b) => b.completionRate - a.completionRate),
     };
-  }, [habits, checks, date]);
+  }, [habits, checks, date, locale, monthDayFormat]);
 
   // Monthly statistics calculation
   const monthlyStats = useMemo((): MonthlyStats => {
@@ -212,7 +218,7 @@ export function useTemplateData(date: Date = new Date()) {
     const maxStreak = calculateMaxStreak(habits, days, checks);
 
     return {
-      month: format(date, 'yyyy년 M월'),
+      month: format(date, yearMonthFormat, { locale }),
       year: date.getFullYear(),
       averageCompletionRate,
       perfectDays,
@@ -220,7 +226,7 @@ export function useTemplateData(date: Date = new Date()) {
       totalHabits: habits.length,
       habits: habitProgress.sort((a, b) => b.completionRate - a.completionRate),
     };
-  }, [habits, checks, date]);
+  }, [habits, checks, date, locale, yearMonthFormat]);
 
   return {
     weeklyStats,

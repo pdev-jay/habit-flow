@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useHabitCheckStore } from '../stores';
+import { useHabitCheckStore } from '../api';
 
 /**
  * 습관 체크 상태 관리 훅 (범용)
