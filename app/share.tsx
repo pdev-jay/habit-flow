@@ -1,10 +1,9 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { ScrollView, View, Pressable, Text, Alert, Platform } from 'react-native';
-import { useRouter, useNavigation } from 'expo-router';
+import { useNavigation } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
 import { useTheme } from '@/hooks';
 import {
   WrappedWeekly,
@@ -26,7 +25,6 @@ import type { TemplateStyle, TemplatePeriod } from '@/features/share/types/share
  * Allows preview and selection of template styles and periods for sharing
  */
 export default function ShareScreen() {
-  const router = useRouter();
   const navigation = useNavigation();
   const colorScheme = useTheme();
 
@@ -46,7 +44,7 @@ export default function ShareScreen() {
             try {
               const uri = await capture({ format: 'png', quality: 1 });
               await execute(uri, 'share');
-            } catch (error) {
+            } catch {
               Alert.alert('오류', '공유에 실패했습니다');
             }
           }}
@@ -133,8 +131,8 @@ export default function ShareScreen() {
             <Pressable
               onPress={() => setSelectedStyle('minimal')}
               className={`rounded-xl px-4 py-2.5 ${selectedStyle === 'minimal'
-                ? 'bg-gray-900 dark:bg-white'
-                : 'border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800'
+                  ? 'bg-gray-900 dark:bg-white'
+                  : 'border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800'
                 }`}
               style={
                 selectedStyle === 'minimal'
@@ -148,8 +146,8 @@ export default function ShareScreen() {
               }>
               <Text
                 className={`text-center text-sm font-bold ${selectedStyle === 'minimal'
-                  ? 'text-white dark:text-gray-900'
-                  : 'text-gray-700 dark:text-gray-300'
+                    ? 'text-white dark:text-gray-900'
+                    : 'text-gray-700 dark:text-gray-300'
                   }`}>
                 ⚪ Minimal
               </Text>
@@ -158,8 +156,8 @@ export default function ShareScreen() {
             <Pressable
               onPress={() => setSelectedStyle('wrapped')}
               className={`rounded-xl px-4 py-2.5 ${selectedStyle === 'wrapped'
-                ? 'bg-purple-500'
-                : 'border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800'
+                  ? 'bg-purple-500'
+                  : 'border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800'
                 }`}
               style={
                 selectedStyle === 'wrapped'
@@ -181,8 +179,8 @@ export default function ShareScreen() {
             <Pressable
               onPress={() => setSelectedStyle('glassmorphism')}
               className={`rounded-xl px-4 py-2.5 ${selectedStyle === 'glassmorphism'
-                ? 'bg-blue-400'
-                : 'border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800'
+                  ? 'bg-blue-400'
+                  : 'border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800'
                 }`}
               style={
                 selectedStyle === 'glassmorphism'
@@ -196,8 +194,8 @@ export default function ShareScreen() {
               }>
               <Text
                 className={`text-center text-sm font-bold ${selectedStyle === 'glassmorphism'
-                  ? 'text-white'
-                  : 'text-gray-700 dark:text-gray-300'
+                    ? 'text-white'
+                    : 'text-gray-700 dark:text-gray-300'
                   }`}>
                 💎 Glass
               </Text>
@@ -206,8 +204,8 @@ export default function ShareScreen() {
             <Pressable
               onPress={() => setSelectedStyle('brutalist')}
               className={`rounded-xl px-4 py-2.5 ${selectedStyle === 'brutalist'
-                ? 'border-2 border-black bg-yellow-400 dark:border-white dark:bg-yellow-300'
-                : 'border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800'
+                  ? 'border-2 border-black bg-yellow-400 dark:border-white dark:bg-yellow-300'
+                  : 'border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800'
                 }`}
               style={
                 selectedStyle === 'brutalist'
@@ -229,8 +227,8 @@ export default function ShareScreen() {
             <Pressable
               onPress={() => setSelectedStyle('ticket')}
               className={`rounded-xl px-4 py-2.5 ${selectedStyle === 'ticket'
-                ? 'bg-blue-500'
-                : 'border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800'
+                  ? 'bg-blue-500'
+                  : 'border border-gray-300 bg-white dark:border-gray-600 dark:bg-gray-800'
                 }`}
               style={
                 selectedStyle === 'ticket'
@@ -263,8 +261,8 @@ export default function ShareScreen() {
                 }`}>
               <Text
                 className={`text-center text-sm font-semibold ${selectedPeriod === 'weekly'
-                  ? 'text-gray-900 dark:text-white'
-                  : 'text-gray-500 dark:text-gray-400'
+                    ? 'text-gray-900 dark:text-white'
+                    : 'text-gray-500 dark:text-gray-400'
                   }`}>
                 주간
               </Text>
@@ -276,8 +274,8 @@ export default function ShareScreen() {
                 }`}>
               <Text
                 className={`text-center text-sm font-semibold ${selectedPeriod === 'monthly'
-                  ? 'text-gray-900 dark:text-white'
-                  : 'text-gray-500 dark:text-gray-400'
+                    ? 'text-gray-900 dark:text-white'
+                    : 'text-gray-500 dark:text-gray-400'
                   }`}>
                 월간
               </Text>

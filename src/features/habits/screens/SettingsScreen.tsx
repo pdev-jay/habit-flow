@@ -2,7 +2,6 @@ import React from 'react';
 import { Alert, Linking, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 
 import { ThemedText } from '@/components/ThemedText';
@@ -19,7 +18,6 @@ import { useHabitStore } from '@/features/habits/stores/habitStore';
  */
 export function SettingsScreen() {
   const insets = useSafeAreaInsets();
-  const router = useRouter();
   const { settings, updateSettings } = useSettingsStore();
   const { t } = useI18n();
   const colorScheme = useTheme();
