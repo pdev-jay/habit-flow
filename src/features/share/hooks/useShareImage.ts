@@ -21,11 +21,9 @@ export function useShareImage() {
       const { status } = await MediaLibrary.requestPermissionsAsync();
 
       if (status !== 'granted') {
-        Alert.alert(
-          '권한 필요',
-          '이미지를 저장하려면 사진 라이브러리 접근 권한이 필요합니다.',
-          [{ text: '확인' }]
-        );
+        Alert.alert('권한 필요', '이미지를 저장하려면 사진 라이브러리 접근 권한이 필요합니다.', [
+          { text: '확인' },
+        ]);
         return false;
       }
 

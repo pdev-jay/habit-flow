@@ -101,3 +101,75 @@ export interface ShareImageResult {
   /** Error message if failed */
   error?: string;
 }
+
+/**
+ * Template style types
+ */
+export type TemplateStyle = 'wrapped' | 'minimal' | 'glassmorphism' | 'brutalist' | 'ticket';
+
+/**
+ * Template period types
+ */
+export type TemplatePeriod = 'weekly' | 'monthly';
+
+/**
+ * Habit progress data for template
+ */
+export interface HabitProgress {
+  /** Habit ID */
+  id: string;
+  /** Habit name */
+  name: string;
+  /** Material Community Icon name */
+  icon: string;
+  /** Habit color */
+  color: string;
+  /** Completion rate percentage (0-100) */
+  completionRate: number;
+  /** Number of completed days */
+  completedDays: number;
+  /** Total applicable days */
+  totalDays: number;
+  /** Current streak */
+  streak: number;
+}
+
+/**
+ * Weekly statistics for template
+ */
+export interface WeeklyStats {
+  /** Overall completion rate percentage (0-100) */
+  completionRate: number;
+  /** Total completed count */
+  completedCount: number;
+  /** Total count */
+  totalCount: number;
+  /** Current streak in days */
+  streakDays: number;
+  /** Date range string (e.g., "12월 8일 ~ 12월 14일") */
+  dateRange: string;
+  /** Week number */
+  weekNumber: number;
+  /** Habit progress data sorted by completion rate */
+  habits: HabitProgress[];
+}
+
+/**
+ * Monthly statistics for template
+ */
+export interface MonthlyStats {
+  /** Month string (e.g., "2024년 12월") */
+  month: string;
+  /** Year */
+  year: number;
+  /** Average completion rate percentage (0-100) */
+  averageCompletionRate: number;
+  /** Number of perfect days (all habits completed) */
+  perfectDays: number;
+  /** Maximum streak in the month */
+  maxStreak: number;
+  /** Total number of habits */
+  totalHabits: number;
+  /** Habit progress data sorted by completion rate */
+  habits: HabitProgress[];
+}

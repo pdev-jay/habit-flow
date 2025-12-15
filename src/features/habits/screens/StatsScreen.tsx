@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import { ScrollView, StyleSheet, View, Pressable } from 'react-native';
+import { ScrollView, StyleSheet, View, Pressable, Text } from 'react-native';
 import {
   startOfWeek,
   addDays,
@@ -12,6 +12,7 @@ import {
 } from 'date-fns';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -38,6 +39,7 @@ import { DayDetailModal } from '../components/DayDetailModal';
  * Stats screen - shows weekly and monthly statistics
  */
 export function StatsScreen() {
+  const router = useRouter();
   const insets = useSafeAreaInsets();
   const colorScheme = useTheme();
   const { t, language } = useI18n();
@@ -186,13 +188,26 @@ export function StatsScreen() {
     setViewMode(newMode);
   }, []);
 
+  const handleShare = useCallback(() => {
+    router.push('/share');
+  }, [router]);
+
   return (
     <ThemedView className="flex-1">
       {/* Header */}
       <View
         className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-800 dark:bg-gray-900"
         style={[{ paddingTop: insets.top }, styles.headerShadow]}>
-        <ThemedText className="pb-4 text-3xl font-bold">{t('screens:stats.title')}</ThemedText>
+        <View className="flex-row items-center justify-between pb-4">
+          <ThemedText className="text-3xl font-bold">{t('screens:stats.title')}</ThemedText>
+          <Pressable onPress={handleShare} className="px-3 py-1">
+            <Text
+              className="text-lg font-semibold"
+              style={{ color: colorScheme === 'dark' ? '#60A5FA' : '#3B82F6' }}>
+              {t('common:share')}
+            </Text>
+          </Pressable>
+        </View>
         {viewMode === 'weekly' ? (
           <View className="flex-row items-center justify-between">
             <Pressable

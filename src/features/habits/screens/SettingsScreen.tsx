@@ -314,34 +314,6 @@ export function SettingsScreen() {
             </ThemedText>
           </Pressable>
         </View>
-
-        {/* Developer Section */}
-        <View
-          className="mt-6 rounded-xl bg-white p-4 dark:bg-gray-800"
-          style={[styles.card, { borderLeftWidth: 4, borderLeftColor: '#EF4444' }]}>
-          <View className="mb-3 flex-row items-center">
-            <MaterialCommunityIcons
-              name="code-braces"
-              size={22}
-              color="#EF4444"
-              style={{ marginRight: 8 }}
-            />
-            <ThemedText className="text-lg font-bold">개발자 모드</ThemedText>
-          </View>
-
-          <Pressable
-            onPress={() => router.push('/share-test')}
-            className="flex-row items-center justify-center rounded-lg border border-red-300 bg-white py-3 active:bg-red-50 dark:border-red-600 dark:bg-gray-700 dark:active:bg-gray-600">
-            <MaterialCommunityIcons
-              name="image-multiple-outline"
-              size={20}
-              color={colorScheme === 'dark' ? '#FCA5A5' : '#EF4444'}
-            />
-            <ThemedText className="ml-2 font-semibold text-red-600 dark:text-red-400">
-              공유 템플릿 테스트
-            </ThemedText>
-          </Pressable>
-        </View>
       </ScrollView>
     </ThemedView>
   );

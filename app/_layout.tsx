@@ -141,6 +141,15 @@ function RootLayoutContent() {
             headerBackTitle: t('common:back'),
           }}
         />
+        <Stack.Screen
+          name="share"
+          options={{
+            presentation: 'card',
+            headerShown: true,
+            headerTitle: t('common:share'),
+            headerBackTitle: t('common:back'),
+          }}
+        />
       </Stack>
     </SafeAreaProvider>
   );

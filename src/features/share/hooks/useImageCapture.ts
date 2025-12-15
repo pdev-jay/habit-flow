@@ -16,27 +16,24 @@ export function useImageCapture() {
    * @param options - Capture options (format, quality, result type)
    * @returns URI of the captured image
    */
-  const capture = useCallback(
-    async (options?: CaptureOptions): Promise<string> => {
-      if (!viewRef.current) {
-        throw new Error('View reference is not set');
-      }
+  const capture = useCallback(async (options?: CaptureOptions): Promise<string> => {
+    if (!viewRef.current) {
+      throw new Error('View reference is not set');
+    }
 
-      try {
-        const uri = await captureRef(viewRef, {
-          format: options?.format || 'png',
-          quality: options?.quality || 1,
-          result: options?.result || 'tmpfile',
-        });
+    try {
+      const uri = await captureRef(viewRef, {
+        format: options?.format || 'png',
+        quality: options?.quality || 1,
+        result: options?.result || 'tmpfile',
+      });
 
-        return uri;
-      } catch (error) {
-        console.error('[useImageCapture] Capture failed:', error);
-        throw new Error('이미지 캡처에 실패했습니다');
-      }
-    },
-    []
-  );
+      return uri;
+    } catch (error) {
+      console.error('[useImageCapture] Capture failed:', error);
+      throw new Error('이미지 캡처에 실패했습니다');
+    }
+  }, []);
 
   return {
     /** Ref to attach to the View component */
