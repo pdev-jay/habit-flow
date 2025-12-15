@@ -59,10 +59,6 @@ export function TodayScreen() {
     toggle(habitId, selectedDateString);
   };
 
-  const handleCardPress = (habitId: string) => {
-    router.push(`/habit/${habitId}`);
-  };
-
   const handleAddHabit = () => {
     router.push('/habit/new');
   };
@@ -73,7 +69,16 @@ export function TodayScreen() {
       <View
         className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-800 dark:bg-gray-900"
         style={[{ paddingTop: insets.top }, styles.headerShadow]}>
-        <ThemedText className="text-3xl font-bold">{t('screens:today.title')}</ThemedText>
+        <View className="flex-row items-center justify-between">
+          <ThemedText className="text-3xl font-bold">{t('screens:today.title')}</ThemedText>
+          <Pressable onPress={handleAddHabit} className="p-2">
+            <MaterialCommunityIcons
+              name="plus"
+              size={28}
+              color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
+            />
+          </Pressable>
+        </View>
       </View>
 
       {/* Expandable Calendar */}
@@ -125,7 +130,6 @@ export function TodayScreen() {
                 checked={getCheckStatus(item.id, selectedDateString)}
                 streak={streaks[item.id]}
                 onCheck={() => handleCheck(item.id)}
-                onPress={() => handleCardPress(item.id)}
               />
             )}
           />

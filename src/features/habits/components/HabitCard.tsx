@@ -39,7 +39,7 @@ export function HabitCard({
 
   return (
     <Pressable
-      onPress={onPress}
+      onPress={onCheck}
       onLongPress={onLongPress}
       className={cn('mb-3 rounded-xl bg-white p-4 dark:bg-gray-800', checked && 'opacity-50')}
       style={styles.card}>
