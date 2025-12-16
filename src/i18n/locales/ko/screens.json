@@ -75,7 +75,10 @@
     },
     "mostActiveTime": "가장 활발한 시간대",
     "completionsCount": "{{count}}회 완료",
-    "timePatternTip": "{{time}}에 습관 체크를 가장 많이 하셨네요!"
+    "timePatternTip": "{{time}}에 습관 체크를 가장 많이 하셨네요!",
+    "habitDetailTip": "완료율이 높은 습관일수록 상위에 표시됩니다. 지속적으로 실천하여 기록을 유지하세요!",
+    "showAll": "모두 보기 ({{count}}개)",
+    "showLess": "접기"
   },
   "settings": {
     "title": "설정",

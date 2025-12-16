@@ -10,6 +10,7 @@ import { useTheme, useI18n } from '@/hooks';
 import { WeekdayAnalysisCard } from '../components/WeekdayAnalysisCard';
 import { StreakTrendCard } from '../components/StreakTrendCard';
 import { TimePatternCard } from '../components/TimePatternCard';
+import { HabitDetailCard } from '../components/HabitDetailCard';
 
 /**
  * Detailed analytics screen (Premium feature)
@@ -56,9 +57,9 @@ export function DetailedAnalyticsScreen() {
             <WeekdayAnalysisCard />
             <StreakTrendCard />
             <TimePatternCard />
+            <HabitDetailCard />
 
             {/* TODO: Add more analytics cards */}
-            {/* <HabitDetailCard /> */}
             {/* <MotivationInsightCard /> */}
           </>
         ) : (

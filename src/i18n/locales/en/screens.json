@@ -75,7 +75,10 @@
     },
     "mostActiveTime": "Most Active Time",
     "completionsCount": "{{count}} completions",
-    "timePatternTip": "You complete habits most often during {{time}}!"
+    "timePatternTip": "You complete habits most often during {{time}}!",
+    "habitDetailTip": "Habits with higher completion rates are shown at the top. Keep practicing to maintain your streak!",
+    "showAll": "Show All ({{count}})",
+    "showLess": "Show Less"
   },
   "settings": {
     "title": "Settings",
