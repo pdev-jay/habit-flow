@@ -16,12 +16,12 @@ export function GlassmorphismWeekly({ stats }: GlassmorphismWeeklyProps) {
   const { t } = useI18n();
 
   return (
-    <View className="w-[380px]">
+    <View className="w-[380px] overflow-hidden rounded-3xl">
       <LinearGradient
         colors={['#667eea', '#764ba2', '#f093fb']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        style={{ paddingVertical: 32, paddingHorizontal: 32 }}>
+        style={{ paddingVertical: 32, paddingHorizontal: 32, borderRadius: 24 }}>
         {/* Header */}
         <View className="mb-5 flex-row items-center justify-between">
           <Text className="text-[22px] font-bold text-white">{t('common:appName')}</Text>
@@ -94,12 +94,12 @@ export function GlassmorphismMonthly({ stats }: GlassmorphismMonthlyProps) {
   const { t } = useI18n();
 
   return (
-    <View className="w-[380px]">
+    <View className="w-[380px] overflow-hidden rounded-3xl">
       <LinearGradient
         colors={['#fbc2eb', '#a6c1ee', '#c2e9fb']}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
-        style={{ paddingVertical: 32, paddingHorizontal: 32 }}>
+        style={{ paddingVertical: 32, paddingHorizontal: 32, borderRadius: 24 }}>
         {/* Header */}
         <View className="mb-4 flex-row items-center justify-between">
           <Text className="text-[22px] font-bold text-gray-800">{t('common:appName')}</Text>

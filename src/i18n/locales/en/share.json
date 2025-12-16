@@ -3,7 +3,9 @@
     "styleSelect": "Style",
     "periodSelect": "Period",
     "weekly": "Weekly",
-    "monthly": "Monthly"
+    "monthly": "Monthly",
+    "premiumTemplate": "Premium Template",
+    "watchAdToUnlock": "Watch ad to unlock"
   },
   "wrapped": {
     "weekly": {

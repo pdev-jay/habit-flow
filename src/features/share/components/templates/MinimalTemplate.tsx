@@ -15,7 +15,7 @@ export function MinimalWeekly({ stats }: MinimalWeeklyProps) {
   const { t } = useI18n();
 
   return (
-    <View className="w-[380px] bg-white p-8">
+    <View className="w-[380px] overflow-hidden rounded-3xl bg-white p-8">
       {/* Header */}
       <View className="mb-6 flex-row items-center justify-between">
         <Text className="text-[24px] font-bold text-black">{t('common:appName')}</Text>
@@ -81,7 +81,7 @@ export function MinimalMonthly({ stats }: MinimalMonthlyProps) {
   const { t } = useI18n();
 
   return (
-    <View className="w-[380px] bg-white p-8">
+    <View className="w-[380px] overflow-hidden rounded-3xl bg-white p-8">
       {/* Header */}
       <View className="mb-5 flex-row items-center justify-between">
         <Text className="text-[24px] font-bold text-black">{t('common:appName')}</Text>

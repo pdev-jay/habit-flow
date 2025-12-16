@@ -19,7 +19,7 @@ export function TicketWeekly({ stats }: TicketWeeklyProps) {
   const barcodeId = `HBT-${year}-W${stats.weekNumber}-001`;
 
   return (
-    <View className="w-[380px] bg-[#F5F0E8] px-4 py-8">
+    <View className="w-[380px] overflow-hidden rounded-3xl bg-[#F5F0E8] px-4 py-8">
       {/* Main ticket content */}
       <View>
         {/* Header */}
@@ -158,7 +158,7 @@ export function TicketMonthly({ stats }: TicketMonthlyProps) {
   const barcodeId = `HBT-${stats.year}-M${String(monthNum).padStart(2, '0')}-001`;
 
   return (
-    <View className="w-[380px] bg-[#F5F0E8] px-4 py-8">
+    <View className="w-[380px] overflow-hidden rounded-3xl bg-[#F5F0E8] px-4 py-8">
       {/* Main ticket content */}
       <View>
         {/* Header */}

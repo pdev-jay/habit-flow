@@ -3,7 +3,9 @@
     "styleSelect": "스타일 선택",
     "periodSelect": "기간 선택",
     "weekly": "주간",
-    "monthly": "월간"
+    "monthly": "월간",
+    "premiumTemplate": "프리미엄 템플릿",
+    "watchAdToUnlock": "광고 보고 잠금 해제"
   },
   "wrapped": {
     "weekly": {

@@ -221,7 +221,7 @@ export function SettingsScreen() {
         </View>
 
         {/* Premium Section */}
-        <View
+        {/* <View
           className="mb-6 rounded-xl bg-white p-4 dark:bg-gray-800"
           style={[styles.card, { borderLeftWidth: 4, borderLeftColor: '#F59E0B' }]}>
           <View className="mb-3 flex-row items-center">
@@ -269,7 +269,7 @@ export function SettingsScreen() {
               </View>
             </Pressable>
           )}
-        </View>
+        </View> */}
 
         {/* About Section */}
         <View

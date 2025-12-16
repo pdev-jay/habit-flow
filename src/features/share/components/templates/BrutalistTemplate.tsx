@@ -15,7 +15,7 @@ export function BrutalistWeekly({ stats }: BrutalistWeeklyProps) {
   const { t } = useI18n();
 
   return (
-    <View className="w-[380px] bg-white p-6">
+    <View className="w-[380px] overflow-hidden rounded-3xl bg-white p-6">
       {/* Header */}
       <View className="mb-5 border-4 border-black bg-black p-3">
         <Text className="text-[24px] font-black uppercase text-white">
@@ -89,7 +89,7 @@ export function BrutalistMonthly({ stats }: BrutalistMonthlyProps) {
   const { t } = useI18n();
 
   return (
-    <View className="w-[380px] bg-yellow-400 p-6">
+    <View className="w-[380px] overflow-hidden rounded-3xl bg-yellow-400 p-6">
       {/* Header */}
       <View className="mb-4 border-4 border-black bg-black p-3">
         <Text className="text-[24px] font-black uppercase text-yellow-400">

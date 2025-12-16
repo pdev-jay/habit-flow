@@ -2,6 +2,7 @@ import React, { useState, useLayoutEffect } from 'react';
 import { ScrollView, View, Pressable, Text, Alert, Platform } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
 
 import { ThemedView } from '@/components/ThemedView';
 import { useTheme, useI18n } from '@/hooks';
@@ -38,10 +39,20 @@ export default function ShareScreen() {
 
   // Set up native header with share button
   useLayoutEffect(() => {
+    const isLocked = !__DEV__ && selectedStyle !== 'minimal';
+    const isDisabled = isLoading || isLocked;
+
     navigation.setOptions({
       headerRight: () => (
         <Pressable
           onPress={async () => {
+            if (isLocked) {
+              Alert.alert(
+                t('share:screen.premiumTemplate'),
+                t('share:screen.watchAdToUnlock')
+              );
+              return;
+            }
             try {
               const uri = await capture({ format: 'png', quality: 1 });
               await execute(uri, 'share');
@@ -49,17 +60,17 @@ export default function ShareScreen() {
               Alert.alert('오류', '공유에 실패했습니다');
             }
           }}
-          disabled={isLoading}
+          disabled={isDisabled}
           style={{ paddingRight: 8 }}>
           <MaterialCommunityIcons
             name={Platform.OS === 'ios' ? 'export-variant' : 'share-variant'}
             size={28}
-            color={isLoading ? '#9CA3AF' : colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
+            color={isDisabled ? '#9CA3AF' : colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
           />
         </Pressable>
       ),
     });
-  }, [navigation, isLoading, capture, execute, colorScheme]);
+  }, [navigation, isLoading, selectedStyle, capture, execute, colorScheme, t]);
 
   const renderTemplate = () => {
     // Wrapped style
@@ -304,8 +315,28 @@ export default function ShareScreen() {
         className="flex-1"
         contentContainerClassName="items-center px-4 py-8"
         showsVerticalScrollIndicator={false}>
-        <View ref={viewRef} collapsable={false}>
-          {renderTemplate()}
+        <View className="relative">
+          <View ref={viewRef} collapsable={false}>
+            {renderTemplate()}
+          </View>
+
+          {/* Lock overlay for premium templates */}
+          {!__DEV__ && selectedStyle !== 'minimal' && (
+            <BlurView
+              intensity={80}
+              tint="dark"
+              className="absolute inset-0 items-center justify-center">
+              <View className="items-center rounded-2xl bg-black/50 px-8 py-6">
+                <MaterialCommunityIcons name="lock" size={48} color="#FFFFFF" />
+                <Text className="mt-3 text-center text-base font-bold text-white">
+                  {t('share:screen.premiumTemplate')}
+                </Text>
+                <Text className="mt-1 text-center text-sm text-white/80">
+                  {t('share:screen.watchAdToUnlock')}
+                </Text>
+              </View>
+            </BlurView>
+          )}
         </View>
       </ScrollView>
     </ThemedView>
