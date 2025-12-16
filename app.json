@@ -61,7 +61,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jkim-1101.habitflow",
+      "bundleIdentifier": "com.pdevjay.habitflow",
       "googleServicesFile": "./ios/GoogleService-Info.plist",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
