@@ -1,11 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { ScrollView, View, Text, Pressable, FlatList, useWindowDimensions, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
-import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
 import { useTheme, useI18n } from '@/hooks';
 import { WeekdayAnalysisCard } from '../components/WeekdayAnalysisCard';
 import { StreakTrendCard } from '../components/StreakTrendCard';
@@ -18,8 +14,6 @@ import { MotivationInsightCard } from '../components/MotivationInsightCard';
  * Shows advanced insights after watching rewarded ad
  */
 export function DetailedAnalyticsScreen() {
-  const router = useRouter();
-  const insets = useSafeAreaInsets();
   const colorScheme = useTheme();
   const { t } = useI18n();
   const { width } = useWindowDimensions();
@@ -46,27 +40,7 @@ export function DetailedAnalyticsScreen() {
   };
 
   return (
-    <ThemedView className="flex-1">
-      {/* Header */}
-      <View
-        className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-800 dark:bg-gray-900"
-        style={{ paddingTop: insets.top }}>
-        <View className="flex-row items-center justify-between pb-4">
-          <View className="flex-row items-center gap-3">
-            <Pressable onPress={() => router.back()} className="rounded-full p-1">
-              <MaterialCommunityIcons
-                name="chevron-left"
-                size={28}
-                color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
-              />
-            </Pressable>
-            <ThemedText className="text-3xl font-bold">
-              {t('screens:stats.detailedAnalytics')}
-            </ThemedText>
-          </View>
-        </View>
-      </View>
-
+    <View className="flex-1 bg-white dark:bg-gray-900">
       {/* Development mode: Show unlocked analytics */}
       {__DEV__ ? (
         <>
@@ -81,7 +55,7 @@ export function DetailedAnalyticsScreen() {
             renderItem={({ item }) => (
               <ScrollView
                 style={{ width }}
-                contentContainerStyle={{ padding: 16 }}
+                contentContainerStyle={{ padding: 8 }}
                 showsVerticalScrollIndicator={false}>
                 {item.component}
               </ScrollView>
@@ -162,6 +136,6 @@ export function DetailedAnalyticsScreen() {
           </View>
         </ScrollView>
       )}
-    </ThemedView>
+    </View>
   );
 }

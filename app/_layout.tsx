@@ -195,6 +195,15 @@ function RootLayoutContent() {
             headerBackTitle: t('common:back'),
           }}
         />
+        <Stack.Screen
+          name="analytics"
+          options={{
+            presentation: 'card',
+            headerShown: true,
+            headerTitle: t('navigation:screens.detailedAnalytics'),
+            headerBackTitle: t('common:back'),
+          }}
+        />
       </Stack>
     </SafeAreaProvider>
   );

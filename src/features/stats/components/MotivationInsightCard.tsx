@@ -15,7 +15,7 @@ export function MotivationInsightCard() {
   const insight = useMotivationInsight();
 
   return (
-    <View className="mx-4 mb-4 rounded-2xl bg-blue-50 p-6 dark:bg-gray-800">
+    <View className="mx-4 mb-4 rounded-2xl bg-blue-50 px-6 pb-6 pt-6 mt-6 dark:bg-gray-800">
       {/* Header */}
       <View className="mb-4 flex-row items-center gap-2">
         <MaterialCommunityIcons

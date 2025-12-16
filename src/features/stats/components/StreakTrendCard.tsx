@@ -36,7 +36,7 @@ export function StreakTrendCard() {
   );
 
   return (
-    <View className="mx-4 mb-4 rounded-2xl bg-white p-6 dark:bg-gray-800">
+    <View className="mx-2 mb-4 rounded-2xl bg-white p-6 dark:bg-gray-800">
       {/* Header */}
       <View className="mb-4 flex-row items-center gap-2">
         <MaterialCommunityIcons
@@ -242,10 +242,10 @@ export function StreakTrendCard() {
               </Text>
               <Text className="text-sm font-bold text-gray-900 dark:text-white">
                 {trendDirection === 'up'
-                  ? '상승 중 📈'
+                  ? '상승 중'
                   : trendDirection === 'down'
-                    ? '하락 중 📉'
-                    : '안정적 ➡️'}
+                    ? '하락 중'
+                    : '안정적'}
               </Text>
             </View>
           </View>

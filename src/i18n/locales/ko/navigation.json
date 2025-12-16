@@ -8,6 +8,7 @@
   "screens": {
     "newHabit": "새 습관",
     "editHabit": "습관 편집",
-    "habitDetail": "습관 상세"
+    "habitDetail": "습관 상세",
+    "detailedAnalytics": "상세 분석"
   }
 }

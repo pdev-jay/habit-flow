@@ -35,7 +35,7 @@ export function HabitDetailCard() {
   };
 
   return (
-    <View className="mx-4 mb-4 rounded-2xl bg-white p-6 dark:bg-gray-800">
+    <View className="mx-2 mb-4 rounded-2xl bg-white p-6 dark:bg-gray-800">
       {/* Header */}
       <View className="mb-4 flex-row items-center gap-2">
         <MaterialCommunityIcons

@@ -8,6 +8,7 @@
   "screens": {
     "newHabit": "New Habit",
     "editHabit": "Edit Habit",
-    "habitDetail": "Habit Details"
+    "habitDetail": "Habit Details",
+    "detailedAnalytics": "Detailed Analytics"
   }
 }
