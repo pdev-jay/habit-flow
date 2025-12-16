@@ -125,6 +125,7 @@ export interface HabitCheck {
   habitId: string;
   date: string;
   completed: boolean;
+  completedAt?: string; // ISO timestamp when completed
 }
 
 /**

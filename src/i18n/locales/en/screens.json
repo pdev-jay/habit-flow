@@ -62,7 +62,20 @@
     "current": "Current",
     "streakMotivation": "{{days}} days streak! Keep it up! 🔥",
     "noStreakData": "No streak data yet",
-    "lastNWeeks": "Last {{n}} weeks"
+    "lastNWeeks": "Last {{n}} weeks",
+    "timeSlots": {
+      "lateNight": "Late Night (0-3am)",
+      "dawn": "Dawn (3-6am)",
+      "earlyMorning": "Early Morning (6-9am)",
+      "morning": "Morning (9am-12pm)",
+      "earlyAfternoon": "Early Afternoon (12-3pm)",
+      "afternoon": "Afternoon (3-6pm)",
+      "evening": "Evening (6-9pm)",
+      "night": "Night (9pm-12am)"
+    },
+    "mostActiveTime": "Most Active Time",
+    "completionsCount": "{{count}} completions",
+    "timePatternTip": "You complete habits most often during {{time}}!"
   },
   "settings": {
     "title": "Settings",

@@ -40,6 +40,7 @@ export const useHabitCheckStore = create<HabitCheckStore>()(
                 [key]: {
                   ...existingCheck,
                   completed: newCompleted,
+                  completedAt: newCompleted ? new Date().toISOString() : existingCheck.completedAt,
                 },
               }
             : {
@@ -48,6 +49,7 @@ export const useHabitCheckStore = create<HabitCheckStore>()(
                   habitId,
                   date,
                   completed: true,
+                  completedAt: new Date().toISOString(),
                 },
               };
 

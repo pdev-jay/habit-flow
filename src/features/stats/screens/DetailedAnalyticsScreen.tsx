@@ -9,6 +9,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { useTheme, useI18n } from '@/hooks';
 import { WeekdayAnalysisCard } from '../components/WeekdayAnalysisCard';
 import { StreakTrendCard } from '../components/StreakTrendCard';
+import { TimePatternCard } from '../components/TimePatternCard';
 
 /**
  * Detailed analytics screen (Premium feature)
@@ -54,9 +55,9 @@ export function DetailedAnalyticsScreen() {
             {/* Unlocked Analytics */}
             <WeekdayAnalysisCard />
             <StreakTrendCard />
+            <TimePatternCard />
 
             {/* TODO: Add more analytics cards */}
-            {/* <TimePatternCard /> */}
             {/* <HabitDetailCard /> */}
             {/* <MotivationInsightCard /> */}
           </>

@@ -62,7 +62,20 @@
     "current": "현재",
     "streakMotivation": "{{days}}일 연속 진행 중! 계속 유지하세요! 🔥",
     "noStreakData": "아직 연속 기록이 없습니다",
-    "lastNWeeks": "최근 {{n}}주"
+    "lastNWeeks": "최근 {{n}}주",
+    "timeSlots": {
+      "lateNight": "심야 (0-3시)",
+      "dawn": "새벽 (3-6시)",
+      "earlyMorning": "아침 (6-9시)",
+      "morning": "오전 (9-12시)",
+      "earlyAfternoon": "이른 오후 (12-3시)",
+      "afternoon": "오후 (3-6시)",
+      "evening": "저녁 (6-9시)",
+      "night": "밤 (9-12시)"
+    },
+    "mostActiveTime": "가장 활발한 시간대",
+    "completionsCount": "{{count}}회 완료",
+    "timePatternTip": "{{time}}에 습관 체크를 가장 많이 하셨네요!"
   },
   "settings": {
     "title": "설정",

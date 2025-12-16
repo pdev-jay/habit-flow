@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { format } from 'date-fns';
 
 import { useTheme, useI18n } from '@/hooks';
 import { useStreakTrend } from '../hooks/useStreakTrend';
@@ -75,7 +76,7 @@ export function StreakTrendCard() {
           }}>
           <Text className="text-xs text-gray-500 dark:text-gray-400">{maxValue}</Text>
           <Text className="text-xs text-gray-500 dark:text-gray-400">
-            {Math.round(maxValue / 2)}
+            {maxValue > 2 ? Math.round(maxValue / 2) : ''}
           </Text>
           <Text className="text-xs text-gray-500 dark:text-gray-400">0</Text>
         </View>
@@ -176,7 +177,7 @@ export function StreakTrendCard() {
                 key={index}
                 className="text-xs text-gray-500 dark:text-gray-400"
                 style={{ width: 30, textAlign: 'center' }}>
-                {week.weekLabel}
+                {format(week.weekStart, 'M/d')}
               </Text>
             ))}
           </View>
