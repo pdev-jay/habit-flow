@@ -11,6 +11,7 @@ import { WeekdayAnalysisCard } from '../components/WeekdayAnalysisCard';
 import { StreakTrendCard } from '../components/StreakTrendCard';
 import { TimePatternCard } from '../components/TimePatternCard';
 import { HabitDetailCard } from '../components/HabitDetailCard';
+import { MotivationInsightCard } from '../components/MotivationInsightCard';
 
 /**
  * Detailed analytics screen (Premium feature)
@@ -58,9 +59,7 @@ export function DetailedAnalyticsScreen() {
             <StreakTrendCard />
             <TimePatternCard />
             <HabitDetailCard />
-
-            {/* TODO: Add more analytics cards */}
-            {/* <MotivationInsightCard /> */}
+            <MotivationInsightCard />
           </>
         ) : (
           /* Production mode: Show lock screen */

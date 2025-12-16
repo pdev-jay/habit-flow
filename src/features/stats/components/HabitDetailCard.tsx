@@ -88,7 +88,13 @@ export function HabitDetailCard() {
                       {getFrequencyText(stat.habit)}
                     </Text>
                   </View>
-                  {index === 0 && sortedStats.length > 1 && <Text className="text-2xl">🏆</Text>}
+                  {index === 0 && sortedStats.length > 1 && (
+                    <MaterialCommunityIcons
+                      name="trophy"
+                      size={24}
+                      color="#FCD34D"
+                    />
+                  )}
                 </View>
 
                 {/* Stats Grid */}

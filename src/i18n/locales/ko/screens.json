@@ -51,7 +51,7 @@
     "streakTrend": "연속 기록 추이 그래프",
     "weekdayAnalysis": "요일별 성공률 분석",
     "habitDetails": "습관별 상세 통계",
-    "aiInsights": "AI 인사이트 & 동기부여",
+    "aiInsights": "인사이트",
     "watchAdToUnlock": "광고 보고 잠금 해제",
     "freeFor24Hours": "24시간 무료",
     "bestDay": "최고의 요일",
@@ -60,7 +60,7 @@
     "bestStreak": "최고 기록",
     "average": "평균",
     "current": "현재",
-    "streakMotivation": "{{days}}일 연속 진행 중! 계속 유지하세요! 🔥",
+    "streakMotivation": "{{days}}일 연속 진행 중! 계속 유지하세요!",
     "noStreakData": "아직 연속 기록이 없습니다",
     "lastNWeeks": "최근 {{n}}주",
     "timeSlots": {
@@ -78,7 +78,19 @@
     "timePatternTip": "{{time}}에 습관 체크를 가장 많이 하셨네요!",
     "habitDetailTip": "완료율이 높은 습관일수록 상위에 표시됩니다. 지속적으로 실천하여 기록을 유지하세요!",
     "showAll": "모두 보기 ({{count}}개)",
-    "showLess": "접기"
+    "showLess": "접기",
+    "thisWeekProgress": "이번 주 달성률",
+    "topPerformer": "최고 성과 습관",
+    "needsAttention": "관심 필요",
+    "insightTip": "통계를 기반으로 자동 생성된 인사이트입니다. 지속적인 실천이 성공의 열쇠입니다!",
+    "motivationMessages": {
+      "excellent": "놀라워요! 완벽에 가까운 한 주를 보냈습니다!",
+      "great": "훌륭해요! 이 페이스를 유지하세요!",
+      "good": "잘하고 있어요! 조금만 더 노력하면 목표 달성이에요!",
+      "keepTrying": "포기하지 마세요! 작은 진전도 의미있는 성과입니다!",
+      "keepGoing": "매일 조금씩 실천하는 것이 중요해요. 계속 도전하세요!",
+      "dontGiveUp": "힘든 한 주였지만, 새로운 시작은 언제나 가능해요! 화이팅!"
+    }
   },
   "settings": {
     "title": "설정",

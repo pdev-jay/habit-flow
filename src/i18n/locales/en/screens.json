@@ -51,7 +51,7 @@
     "streakTrend": "Streak Trend Chart",
     "weekdayAnalysis": "Weekday Success Rate",
     "habitDetails": "Detailed Habit Statistics",
-    "aiInsights": "AI Insights & Motivation",
+    "aiInsights": "Insights",
     "watchAdToUnlock": "Watch ad to unlock",
     "freeFor24Hours": "Free for 24 hours",
     "bestDay": "Best Day",
@@ -60,7 +60,7 @@
     "bestStreak": "Best",
     "average": "Average",
     "current": "Current",
-    "streakMotivation": "{{days}} days streak! Keep it up! 🔥",
+    "streakMotivation": "{{days}} days streak! Keep it up!",
     "noStreakData": "No streak data yet",
     "lastNWeeks": "Last {{n}} weeks",
     "timeSlots": {
@@ -78,7 +78,19 @@
     "timePatternTip": "You complete habits most often during {{time}}!",
     "habitDetailTip": "Habits with higher completion rates are shown at the top. Keep practicing to maintain your streak!",
     "showAll": "Show All ({{count}})",
-    "showLess": "Show Less"
+    "showLess": "Show Less",
+    "thisWeekProgress": "This Week's Progress",
+    "topPerformer": "Top Performer",
+    "needsAttention": "Needs Attention",
+    "insightTip": "Insights are automatically generated based on your statistics. Consistency is the key to success!",
+    "motivationMessages": {
+      "excellent": "Amazing! You had a nearly perfect week!",
+      "great": "Great job! Keep up this pace!",
+      "good": "You're doing well! A little more effort and you'll reach your goal!",
+      "keepTrying": "Don't give up! Small progress is still meaningful!",
+      "keepGoing": "Small daily actions matter. Keep challenging yourself!",
+      "dontGiveUp": "It was a tough week, but a fresh start is always possible! Keep fighting!"
+    }
   },
   "settings": {
     "title": "Settings",

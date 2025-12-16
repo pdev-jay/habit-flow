@@ -169,7 +169,11 @@ export function TimePatternCard() {
                         {slot.completionRate}%
                       </Text>
                       {isMostActive && slot.totalCompletions > 0 && (
-                        <Text className="text-base">⭐</Text>
+                        <MaterialCommunityIcons
+                          name="star"
+                          size={16}
+                          color="#FCD34D"
+                        />
                       )}
                     </View>
                   </View>

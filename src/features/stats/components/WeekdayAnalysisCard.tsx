@@ -105,11 +105,25 @@ export function WeekdayAnalysisCard() {
                 <Text className="w-12 text-sm font-medium text-gray-700 dark:text-gray-300">
                   {t(`common:weekdays.short.${weekdayShortKeys[stat.weekday]}`)}
                 </Text>
-                <Text className="text-sm font-bold text-gray-900 dark:text-white">
-                  {stat.completionRate}%{' '}
-                  {isBest && '⭐'}
-                  {isWorst && stat.completionRate < 70 && '⚠️'}
-                </Text>
+                <View className="flex-row items-center gap-1">
+                  <Text className="text-sm font-bold text-gray-900 dark:text-white">
+                    {stat.completionRate}%
+                  </Text>
+                  {isBest && (
+                    <MaterialCommunityIcons
+                      name="star"
+                      size={14}
+                      color="#FCD34D"
+                    />
+                  )}
+                  {isWorst && stat.completionRate < 70 && (
+                    <MaterialCommunityIcons
+                      name="alert"
+                      size={14}
+                      color={colorScheme === 'dark' ? '#FBBF24' : '#F59E0B'}
+                    />
+                  )}
+                </View>
               </View>
               <View className="h-3 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
                 <View

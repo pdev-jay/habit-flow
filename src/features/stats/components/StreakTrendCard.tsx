@@ -187,8 +187,12 @@ export function StreakTrendCard() {
       {/* Motivation message */}
       {currentStreak > 0 && (
         <View className="mt-4 rounded-xl bg-green-50 p-3 dark:bg-green-900/20">
-          <View className="flex-row items-start gap-2">
-            <Text className="text-2xl">🔥</Text>
+          <View className="flex-row items-center gap-2">
+            <MaterialCommunityIcons
+              name="fire"
+              size={24}
+              color={colorScheme === 'dark' ? '#34D399' : '#10B981'}
+            />
             <Text className="flex-1 text-sm font-semibold text-gray-700 dark:text-gray-300">
               {t('screens:stats.streakMotivation', { days: currentStreak })}
             </Text>
