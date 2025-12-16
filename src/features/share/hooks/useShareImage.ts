@@ -3,6 +3,7 @@ import { Alert } from 'react-native';
 import * as Sharing from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 
+import { useAnalytics } from '@/features/analytics/hooks/useAnalytics';
 import type { ShareAction, ShareImageResult } from '../types/share.types';
 
 /**
@@ -11,6 +12,7 @@ import type { ShareAction, ShareImageResult } from '../types/share.types';
  */
 export function useShareImage() {
   const [isLoading, setIsLoading] = useState(false);
+  const { logEvent } = useAnalytics();
 
   /**
    * Request media library write permission
@@ -87,10 +89,15 @@ export function useShareImage() {
    * Execute share action (save, share, or both)
    * @param uri - Image URI
    * @param action - Share action type
+   * @param metadata - Analytics metadata (template, completion_rate)
    * @returns Share result
    */
   const execute = useCallback(
-    async (uri: string, action: ShareAction): Promise<ShareImageResult> => {
+    async (
+      uri: string,
+      action: ShareAction,
+      metadata?: { template?: 'weekly' | 'monthly'; completion_rate?: number }
+    ): Promise<ShareImageResult> => {
       setIsLoading(true);
 
       try {
@@ -101,11 +108,21 @@ export function useShareImage() {
             success = await saveToGallery(uri);
             if (success) {
               Alert.alert('저장 완료', '이미지가 갤러리에 저장되었습니다.');
+              logEvent('wrapped_shared', {
+                template: metadata?.template || 'weekly',
+                completion_rate: metadata?.completion_rate || 0,
+              });
             }
             break;
 
           case 'share':
             success = await shareImage(uri);
+            if (success) {
+              logEvent('wrapped_shared', {
+                template: metadata?.template || 'weekly',
+                completion_rate: metadata?.completion_rate || 0,
+              });
+            }
             break;
 
           case 'both':
@@ -114,6 +131,12 @@ export function useShareImage() {
             success = saved || shared;
             if (saved && !shared) {
               Alert.alert('저장 완료', '이미지가 갤러리에 저장되었습니다.');
+            }
+            if (success) {
+              logEvent('wrapped_shared', {
+                template: metadata?.template || 'weekly',
+                completion_rate: metadata?.completion_rate || 0,
+              });
             }
             break;
         }
@@ -129,7 +152,7 @@ export function useShareImage() {
         setIsLoading(false);
       }
     },
-    [saveToGallery, shareImage]
+    [saveToGallery, shareImage, logEvent]
   );
 
   return {

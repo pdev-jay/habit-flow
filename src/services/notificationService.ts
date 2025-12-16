@@ -16,6 +16,7 @@ import {
   type AchievementMilestone,
   END_OF_DAY_REMINDER_TIME,
 } from '@/types/notification.types';
+import { analyticsApi } from '@/features/analytics/api/analyticsApi';
 
 const NOTIFICATION_METADATA_KEY = 'notification-metadata';
 const DAYS_AHEAD = 7; // 7-day rolling window for iOS 64 notification limit
@@ -212,6 +213,12 @@ export async function scheduleHabitReminders(
         trigger: { date: notificationDate, type: Notifications.SchedulableTriggerInputTypes.DATE },
       });
     }
+
+    // Log analytics event
+    await analyticsApi.logEvent('reminder_set', {
+      habit_id: habit.id,
+      time: habit.reminderTime,
+    });
   } catch (error) {
     console.error('Failed to schedule habit reminders:', error);
     throw error;

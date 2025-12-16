@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { useHabitCheckStore } from '../api';
+import { useAnalytics } from '@/features/analytics/hooks/useAnalytics';
 
 /**
  * 습관 체크 상태 관리 훅 (범용)
@@ -20,6 +21,7 @@ export function useHabitCheck(
 export function useHabitCheck(habitId?: string, date?: string) {
   const checks = useHabitCheckStore((state) => state.checks);
   const toggleCheck = useHabitCheckStore((state) => state.toggleCheck);
+  const { logEvent } = useAnalytics();
 
   // 범용 함수들 (항상 생성)
   const getCheckStatus = useCallback(
@@ -33,9 +35,20 @@ export function useHabitCheck(habitId?: string, date?: string) {
 
   const toggleWithParams = useCallback(
     (toggleHabitId: string, toggleDate: string) => {
+      const key = `${toggleHabitId}_${toggleDate}`;
+      const wasCompleted = checks[key]?.completed ?? false;
+
       toggleCheck(toggleHabitId, toggleDate);
+
+      // Log analytics only when marking as complete
+      if (!wasCompleted) {
+        logEvent('habit_completed', {
+          habit_id: toggleHabitId,
+          streak: 0, // TODO: Calculate actual streak
+        });
+      }
     },
-    [toggleCheck]
+    [toggleCheck, checks, logEvent]
   );
 
   // 특정 습관용 함수들 (항상 생성)
@@ -45,9 +58,18 @@ export function useHabitCheck(habitId?: string, date?: string) {
 
   const toggleSpecific = useCallback(() => {
     if (habitId && date) {
+      const wasCompleted = isCompleted;
       toggleCheck(habitId, date);
+
+      // Log analytics only when marking as complete
+      if (!wasCompleted) {
+        logEvent('habit_completed', {
+          habit_id: habitId,
+          streak: 0, // TODO: Calculate actual streak
+        });
+      }
     }
-  }, [habitId, date, toggleCheck]);
+  }, [habitId, date, isCompleted, toggleCheck, logEvent]);
 
   // 인자 없이 호출된 경우 - 범용 함수 제공
   if (habitId === undefined || date === undefined) {

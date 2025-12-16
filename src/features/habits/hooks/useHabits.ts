@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import { useHabitStore } from '../api';
 import { isHabitCreatedByDate } from '../utils/dateUtils';
-import type { Habit } from '../types';
+import { useAnalytics } from '@/features/analytics/hooks/useAnalytics';
+import type { Habit, CreateHabitInput } from '../types';
 
 /**
  * Habits CRUD 훅
@@ -13,6 +14,7 @@ export function useHabits() {
   const updateHabit = useHabitStore((state) => state.updateHabit);
   const deleteHabit = useHabitStore((state) => state.deleteHabit);
   const reorderHabits = useHabitStore((state) => state.reorderHabits);
+  const { logEvent } = useAnalytics();
 
   /**
    * 정렬된 습관 목록 반환 (order 기준)
@@ -62,6 +64,45 @@ export function useHabits() {
     [sortedHabits]
   );
 
+  /**
+   * Create habit with analytics
+   */
+  const create = useCallback(
+    (input: CreateHabitInput) => {
+      const newHabit: Habit = {
+        ...input,
+        id: `habit_${Date.now()}_${Math.random().toString(36).substring(7)}`,
+        createdAt: new Date().toISOString(),
+        order: habits.length,
+      };
+
+      addHabit(newHabit);
+      logEvent('habit_created', {
+        habit_id: newHabit.id,
+        frequency: newHabit.frequency,
+        has_reminder: newHabit.reminderEnabled,
+      });
+    },
+    [addHabit, habits.length, logEvent]
+  );
+
+  /**
+   * Delete habit with analytics
+   */
+  const remove = useCallback(
+    (id: string) => {
+      const habit = habits.find((h) => h.id === id);
+      const streak = habit ? 0 : 0; // TODO: Get actual streak from check store
+
+      deleteHabit(id);
+      logEvent('habit_deleted', {
+        habit_id: id,
+        streak_lost: streak,
+      });
+    },
+    [deleteHabit, habits, logEvent]
+  );
+
   return {
     habits: sortedHabits(),
     addHabit,
@@ -70,9 +111,9 @@ export function useHabits() {
     reorderHabits,
     getHabitById,
     getActiveHabitsForDate,
-    // Aliases for frontend compatibility
-    create: addHabit,
+    // Aliases for frontend compatibility with analytics
+    create,
     update: updateHabit,
-    remove: deleteHabit,
+    remove,
   };
 }

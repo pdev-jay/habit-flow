@@ -4,7 +4,10 @@
     "slug": "habit-flow",
     "version": "1.0.0",
     "scheme": "habit-flow",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "web": {
       "bundler": "metro",
       "output": "static",
@@ -27,6 +30,18 @@
             "deploymentTarget": "16.0"
           }
         }
+      ],
+      "@react-native-firebase/app",
+      [
+        "@react-native-firebase/crashlytics",
+        {
+          "ios": {
+            "isCrashlyticsCollectionEnabled": true
+          },
+          "android": {
+            "isCrashlyticsCollectionEnabled": true
+          }
+        }
       ]
     ],
     "experiments": {
@@ -41,13 +56,18 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.jkim-1101.habitflow",
+      "googleServicesFile": "./ios/GoogleService-Info.plist",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "UIBackgroundModes": ["remote-notification"],
+        "UIBackgroundModes": [
+          "remote-notification"
+        ],
         "NSPhotoLibraryAddUsageDescription": "습관 통계 이미지를 저장하기 위해 사진 라이브러리 접근 권한이 필요합니다.",
         "NSPhotoLibraryUsageDescription": "습관 통계 이미지를 저장하기 위해 사진 라이브러리 접근 권한이 필요합니다."
       },
@@ -58,7 +78,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.jkim_1101.habitflow",
+      "googleServicesFile": "./android/google-services.json",
+      "package": "com.pdevjay.habitflow",
       "permissions": [
         "POST_NOTIFICATIONS",
         "RECEIVE_BOOT_COMPLETED",
