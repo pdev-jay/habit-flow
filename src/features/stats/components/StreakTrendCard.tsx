@@ -17,9 +17,23 @@ export function StreakTrendCard() {
 
   // Calculate chart dimensions
   const maxValue = Math.max(...weeklyData.map((w) => w.maxStreak), 1);
-  const chartHeight = 120;
+  const chartHeight = 200;
   const chartWidth = 280;
   const pointWidth = chartWidth / Math.max(weeklyData.length - 1, 1);
+
+  // Calculate trend (last 4 weeks vs previous 4 weeks)
+  const recentWeeks = weeklyData.slice(-4);
+  const previousWeeks = weeklyData.slice(-8, -4);
+  const recentAvg =
+    recentWeeks.reduce((sum, w) => sum + w.maxStreak, 0) / Math.max(recentWeeks.length, 1);
+  const previousAvg =
+    previousWeeks.reduce((sum, w) => sum + w.maxStreak, 0) / Math.max(previousWeeks.length, 1);
+  const trendDirection = recentAvg > previousAvg ? 'up' : recentAvg < previousAvg ? 'down' : 'stable';
+
+  // Find best week
+  const bestWeek = weeklyData.reduce((best, week) =>
+    week.maxStreak > best.maxStreak ? week : best
+  );
 
   return (
     <View className="mx-4 mb-4 rounded-2xl bg-white p-6 dark:bg-gray-800">
@@ -196,6 +210,93 @@ export function StreakTrendCard() {
             <Text className="flex-1 text-sm font-semibold text-gray-700 dark:text-gray-300">
               {t('screens:stats.streakMotivation', { days: currentStreak })}
             </Text>
+          </View>
+        </View>
+      )}
+
+      {/* Trend Insights */}
+      {bestStreak > 0 && (
+        <View className="mt-4 gap-3">
+          {/* Trend Direction */}
+          <View className="flex-row items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-900">
+            <MaterialCommunityIcons
+              name={
+                trendDirection === 'up'
+                  ? 'trending-up'
+                  : trendDirection === 'down'
+                    ? 'trending-down'
+                    : 'trending-neutral'
+              }
+              size={24}
+              color={
+                trendDirection === 'up'
+                  ? '#10B981'
+                  : trendDirection === 'down'
+                    ? '#EF4444'
+                    : '#6B7280'
+              }
+            />
+            <View className="flex-1">
+              <Text className="text-xs text-gray-600 dark:text-gray-400">
+                최근 추세
+              </Text>
+              <Text className="text-sm font-bold text-gray-900 dark:text-white">
+                {trendDirection === 'up'
+                  ? '상승 중 📈'
+                  : trendDirection === 'down'
+                    ? '하락 중 📉'
+                    : '안정적 ➡️'}
+              </Text>
+            </View>
+          </View>
+
+          {/* Best Week */}
+          <View className="flex-row items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-700 dark:bg-gray-900">
+            <MaterialCommunityIcons
+              name="trophy"
+              size={24}
+              color="#FCD34D"
+            />
+            <View className="flex-1">
+              <Text className="text-xs text-gray-600 dark:text-gray-400">
+                최고 기록 주간
+              </Text>
+              <Text className="text-sm font-bold text-gray-900 dark:text-white">
+                {format(bestWeek.weekStart, 'M월 d일')} 주 • {bestWeek.maxStreak}일
+              </Text>
+            </View>
+          </View>
+        </View>
+      )}
+
+      {/* Weekly Details */}
+      {bestStreak > 0 && weeklyData.length > 0 && (
+        <View className="mt-4">
+          <Text className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
+            주별 상세 기록
+          </Text>
+          <View className="gap-2">
+            {weeklyData.slice().reverse().slice(0, 6).map((week, index) => (
+              <View
+                key={index}
+                className="flex-row items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-700 dark:bg-gray-900">
+                <Text className="text-xs text-gray-600 dark:text-gray-400">
+                  {format(week.weekStart, 'M/d')} - {format(new Date(week.weekStart.getTime() + 6 * 24 * 60 * 60 * 1000), 'M/d')}
+                </Text>
+                <View className="flex-row items-center gap-1">
+                  <Text className="text-sm font-bold text-gray-900 dark:text-white">
+                    {week.maxStreak}일
+                  </Text>
+                  {week.maxStreak === bestStreak && bestStreak > 0 && (
+                    <MaterialCommunityIcons
+                      name="crown"
+                      size={14}
+                      color="#FCD34D"
+                    />
+                  )}
+                </View>
+              </View>
+            ))}
           </View>
         </View>
       )}

@@ -1,5 +1,5 @@
-import React from 'react';
-import { ScrollView, View, Text, Pressable } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { ScrollView, View, Text, Pressable, FlatList, useWindowDimensions, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -22,10 +22,27 @@ export function DetailedAnalyticsScreen() {
   const insets = useSafeAreaInsets();
   const colorScheme = useTheme();
   const { t } = useI18n();
+  const { width } = useWindowDimensions();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleWatchAd = () => {
     // TODO: 광고 SDK 연동
     console.log('Watch ad triggered');
+  };
+
+  // Analytics cards data
+  const analyticsCards = [
+    { id: '1', component: <WeekdayAnalysisCard /> },
+    { id: '2', component: <StreakTrendCard /> },
+    { id: '3', component: <TimePatternCard /> },
+    { id: '4', component: <HabitDetailCard /> },
+    { id: '5', component: <MotivationInsightCard /> },
+  ];
+
+  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const contentOffsetX = event.nativeEvent.contentOffset.x;
+    const index = Math.round(contentOffsetX / width);
+    setCurrentIndex(index);
   };
 
   return (
@@ -50,19 +67,44 @@ export function DetailedAnalyticsScreen() {
         </View>
       </View>
 
-      <ScrollView className="flex-1" contentContainerClassName="p-4">
-        {/* Development mode: Show unlocked analytics */}
-        {__DEV__ ? (
-          <>
-            {/* Unlocked Analytics */}
-            <WeekdayAnalysisCard />
-            <StreakTrendCard />
-            <TimePatternCard />
-            <HabitDetailCard />
-            <MotivationInsightCard />
-          </>
-        ) : (
-          /* Production mode: Show lock screen */
+      {/* Development mode: Show unlocked analytics */}
+      {__DEV__ ? (
+        <>
+          {/* Carousel */}
+          <FlatList
+            data={analyticsCards}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onMomentumScrollEnd={handleScroll}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <ScrollView
+                style={{ width }}
+                contentContainerStyle={{ padding: 16 }}
+                showsVerticalScrollIndicator={false}>
+                {item.component}
+              </ScrollView>
+            )}
+          />
+
+          {/* Page Indicator */}
+          <View className="flex-row items-center justify-center gap-2 pb-6">
+            {analyticsCards.map((_, index) => (
+              <View
+                key={index}
+                className={`h-2 rounded-full ${
+                  index === currentIndex
+                    ? 'w-6 bg-blue-500'
+                    : 'w-2 bg-gray-300 dark:bg-gray-600'
+                }`}
+              />
+            ))}
+          </View>
+        </>
+      ) : (
+        /* Production mode: Show lock screen */
+        <ScrollView className="flex-1" contentContainerClassName="p-4">
           <View className="flex-1 items-center justify-center px-8 py-20">
             <View className="items-center rounded-3xl bg-white p-8 dark:bg-gray-800">
               <MaterialCommunityIcons
@@ -118,8 +160,8 @@ export function DetailedAnalyticsScreen() {
               </Pressable>
             </View>
           </View>
-        )}
-      </ScrollView>
+        </ScrollView>
+      )}
     </ThemedView>
   );
 }
