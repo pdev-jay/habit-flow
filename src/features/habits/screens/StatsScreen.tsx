@@ -192,6 +192,10 @@ export function StatsScreen() {
     router.push('/share');
   }, [router]);
 
+  const handleDetailedAnalytics = useCallback(() => {
+    router.push('/analytics');
+  }, [router]);
+
   return (
     <ThemedView className="flex-1">
       {/* Header */}
@@ -263,6 +267,31 @@ export function StatsScreen() {
       {/* Segment Control */}
       <View className="px-4 py-4">
         <SegmentControl value={viewMode} onChange={handleViewModeChange} />
+      </View>
+
+      {/* Premium CTA Banner */}
+      <View className="px-4 pb-4">
+        <Pressable
+          onPress={handleDetailedAnalytics}
+          className="flex-row items-center justify-between rounded-2xl px-4 py-3"
+          style={{
+            backgroundColor: colorScheme === 'dark' ? '#1E40AF' : '#3B82F6',
+            shadowColor: '#3B82F6',
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.3,
+            shadowRadius: 8,
+            elevation: 4,
+          }}>
+          <View className="flex-1">
+            <Text className="text-sm font-bold text-white">
+              📈 {t('screens:stats.deeperInsights')}
+            </Text>
+            <Text className="text-xs text-white/80">
+              {t('screens:stats.timePatternWeekdayAnalysis')}
+            </Text>
+          </View>
+          <MaterialCommunityIcons name="chevron-right" size={20} color="#FFF" />
+        </Pressable>
       </View>
 
       <ScrollView className="flex-1" contentContainerStyle={{ paddingTop: 16 }}>
