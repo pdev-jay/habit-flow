@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { Alert, Pressable, SectionList, StyleSheet, View } from 'react-native';
+import React, { useMemo, useState } from 'react';
+import { Alert, FlatList, Pressable, StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -9,7 +9,8 @@ import { ThemedView } from '@/components/ThemedView';
 import { useTheme, useI18n } from '@/hooks';
 import { useHabits, useHabitStreaks } from '@/features/habits/hooks';
 import { Habit } from '@/features/habits/types';
-import { getFrequencyLabel, groupHabitsByWeekday } from '@/features/habits/utils';
+import { getFrequencyLabel, getHabitsForWeekday } from '@/features/habits/utils';
+import { HabitFilterTabs, type FilterType } from '../components/HabitFilterTabs';
 
 interface HabitItemProps {
   habit: Habit;
@@ -62,18 +63,55 @@ function HabitItem({ habit, streak, onPress, onLongPress }: HabitItemProps) {
 }
 
 /**
+ * Empty state component for filtered results
+ */
+function EmptyState({ filter }: { filter: FilterType }) {
+  const { t } = useI18n();
+  const colorScheme = useTheme();
+
+  const message = t('screens:habits.filter.noHabitsForDay');
+
+  return (
+    <View className="flex-1 items-center justify-center px-8">
+      <MaterialCommunityIcons
+        name="calendar-blank"
+        size={64}
+        color={colorScheme === 'dark' ? '#6B7280' : '#9CA3AF'}
+      />
+      <ThemedText className="mt-4 text-center text-gray-500 dark:text-gray-400">
+        {message}
+      </ThemedText>
+    </View>
+  );
+}
+
+/**
  * Habits list screen - manage all habits
  */
 export function HabitsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const colorScheme = useTheme();
-  const { t, language } = useI18n();
+  const { t } = useI18n();
   const { habits, remove } = useHabits();
   const streaks = useHabitStreaks(habits);
 
-  // Group habits by weekday
-  const weekdayGroups = useMemo(() => groupHabitsByWeekday(habits, language), [habits, language]);
+  // Filter state (default: today's weekday)
+  const [selectedFilter, setSelectedFilter] = useState<FilterType>(() => {
+    const todayIndex = new Date().getDay();
+    return todayIndex;
+  });
+
+  // Filtered habits based on selected filter
+  const filteredData = useMemo(() => {
+    if (selectedFilter === 'all') {
+      // 전체: 섹션 없이 모든 습관을 flat list로 표시
+      return { type: 'flat' as const, data: habits };
+    } else {
+      // 특정 요일: 해당 요일의 습관만 표시
+      return { type: 'flat' as const, data: getHabitsForWeekday(habits, selectedFilter) };
+    }
+  }, [habits, selectedFilter]);
 
   const handlePress = (habitId: string) => {
     router.push(`/habit/${habitId}`);
@@ -99,67 +137,6 @@ export function HabitsScreen() {
 
   const handleAddHabit = () => {
     router.push('/habit/new');
-  };
-
-  const renderSectionHeader = ({ section }: { section: { weekday: string; habits: Habit[] } }) => {
-    // 요일별 색상 매핑
-    const weekdayColors: Record<string, string> = {
-      Sunday: '#EF4444',
-      Monday: '#3B82F6',
-      Tuesday: '#10B981',
-      Wednesday: '#F59E0B',
-      Thursday: '#A855F7',
-      Friday: '#EC4899',
-      Saturday: '#EF4444',
-      // 한국어 요일
-      일요일: '#EF4444',
-      월요일: '#3B82F6',
-      화요일: '#10B981',
-      수요일: '#F59E0B',
-      목요일: '#A855F7',
-      금요일: '#EC4899',
-      토요일: '#EF4444',
-    };
-
-    const weekdayIcons: Record<string, 'calendar-today'> = {
-      Sunday: 'calendar-today',
-      Monday: 'calendar-today',
-      Tuesday: 'calendar-today',
-      Wednesday: 'calendar-today',
-      Thursday: 'calendar-today',
-      Friday: 'calendar-today',
-      Saturday: 'calendar-today',
-      일요일: 'calendar-today',
-      월요일: 'calendar-today',
-      화요일: 'calendar-today',
-      수요일: 'calendar-today',
-      목요일: 'calendar-today',
-      금요일: 'calendar-today',
-      토요일: 'calendar-today',
-    };
-
-    const color = weekdayColors[section.weekday] || '#6B7280';
-    const icon = weekdayIcons[section.weekday] || ('calendar-today' as const);
-
-    return (
-      <View className="mb-3 mt-6 px-4">
-        <View
-          className="rounded-xl bg-white p-4 dark:bg-gray-800"
-          style={[styles.card, { borderLeftWidth: 4, borderLeftColor: color }]}>
-          <View className="flex-row items-center">
-            <MaterialCommunityIcons
-              name={icon}
-              size={22}
-              color={color}
-              style={{ marginRight: 8 }}
-            />
-            <ThemedText className="text-lg font-bold">
-              {section.weekday} ({section.habits.length})
-            </ThemedText>
-          </View>
-        </View>
-      </View>
-    );
   };
 
   const renderItem = ({ item }: { item: Habit }) => (
@@ -196,6 +173,11 @@ export function HabitsScreen() {
         </View>
       </View>
 
+      {/* Filter Tabs */}
+      <View className="bg-white px-4 pb-3 pt-4 dark:bg-gray-900">
+        <HabitFilterTabs value={selectedFilter} onChange={setSelectedFilter} />
+      </View>
+
       {/* Habits List */}
       {habits.length === 0 ? (
         <View className="flex-1 items-center justify-center border-t border-gray-200 px-8 dark:border-gray-800">
@@ -210,18 +192,14 @@ export function HabitsScreen() {
             {t('screens:habits.addFirst')}
           </ThemedText>
         </View>
+      ) : filteredData.data.length === 0 ? (
+        <EmptyState filter={selectedFilter} />
       ) : (
-        <SectionList
-          sections={weekdayGroups.map((group) => ({
-            weekday: group.weekday,
-            habits: group.habits,
-            data: group.habits,
-          }))}
-          keyExtractor={(item) => item.id}
-          renderSectionHeader={renderSectionHeader}
+        <FlatList
+          data={filteredData.data}
           renderItem={renderItem}
-          contentContainerClassName="pb-4"
-          stickySectionHeadersEnabled={false}
+          keyExtractor={(item) => item.id}
+          contentContainerClassName="pb-4 pt-4"
         />
       )}
     </ThemedView>

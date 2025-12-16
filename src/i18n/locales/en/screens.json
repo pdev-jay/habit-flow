@@ -12,7 +12,12 @@
     "deleteTitle": "Delete Habit",
     "deleteMessage": "Are you sure you want to delete \"{{name}}\"?\nAll records will be deleted as well.",
     "deleteCancel": "Cancel",
-    "deleteConfirm": "Delete"
+    "deleteConfirm": "Delete",
+    "filter": {
+      "all": "All",
+      "today": "Today",
+      "noHabitsForDay": "No habits active on this day."
+    }
   },
   "stats": {
     "title": "Statistics",

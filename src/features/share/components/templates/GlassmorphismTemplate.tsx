@@ -39,8 +39,7 @@ export function GlassmorphismWeekly({ stats }: GlassmorphismWeeklyProps) {
             {Math.round(stats.completionRate)}%
           </Text>
           <Text className="mt-2 text-[14px] text-white/80">
-            {stats.completedCount}
-            {t('share:glassmorphism.weekly.habitsCompleted')}
+            {stats.completedCount} {t('share:glassmorphism.weekly.habitsCompleted')}
           </Text>
         </View>
 
@@ -61,8 +60,7 @@ export function GlassmorphismWeekly({ stats }: GlassmorphismWeeklyProps) {
                     {habit.name}
                   </Text>
                   <Text className="w-full text-[11px] text-white/60" numberOfLines={1}>
-                    {habit.completedDays}/{habit.totalDays}
-                    {t('share:glassmorphism.weekly.days')}
+                    {habit.completedDays}/{habit.totalDays} {t('share:glassmorphism.weekly.days')}
                   </Text>
                 </View>
                 <View className="rounded-full bg-white/20 px-3 py-1">
@@ -167,8 +165,8 @@ export function GlassmorphismMonthly({ stats }: GlassmorphismMonthlyProps) {
                     {habit.name}
                   </Text>
                   <Text className="w-full text-[10px] text-gray-600" numberOfLines={1}>
-                    {habit.completedDays}
-                    {t('share:glassmorphism.monthly.times')} {habit.streak > 0 && '🔥'}
+                    {habit.completedDays} {t('share:glassmorphism.monthly.times')}{' '}
+                    {habit.streak > 0 && '🔥'}
                   </Text>
                 </View>
                 <View className="rounded-full bg-white/30 px-2.5 py-1">

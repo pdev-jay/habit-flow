@@ -36,8 +36,7 @@ export function WrappedWeekly({ stats }: WrappedWeeklyProps) {
           <Text className="mb-2 text-[13px] text-white/60">{t('share:wrapped.weekly.intro')}</Text>
           <Text className="text-[28px] font-extrabold leading-[34px] text-white">
             <Text className="text-[#1db954]">
-              {stats.completedCount}
-              {t('share:wrapped.weekly.habitsCompleted')}
+              {stats.completedCount} {t('share:wrapped.weekly.habitsCompleted')}
             </Text>
             {t('share:wrapped.weekly.ofHabits')}
             {'\n'}
@@ -54,8 +53,7 @@ export function WrappedWeekly({ stats }: WrappedWeeklyProps) {
             {Math.round(stats.completionRate)}%
           </Text>
           <Text className="mt-1 text-[13px] text-white/60">
-            {stats.habits.length}
-            {t('share:wrapped.weekly.averageAchievement')}
+            {stats.habits.length} {t('share:wrapped.weekly.averageAchievement')}
           </Text>
         </View>
 
@@ -77,8 +75,7 @@ export function WrappedWeekly({ stats }: WrappedWeeklyProps) {
                   {habit.name}
                 </Text>
                 <Text className="mt-[2px] w-full text-[10px] text-white/40" numberOfLines={1}>
-                  {habit.completedDays}/{habit.totalDays}
-                  {t('share:wrapped.weekly.daysCompleted')}
+                  {habit.completedDays}/{habit.totalDays} {t('share:wrapped.weekly.daysCompleted')}
                 </Text>
               </View>
               <Text
@@ -193,8 +190,8 @@ export function WrappedMonthly({ stats }: WrappedMonthlyProps) {
                   {habit.name}
                 </Text>
                 <Text className="w-full text-[10px] text-white/40" numberOfLines={1}>
-                  {habit.completedDays}
-                  {t('share:wrapped.monthly.timesCompleted')} {habit.streak > 0 && `🔥`}
+                  {habit.completedDays} {t('share:wrapped.monthly.timesCompleted')}{' '}
+                  {habit.streak > 0 && `🔥`}
                 </Text>
               </View>
               <View className="flex-shrink-0 rounded-lg bg-[#1db954]/15 px-[10px] py-1">

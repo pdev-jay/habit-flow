@@ -148,7 +148,7 @@ export function useTemplateData(language: LanguageType = 'ko', date: Date = new 
       completedCount,
       totalCount,
       streakDays,
-      dateRange: `${format(startDate, monthDayFormat, { locale })} ~ ${format(endDate, monthDayFormat, { locale })}`,
+      dateRange: `${format(startDate, monthDayFormat, { locale })} - ${format(endDate, monthDayFormat, { locale })}`,
       weekNumber: getWeek(date),
       habits: habitProgress.sort((a, b) => b.completionRate - a.completionRate),
     };

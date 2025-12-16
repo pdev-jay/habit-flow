@@ -4,6 +4,7 @@ export {
   getCurrentWeekdayIndex,
   getWeekdayIndexFromDate,
   getTodayHabits,
+  getHabitsForWeekday,
 } from './frequencyUtils';
 
 export type { WeekdayGroup } from './frequencyUtils';

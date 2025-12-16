@@ -31,8 +31,7 @@ export function MinimalWeekly({ stats }: MinimalWeeklyProps) {
           {Math.round(stats.completionRate)}%
         </Text>
         <Text className="mt-2 text-[15px] text-gray-600">
-          {stats.completedCount}
-          {t('share:minimal.weekly.habitsCompleted')}
+          {stats.completedCount} {t('share:minimal.weekly.habitsCompleted')}
         </Text>
       </View>
 
@@ -54,8 +53,7 @@ export function MinimalWeekly({ stats }: MinimalWeeklyProps) {
                 {habit.name}
               </Text>
               <Text className="w-full text-[12px] text-gray-500" numberOfLines={1}>
-                {habit.completedDays}/{habit.totalDays}
-                {t('share:minimal.weekly.daysCompleted')}
+                {habit.completedDays}/{habit.totalDays} {t('share:minimal.weekly.daysCompleted')}
               </Text>
             </View>
             <Text className="flex-shrink-0 text-[18px] font-bold text-black" numberOfLines={1}>
@@ -140,8 +138,8 @@ export function MinimalMonthly({ stats }: MinimalMonthlyProps) {
                 {habit.name}
               </Text>
               <Text className="w-full text-[11px] text-gray-500" numberOfLines={1}>
-                {habit.completedDays}
-                {t('share:minimal.monthly.timesCompleted')} {habit.streak > 0 && '🔥'}
+                {habit.completedDays} {t('share:minimal.monthly.timesCompleted')}{' '}
+                {habit.streak > 0 && '🔥'}
               </Text>
             </View>
             <Text className="flex-shrink-0 text-[16px] font-bold text-black" numberOfLines={1}>

@@ -145,3 +145,13 @@ export function getTodayHabits(habits: Habit[]): Habit[] {
   const todayIndex = getCurrentWeekdayIndex();
   return habits.filter((habit) => isHabitActiveOnWeekday(habit, todayIndex));
 }
+
+/**
+ * Get habits active on a specific weekday
+ * @param habits - Habit array
+ * @param weekdayIndex - 0 (Sun) to 6 (Sat)
+ * @returns Habits active on that weekday
+ */
+export function getHabitsForWeekday(habits: Habit[], weekdayIndex: number): Habit[] {
+  return habits.filter((habit) => isHabitActiveOnWeekday(habit, weekdayIndex));
+}
