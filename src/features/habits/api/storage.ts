@@ -6,7 +6,7 @@ import { createMMKV } from 'react-native-mmkv';
  * - AsyncStorage보다 빠르고 동기적
  */
 export const storage = createMMKV({
-  id: 'habit-flow-storage',
+  id: 'routimeter-storage',
 });
 
 /**

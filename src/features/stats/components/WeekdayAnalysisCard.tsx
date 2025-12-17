@@ -220,7 +220,7 @@ export function WeekdayAnalysisCard() {
                 : '#3B82F6';
 
           return (
-            <View key={stat.weekday}>
+            <View key={stat.weekday} className="my-1">
               <View className="mb-1 flex-row items-center justify-between">
                 <Text className="w-12 text-sm font-medium text-gray-700 dark:text-gray-300">
                   {t(`common:weekdays.short.${weekdayShortKeys[stat.weekday]}`)}

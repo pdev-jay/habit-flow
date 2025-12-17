@@ -73,7 +73,7 @@ export function useShareImage() {
 
       await Sharing.shareAsync(uri, {
         mimeType: 'image/png',
-        dialogTitle: 'HabitFlow 습관 공유',
+        dialogTitle: 'Routimeter 습관 공유',
         UTI: 'public.png',
       });
 

@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "habit-flow",
-    "slug": "habit-flow",
+    "name": "routimeter",
+    "slug": "routimeter",
     "version": "1.0.0",
-    "scheme": "habit-flow",
+    "scheme": "routimeter",
     "platforms": [
       "ios",
       "android"
@@ -61,7 +61,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.pdevjay.habitflow",
+      "bundleIdentifier": "com.pdevjay.routimeter",
       "googleServicesFile": "./ios/GoogleService-Info.plist",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
@@ -79,7 +79,7 @@
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./android/google-services.json",
-      "package": "com.pdevjay.habitflow",
+      "package": "com.pdevjay.routimeter",
       "permissions": [
         "POST_NOTIFICATIONS",
         "RECEIVE_BOOT_COMPLETED",
@@ -92,7 +92,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "52291573-6372-4af3-9a40-992504b554f0"
+        "projectId": "65b23542-e3c6-4068-a8ab-e4b64a7f2c46"
       }
     }
   }

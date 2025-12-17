@@ -55,8 +55,8 @@ export function SettingsScreen() {
   };
 
   const handleContactUs = async () => {
-    const email = 'support@habitflow.com';
-    const subject = 'HabitFlow Support Inquiry';
+    const email = 'support@routimeter.com';
+    const subject = 'Routimeter Support Inquiry';
     const body = '';
     const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 

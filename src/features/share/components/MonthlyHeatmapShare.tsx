@@ -88,7 +88,7 @@ export function MonthlyHeatmapShare({
         {/* Watermark */}
         <View className="flex-row items-center justify-center">
           <Text className="text-xs text-gray-400">Made with </Text>
-          <Text className="text-xs font-bold text-green-500">HabitFlow</Text>
+          <Text className="text-xs font-bold text-green-500">Routimeter</Text>
         </View>
       </View>
     </View>

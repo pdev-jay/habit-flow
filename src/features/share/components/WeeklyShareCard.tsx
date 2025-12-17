@@ -70,7 +70,7 @@ export function WeeklyShareCard({
         {/* Watermark */}
         <View className="mt-2 flex-row items-center">
           <Text className="text-xs text-gray-400">Made with </Text>
-          <Text className="text-xs font-bold text-blue-500">HabitFlow</Text>
+          <Text className="text-xs font-bold text-blue-500">Routimeter</Text>
         </View>
       </View>
     </View>

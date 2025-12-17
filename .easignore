@@ -1,0 +1,32 @@
+# EAS Build Ignore File
+# Files and directories listed here will be excluded from EAS builds
+# This takes precedence over .gitignore
+
+# Note: We need Firebase config files for EAS builds
+# So we DO NOT ignore them here (unlike .gitignore)
+
+# Build artifacts
+*.log
+.expo/
+.expo-shared/
+dist/
+web-build/
+
+# Development only
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# Claude Code
+.claude/
+.plan/
+.plans/
+CLAUDE.md
+[A-Z]*.md
+!README.md
+
+# Local development files
+.DS_Store
+node_modules/

@@ -84,14 +84,14 @@ export function MilestoneShareCard({
 
         {/* Hashtags */}
         <Text className="mb-4 text-sm text-blue-500">
-          #HabitFlow #{milestone}일챌린지 #습관만들기
+          #Routimeter #{milestone}일챌린지 #습관만들기
         </Text>
 
         {/* Watermark */}
         <View className="flex-row items-center">
           <Text className="text-xs text-gray-400">Made with </Text>
           <Text className="text-xs font-bold" style={{ color: badge.colors[0] }}>
-            HabitFlow
+            Routimeter
           </Text>
         </View>
       </View>
