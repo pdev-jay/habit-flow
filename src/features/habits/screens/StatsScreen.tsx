@@ -202,15 +202,8 @@ export function StatsScreen() {
       <View
         className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-800 dark:bg-gray-900"
         style={[{ paddingTop: insets.top }, styles.headerShadow]}>
-        <View className="flex-row items-center justify-between pb-4">
+        <View className="pb-4">
           <ThemedText className="text-3xl font-bold">{t('screens:stats.title')}</ThemedText>
-          <Pressable onPress={handleShare} className="px-3 py-1">
-            <Text
-              className="text-lg font-semibold"
-              style={{ color: colorScheme === 'dark' ? '#60A5FA' : '#3B82F6' }}>
-              {t('common:share')}
-            </Text>
-          </Pressable>
         </View>
         {viewMode === 'weekly' ? (
           <View className="flex-row items-center justify-between">
@@ -301,6 +294,7 @@ export function StatsScreen() {
             chartData={chartData}
             habitStats={habitStats}
             isCurrentWeek={isThisWeek(currentWeekDate)}
+            onShare={handleShare}
           />
         )}
 
@@ -313,6 +307,7 @@ export function StatsScreen() {
             monthlyInsight={monthlyInsight}
             monthComparison={monthComparison}
             onDayPress={handleDayPress}
+            onShare={handleShare}
           />
         )}
       </ScrollView>

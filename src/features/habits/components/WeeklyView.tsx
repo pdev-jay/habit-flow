@@ -24,6 +24,7 @@ interface WeeklyViewProps {
   }[];
   habitStats: HabitStat[];
   isCurrentWeek: boolean;
+  onShare?: () => void;
 }
 
 /**
@@ -35,10 +36,11 @@ export const WeeklyView = React.memo(function WeeklyView({
   chartData,
   habitStats,
   isCurrentWeek,
+  onShare,
 }: WeeklyViewProps) {
   return (
     <View>
-      <WeeklySummaryCard stats={weeklyStats} isCurrentWeek={isCurrentWeek} />
+      <WeeklySummaryCard stats={weeklyStats} isCurrentWeek={isCurrentWeek} onShare={onShare} />
       <WeeklyChartCard chartData={chartData} />
       <HabitCompletionCard habitStats={habitStats} />
     </View>

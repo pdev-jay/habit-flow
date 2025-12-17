@@ -19,6 +19,7 @@ interface MonthlyViewProps {
   monthlyInsight: MonthlyInsight;
   monthComparison: MonthComparison;
   onDayPress: (date: Date) => void;
+  onShare?: () => void;
 }
 
 export const MonthlyView = React.memo(function MonthlyView({
@@ -28,10 +29,11 @@ export const MonthlyView = React.memo(function MonthlyView({
   monthlyInsight,
   monthComparison,
   onDayPress,
+  onShare,
 }: MonthlyViewProps) {
   return (
     <View>
-      <MonthlySummaryCard stats={monthlyStats} />
+      <MonthlySummaryCard stats={monthlyStats} onShare={onShare} />
       <MonthlyHeatmap
         currentDate={currentMonthDate}
         heatmapData={heatmapData}
