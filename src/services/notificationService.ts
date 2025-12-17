@@ -17,19 +17,27 @@ import {
   END_OF_DAY_REMINDER_TIME,
 } from '@/types/notification.types';
 import { analyticsApi } from '@/features/analytics/api/analyticsApi';
+import { useSettingsStore } from '@/features/habits/api/settingsStore';
 
 const NOTIFICATION_METADATA_KEY = 'notification-metadata';
 const DAYS_AHEAD = 7; // 7-day rolling window for iOS 64 notification limit
 
 /**
  * Set notification handler for foreground notifications
+ * Checks global notification setting before showing
  */
 Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-  }),
+  handleNotification: async () => {
+    // Check global notification setting
+    const settings = useSettingsStore.getState().settings;
+    const isEnabled = settings.notificationsEnabled;
+
+    return {
+      shouldShowAlert: isEnabled,
+      shouldPlaySound: isEnabled,
+      shouldSetBadge: false,
+    };
+  },
 });
 
 /**

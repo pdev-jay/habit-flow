@@ -135,7 +135,6 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
 
       if (selectedDate) {
         setReminderTime(selectedDate);
-        setReminderEnabled(true);
       }
     };
 
@@ -234,26 +233,63 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
             <ThemedText className="mb-3 text-sm font-medium text-gray-600 dark:text-gray-400">
               {t('components:habitForm.dailyReminder')}
             </ThemedText>
-            <Pressable
-              onPress={() => {
-                console.log('Time picker button pressed');
-                setReminderEnabled(true);
-                setShowTimePicker(true);
-                console.log('showTimePicker set to true');
-              }}
-              className="flex-row items-center rounded-lg border border-gray-300 bg-white px-4 py-3 dark:border-gray-600 dark:bg-gray-800">
-              <TextInput
-                value={formatTime(reminderTime)}
-                editable={false}
-                className="flex-1 text-base text-gray-900 dark:text-white"
-                pointerEvents="none"
+
+            <View className="flex-row items-center gap-3">
+              {/* Time Pill - Opens time picker */}
+              <Pressable
+                onPress={() => {
+                  console.log('Time picker button pressed');
+                  setShowTimePicker(true);
+                  console.log('showTimePicker set to true');
+                }}
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-xl bg-blue-500 px-5 py-3.5 active:bg-blue-600"
+                style={styles.pillShadow}>
+                <MaterialCommunityIcons name="clock-outline" size={20} color="#FFFFFF" />
+                <ThemedText className="text-base font-semibold text-white">
+                  {formatTime(reminderTime)}
+                </ThemedText>
+              </Pressable>
+
+              {/* Bell Button - Toggles ON/OFF */}
+              <Pressable
+                onPress={() => {
+                  setReminderEnabled((prev) => !prev);
+                }}
+                className={cn(
+                  'h-12 w-12 items-center justify-center rounded-xl',
+                  reminderEnabled
+                    ? 'bg-green-500 active:bg-green-600'
+                    : 'bg-gray-300 active:bg-gray-400 dark:bg-gray-600 dark:active:bg-gray-500'
+                )}
+                style={styles.pillShadow}>
+                <MaterialCommunityIcons
+                  name={reminderEnabled ? 'bell' : 'bell-off-outline'}
+                  size={22}
+                  color="#FFFFFF"
+                />
+              </Pressable>
+            </View>
+
+            {/* Status Text */}
+            <View className="mt-3 flex-row items-center gap-2">
+              <View
+                className={cn(
+                  'h-2 w-2 rounded-full',
+                  reminderEnabled ? 'bg-green-500' : 'bg-gray-400'
+                )}
               />
-              <MaterialCommunityIcons
-                name="clock-outline"
-                size={24}
-                color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
-              />
-            </Pressable>
+              <ThemedText
+                className={cn(
+                  'text-sm font-medium',
+                  reminderEnabled
+                    ? 'text-green-600 dark:text-green-400'
+                    : 'text-gray-500 dark:text-gray-400'
+                )}>
+                {reminderEnabled
+                  ? t('components:habitForm.reminderActiveMessage')
+                  : t('components:habitForm.reminderInactiveMessage')}
+              </ThemedText>
+            </View>
 
             {/* iOS: Modal with Spinner */}
             {showTimePicker && Platform.OS === 'ios' && (
@@ -318,12 +354,26 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
 );
 
 const styles = StyleSheet.create({
+  card: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
+  },
   dayButton: {
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
     elevation: 1,
+  },
+  pillShadow: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
   },
   modalOverlay: {
     flex: 1,

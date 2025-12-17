@@ -7,7 +7,6 @@ import {
   cancelHabitNotifications,
   clearHabitMilestone,
 } from '@/services/notificationService';
-import { useSettingsStore } from './settingsStore';
 
 interface HabitStore {
   habits: Habit[];
@@ -31,9 +30,9 @@ export const useHabitStore = create<HabitStore>()(
             order: state.habits.length,
           };
 
-          // Schedule notifications if enabled
-          const settings = useSettingsStore.getState().settings;
-          if (settings.notificationsEnabled && newHabit.reminderEnabled) {
+          // Schedule notifications if habit reminder is enabled
+          // Global setting is checked at notification delivery time
+          if (newHabit.reminderEnabled) {
             scheduleHabitReminders(newHabit).catch((error) => {
               console.error('Failed to schedule habit reminders:', error);
             });
@@ -51,21 +50,19 @@ export const useHabitStore = create<HabitStore>()(
             habit.id === id ? { ...habit, ...updates } : habit
           );
 
-          // Update notifications if enabled
-          const settings = useSettingsStore.getState().settings;
-          if (settings.notificationsEnabled) {
-            const updatedHabit = updatedHabits.find((h) => h.id === id);
-            if (updatedHabit) {
-              cancelHabitNotifications(id)
-                .then(() => {
-                  if (updatedHabit.reminderEnabled) {
-                    return scheduleHabitReminders(updatedHabit);
-                  }
-                })
-                .catch((error) => {
-                  console.error('Failed to update habit notifications:', error);
-                });
-            }
+          // Always update notifications based on habit's reminder setting
+          // Global setting is checked at notification delivery time
+          const updatedHabit = updatedHabits.find((h) => h.id === id);
+          if (updatedHabit) {
+            cancelHabitNotifications(id)
+              .then(() => {
+                if (updatedHabit.reminderEnabled) {
+                  return scheduleHabitReminders(updatedHabit);
+                }
+              })
+              .catch((error) => {
+                console.error('Failed to update habit notifications:', error);
+              });
           }
 
           return { habits: updatedHabits };

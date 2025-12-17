@@ -62,7 +62,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.pdevjay.routimeter",
-      "googleServicesFile": "./ios/GoogleService-Info.plist",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "UIBackgroundModes": [

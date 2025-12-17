@@ -105,13 +105,13 @@ export function WeekCalendar({
 
           // 완료율에 따른 색상 결정
           const getDotColor = () => {
-            if (completionRate === 0) return null; // 0%면 표시 안 함
             if (completionRate < 0.5) return 'bg-red-400 dark:bg-red-400'; // 50% 미만
             if (completionRate < 1.0) return 'bg-yellow-400 dark:bg-yellow-400'; // 50~99%
             return 'bg-green-400 dark:bg-green-400'; // 100%
           };
 
           const dotColor = getDotColor();
+          const showDot = completionRate > 0;
 
           return (
             <View key={format(date, 'yyyy-MM-dd')} className="items-center">
@@ -142,7 +142,9 @@ export function WeekCalendar({
               </Pressable>
 
               {/* Completion indicator */}
-              {dotColor && <View className={cn('mt-1 h-1.5 w-1.5 rounded-full', dotColor)} />}
+              <View
+                className={cn('mt-1 h-1.5 w-1.5 rounded-full', dotColor, !showDot && 'opacity-0')}
+              />
             </View>
           );
         })}

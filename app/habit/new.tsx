@@ -47,13 +47,13 @@ export default function NewHabitScreen() {
     icon: HabitIconName;
     color: string;
     frequency: FrequencyType;
+    customDays?: number[];
+    reminderTime?: string;
+    reminderEnabled: boolean;
   }) => {
     if (!isValid) return;
 
-    create({
-      ...data,
-      reminderEnabled: false,
-    });
+    create(data);
     router.back();
   };
 
