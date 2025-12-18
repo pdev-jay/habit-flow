@@ -37,8 +37,8 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: 'ko',
-  fallbackLng: 'ko',
+  lng: 'en', // 초기 언어 (settingsStore에서 감지한 언어로 곧 변경됨)
+  fallbackLng: 'en', // 한국어가 아니면 영어로 fallback
   defaultNS: 'common',
   ns: ['common', 'navigation', 'screens', 'components', 'validation', 'share'],
   interpolation: {
