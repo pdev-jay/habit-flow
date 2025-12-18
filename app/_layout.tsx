@@ -11,6 +11,7 @@ import { I18nextProvider } from 'react-i18next';
 import * as Notifications from 'expo-notifications';
 import crashlytics from '@react-native-firebase/crashlytics';
 import Constants from 'expo-constants';
+import mobileAds from 'react-native-google-mobile-ads';
 
 import { useSettingsStore } from '@/features/habits/api';
 import i18n from '@/i18n';
@@ -60,6 +61,22 @@ function RootLayoutContent() {
     };
 
     initCrashlytics();
+  }, []);
+
+  // Initialize AdMob
+  useEffect(() => {
+    const initAdMob = async () => {
+      try {
+        await mobileAds().initialize();
+        if (__DEV__) {
+          console.log('[AdMob] Initialized successfully');
+        }
+      } catch (error) {
+        console.error('[AdMob] Initialization failed:', error);
+      }
+    };
+
+    initAdMob();
   }, []);
 
   // NativeWind dark mode 동기화

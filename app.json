@@ -42,6 +42,13 @@
             "isCrashlyticsCollectionEnabled": true
           }
         }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+        }
       ]
     ],
     "experiments": {
@@ -89,10 +96,20 @@
         "READ_EXTERNAL_STORAGE"
       ]
     },
+    "updates": {
+      "url": "https://u.expo.dev/65b23542-e3c6-4068-a8ab-e4b64a7f2c46"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
     "extra": {
       "router": {},
       "eas": {
         "projectId": "65b23542-e3c6-4068-a8ab-e4b64a7f2c46"
+      },
+      "admob": {
+        "iosRewardedAdUnitId": "ca-app-pub-3940256099942544/1712485313",
+        "androidRewardedAdUnitId": "ca-app-pub-3940256099942544/5224354917"
       }
     }
   }

@@ -5,7 +5,16 @@
     "weekly": "주간",
     "monthly": "월간",
     "premiumTemplate": "프리미엄 템플릿",
-    "watchAdToUnlock": "광고 보고 잠금 해제"
+    "watchAdToUnlock": "광고 보고 잠금 해제",
+    "adNotReady": "광고를 준비하는 중입니다...",
+    "adLoading": "광고 로딩 중...",
+    "adLoadFailed": "광고를 불러오지 못했습니다",
+    "unlocked": "잠금 해제됨!",
+    "premiumTemplatesUnlocked": "프리미엄 템플릿을 사용할 수 있습니다",
+    "loadingAd": "광고 로딩 중...",
+    "adError": "광고 오류",
+    "watchAdButton": "광고 보고 잠금 해제",
+    "shareFailed": "공유에 실패했습니다"
   },
   "wrapped": {
     "weekly": {

@@ -1,5 +1,16 @@
-import React, { useState } from 'react';
-import { ScrollView, View, Text, Pressable, FlatList, useWindowDimensions, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  ScrollView,
+  View,
+  Text,
+  Pressable,
+  FlatList,
+  useWindowDimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ActivityIndicator,
+  Alert,
+} from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useTheme, useI18n } from '@/hooks';
@@ -8,6 +19,7 @@ import { StreakTrendCard } from '../components/StreakTrendCard';
 import { TimePatternCard } from '../components/TimePatternCard';
 import { HabitDetailCard } from '../components/HabitDetailCard';
 import { MotivationInsightCard } from '../components/MotivationInsightCard';
+import { useRewardedAd, useAdSessionStore } from '@/features/ads';
 
 /**
  * Detailed analytics screen (Premium feature)
@@ -19,9 +31,42 @@ export function DetailedAnalyticsScreen() {
   const { width } = useWindowDimensions();
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleWatchAd = () => {
-    // TODO: 광고 SDK 연동
-    console.log('Watch ad triggered');
+  // AdMob rewarded ad integration
+  const {
+    isLoading: adLoading,
+    isLoaded: adLoaded,
+    error: adError,
+    loadAd,
+    showAd,
+  } = useRewardedAd();
+  const { analyticsUnlocked, unlockAnalytics } = useAdSessionStore();
+
+  // Load ad on mount
+  useEffect(() => {
+    // DEV 모드 우회 비활성화 (광고 테스트를 위해)
+    // if (!__DEV__ && !analyticsUnlocked) {
+    if (!analyticsUnlocked) {
+      loadAd();
+    }
+  }, [loadAd, analyticsUnlocked]);
+
+  // Handle watch ad action
+  const handleWatchAd = async () => {
+    if (!adLoaded) {
+      Alert.alert(
+        t('screens:stats.adNotReady'),
+        adLoading ? t('screens:stats.adLoading') : t('screens:stats.adLoadFailed')
+      );
+      return;
+    }
+
+    const rewarded = await showAd();
+    if (rewarded) {
+      unlockAnalytics();
+      Alert.alert(t('screens:stats.unlocked'), t('screens:stats.analyticsUnlocked'));
+      // Reload ad for next time
+      loadAd();
+    }
   };
 
   // Analytics cards data
@@ -41,8 +86,10 @@ export function DetailedAnalyticsScreen() {
 
   return (
     <View className="flex-1 bg-white dark:bg-gray-900">
-      {/* Development mode: Show unlocked analytics */}
-      {__DEV__ ? (
+      {/* Show unlocked analytics after watching ad */}
+      {/* DEV 모드 우회 비활성화 (광고 테스트를 위해) */}
+      {/* {__DEV__ || analyticsUnlocked ? ( */}
+      {analyticsUnlocked ? (
         <>
           {/* Carousel */}
           <FlatList
@@ -68,9 +115,7 @@ export function DetailedAnalyticsScreen() {
               <View
                 key={index}
                 className={`h-2 rounded-full ${
-                  index === currentIndex
-                    ? 'w-6 bg-blue-500'
-                    : 'w-2 bg-gray-300 dark:bg-gray-600'
+                  index === currentIndex ? 'w-6 bg-blue-500' : 'w-2 bg-gray-300 dark:bg-gray-600'
                 }`}
               />
             ))}
@@ -118,19 +163,40 @@ export function DetailedAnalyticsScreen() {
               {/* CTA Button */}
               <Pressable
                 onPress={handleWatchAd}
-                className="mt-8 w-full rounded-2xl bg-blue-500 px-6 py-4"
+                disabled={adLoading || !adLoaded}
+                className="mt-8 w-full rounded-2xl bg-blue-500 px-6 py-4 disabled:bg-gray-400"
                 style={{
                   shadowColor: '#3B82F6',
                   shadowOffset: { width: 0, height: 4 },
                   shadowOpacity: 0.3,
                   shadowRadius: 8,
                 }}>
-                <Text className="text-center text-base font-bold text-white">
-                  {t('screens:stats.watchAdToUnlock')}
-                </Text>
-                <Text className="mt-1 text-center text-xs text-white/80">
-                  {t('screens:stats.freeFor24Hours')}
-                </Text>
+                {adLoading ? (
+                  <View className="flex-row items-center justify-center gap-2">
+                    <ActivityIndicator size="small" color="#FFFFFF" />
+                    <Text className="text-center text-base font-bold text-white">
+                      {t('screens:stats.loadingAd')}
+                    </Text>
+                  </View>
+                ) : adError ? (
+                  <>
+                    <Text className="text-center text-base font-bold text-white">
+                      {t('screens:stats.adError')}
+                    </Text>
+                    <Text className="mt-1 text-center text-xs text-white/80">
+                      {t('screens:stats.tryAgainLater')}
+                    </Text>
+                  </>
+                ) : (
+                  <>
+                    <Text className="text-center text-base font-bold text-white">
+                      {t('screens:stats.watchAdToUnlock')}
+                    </Text>
+                    <Text className="mt-1 text-center text-xs text-white/80">
+                      {t('screens:stats.freeForSession')}
+                    </Text>
+                  </>
+                )}
               </Pressable>
             </View>
           </View>

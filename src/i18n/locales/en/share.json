@@ -5,7 +5,16 @@
     "weekly": "Weekly",
     "monthly": "Monthly",
     "premiumTemplate": "Premium Template",
-    "watchAdToUnlock": "Watch ad to unlock"
+    "watchAdToUnlock": "Watch ad to unlock",
+    "adNotReady": "Preparing ad...",
+    "adLoading": "Loading ad...",
+    "adLoadFailed": "Failed to load ad",
+    "unlocked": "Unlocked!",
+    "premiumTemplatesUnlocked": "Premium templates are now available",
+    "loadingAd": "Loading ad...",
+    "adError": "Ad Error",
+    "watchAdButton": "Watch ad to unlock",
+    "shareFailed": "Failed to share"
   },
   "wrapped": {
     "weekly": {

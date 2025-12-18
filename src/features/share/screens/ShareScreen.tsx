@@ -1,5 +1,13 @@
-import React, { useState, useLayoutEffect } from 'react';
-import { ScrollView, View, Pressable, Text, Alert, Platform } from 'react-native';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
+import {
+  ScrollView,
+  View,
+  Pressable,
+  Text,
+  Alert,
+  Platform,
+  ActivityIndicator,
+} from 'react-native';
 import { useNavigation } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
@@ -20,6 +28,7 @@ import {
 } from '@/features/share/components';
 import { useImageCapture, useShareImage, useTemplateData } from '@/features/share/hooks';
 import type { TemplateStyle, TemplatePeriod } from '@/features/share/types/share.types';
+import { useRewardedAd, useAdSessionStore } from '@/features/ads';
 
 /**
  * Share screen for habit statistics
@@ -37,9 +46,49 @@ export default function ShareScreen() {
   const { isLoading, execute } = useShareImage();
   const { weeklyStats, monthlyStats } = useTemplateData(language);
 
+  // AdMob rewarded ad integration
+  const {
+    isLoading: adLoading,
+    isLoaded: adLoaded,
+    error: adError,
+    loadAd,
+    showAd,
+  } = useRewardedAd();
+  const { shareUnlocked, unlockShare } = useAdSessionStore();
+
+  // Load ad on mount
+  useEffect(() => {
+    // DEV 모드 우회 비활성화 (광고 테스트를 위해)
+    // if (!__DEV__ && !shareUnlocked) {
+    if (!shareUnlocked) {
+      loadAd();
+    }
+  }, [loadAd, shareUnlocked]);
+
+  // Handle watch ad action
+  const handleWatchAd = async () => {
+    if (!adLoaded) {
+      Alert.alert(
+        t('share:screen.adNotReady'),
+        adLoading ? t('share:screen.adLoading') : t('share:screen.adLoadFailed')
+      );
+      return;
+    }
+
+    const rewarded = await showAd();
+    if (rewarded) {
+      unlockShare();
+      Alert.alert(t('share:screen.unlocked'), t('share:screen.premiumTemplatesUnlocked'));
+      // Reload ad for next time
+      loadAd();
+    }
+  };
+
   // Set up native header with share button
   useLayoutEffect(() => {
-    const isLocked = !__DEV__ && selectedStyle !== 'minimal';
+    // DEV 모드 우회 비활성화 (광고 테스트를 위해)
+    // const isLocked = !__DEV__ && selectedStyle !== 'minimal' && !shareUnlocked;
+    const isLocked = selectedStyle !== 'minimal' && !shareUnlocked;
     const isDisabled = isLoading || isLocked;
 
     navigation.setOptions({
@@ -47,17 +96,14 @@ export default function ShareScreen() {
         <Pressable
           onPress={async () => {
             if (isLocked) {
-              Alert.alert(
-                t('share:screen.premiumTemplate'),
-                t('share:screen.watchAdToUnlock')
-              );
+              Alert.alert(t('share:screen.premiumTemplate'), t('share:screen.watchAdToUnlock'));
               return;
             }
             try {
               const uri = await capture({ format: 'png', quality: 1 });
               await execute(uri, 'share');
             } catch {
-              Alert.alert('오류', '공유에 실패했습니다');
+              Alert.alert(t('common:error'), t('share:screen.shareFailed'));
             }
           }}
           disabled={isDisabled}
@@ -70,7 +116,7 @@ export default function ShareScreen() {
         </Pressable>
       ),
     });
-  }, [navigation, isLoading, selectedStyle, capture, execute, colorScheme, t]);
+  }, [navigation, isLoading, selectedStyle, shareUnlocked, capture, execute, colorScheme, t]);
 
   const renderTemplate = () => {
     // Wrapped style
@@ -321,7 +367,9 @@ export default function ShareScreen() {
           </View>
 
           {/* Lock overlay for premium templates */}
-          {!__DEV__ && selectedStyle !== 'minimal' && (
+          {/* DEV 모드 우회 비활성화 (광고 테스트를 위해) */}
+          {/* {!__DEV__ && selectedStyle !== 'minimal' && !shareUnlocked && ( */}
+          {selectedStyle !== 'minimal' && !shareUnlocked && (
             <BlurView
               intensity={80}
               tint="dark"
@@ -334,6 +382,35 @@ export default function ShareScreen() {
                 <Text className="mt-1 text-center text-sm text-white/80">
                   {t('share:screen.watchAdToUnlock')}
                 </Text>
+
+                {/* Watch Ad Button */}
+                <Pressable
+                  onPress={handleWatchAd}
+                  disabled={adLoading || !adLoaded}
+                  className="mt-4 rounded-xl bg-white px-6 py-3"
+                  style={{
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 4,
+                  }}>
+                  {adLoading ? (
+                    <View className="flex-row items-center gap-2">
+                      <ActivityIndicator size="small" color="#3B82F6" />
+                      <Text className="text-sm font-semibold text-gray-900">
+                        {t('share:screen.loadingAd')}
+                      </Text>
+                    </View>
+                  ) : adError ? (
+                    <Text className="text-sm font-semibold text-red-600">
+                      {t('share:screen.adError')}
+                    </Text>
+                  ) : (
+                    <Text className="text-sm font-semibold text-blue-600">
+                      {t('share:screen.watchAdButton')}
+                    </Text>
+                  )}
+                </Pressable>
               </View>
             </BlurView>
           )}
