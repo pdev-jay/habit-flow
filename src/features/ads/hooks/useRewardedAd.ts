@@ -49,10 +49,7 @@ export function useRewardedAd(): RewardedAdHookResult {
     }
 
     // 개발 중에는 테스트 ID 사용, 프로덕션에서는 실제 ID 사용
-    const adUnitId =
-      __DEV__ && REWARDED_AD_UNIT_ID.includes('3940256099942544')
-        ? TestIds.REWARDED
-        : REWARDED_AD_UNIT_ID;
+    const adUnitId = __DEV__ ? TestIds.REWARDED : REWARDED_AD_UNIT_ID;
 
     const ad = RewardedAd.createForAdRequest(adUnitId, {
       requestNonPersonalizedAdsOnly: false,

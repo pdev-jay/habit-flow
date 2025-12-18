@@ -47,7 +47,7 @@
         "react-native-google-mobile-ads",
         {
           "androidAppId": "ca-app-pub-3940256099942544~3347511713",
-          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+          "iosAppId": "ca-app-pub-3699725475270623~2107191451"
         }
       ]
     ],
@@ -108,7 +108,7 @@
         "projectId": "65b23542-e3c6-4068-a8ab-e4b64a7f2c46"
       },
       "admob": {
-        "iosRewardedAdUnitId": "ca-app-pub-3940256099942544/1712485313",
+        "iosRewardedAdUnitId": "ca-app-pub-3699725475270623/4267107478",
         "androidRewardedAdUnitId": "ca-app-pub-3940256099942544/5224354917"
       }
     }
