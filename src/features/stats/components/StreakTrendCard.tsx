@@ -238,14 +238,14 @@ export function StreakTrendCard() {
             />
             <View className="flex-1">
               <Text className="text-xs text-gray-600 dark:text-gray-400">
-                최근 추세
+                {t('screens:stats.recentTrend')}
               </Text>
               <Text className="text-sm font-bold text-gray-900 dark:text-white">
                 {trendDirection === 'up'
-                  ? '상승 중'
+                  ? t('screens:stats.trendUp')
                   : trendDirection === 'down'
-                    ? '하락 중'
-                    : '안정적'}
+                    ? t('screens:stats.trendDown')
+                    : t('screens:stats.trendStable')}
               </Text>
             </View>
           </View>
@@ -259,10 +259,10 @@ export function StreakTrendCard() {
             />
             <View className="flex-1">
               <Text className="text-xs text-gray-600 dark:text-gray-400">
-                최고 기록 주간
+                {t('screens:stats.bestWeek')}
               </Text>
               <Text className="text-sm font-bold text-gray-900 dark:text-white">
-                {format(bestWeek.weekStart, 'M월 d일')} 주 • {bestWeek.maxStreak}일
+                {format(bestWeek.weekStart, 'M/d')} • {bestWeek.maxStreak} {t('screens:stats.daysUnit')}
               </Text>
             </View>
           </View>
@@ -273,7 +273,7 @@ export function StreakTrendCard() {
       {bestStreak > 0 && weeklyData.length > 0 && (
         <View className="mt-4">
           <Text className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
-            주별 상세 기록
+            {t('screens:stats.weeklyDetails')}
           </Text>
           <View className="gap-2">
             {weeklyData.slice().reverse().slice(0, 6).map((week, index) => (
@@ -285,7 +285,7 @@ export function StreakTrendCard() {
                 </Text>
                 <View className="flex-row items-center gap-1">
                   <Text className="text-sm font-bold text-gray-900 dark:text-white">
-                    {week.maxStreak}일
+                    {week.maxStreak} {t('screens:stats.daysUnit')}
                   </Text>
                   {week.maxStreak === bestStreak && bestStreak > 0 && (
                     <MaterialCommunityIcons

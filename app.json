@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "routimeter",
+    "name": "Routimeter",
     "slug": "routimeter",
     "version": "1.0.0",
     "scheme": "routimeter",
@@ -61,7 +61,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#334156"
     },
     "assetBundlePatterns": [
       "**/*"

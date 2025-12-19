@@ -99,7 +99,25 @@
       "keepTrying": "Don't give up! Small progress is still meaningful!",
       "keepGoing": "Small daily actions matter. Keep challenging yourself!",
       "dontGiveUp": "It was a tough week, but a fresh start is always possible! Keep fighting!"
-    }
+    },
+    "weekdayComparison": "Weekday vs Weekend Comparison",
+    "weekday": "Weekday",
+    "weekend": "Weekend",
+    "monFriAverage": "Mon-Fri Average",
+    "satSunAverage": "Sat-Sun Average",
+    "betterOnWeekdays": "Better on weekdays!",
+    "betterOnWeekends": "Better on weekends!",
+    "similarPerformance": "Similar performance",
+    "weekdayDetailedStats": "Weekday Detailed Statistics",
+    "completed": "Completed",
+    "habitsCount": "Habits",
+    "recentTrend": "Recent Trend",
+    "trendUp": "Trending Up",
+    "trendDown": "Trending Down",
+    "trendStable": "Stable",
+    "bestWeek": "Best Week",
+    "weeklyDetails": "Weekly Details",
+    "daysUnit": "days"
   },
   "settings": {
     "title": "Settings",

@@ -23,7 +23,7 @@
     "done": "Done",
     "repeat": "Repeat",
     "dailyReminder": "Daily Reminder",
-    "weekdays": {
+    "dayLabels": {
       "mon": "Mon",
       "tue": "Tue",
       "wed": "Wed",

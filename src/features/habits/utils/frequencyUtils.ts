@@ -75,11 +75,19 @@ export function getFrequencyLabel(customDays: number[], language: LanguageType =
  * @returns 포함 여부
  */
 function isHabitActiveOnWeekday(habit: Habit, weekdayIndex: number): boolean {
-  if (!habit.customDays || habit.customDays.length === 0) {
-    return false;
+  // frequency 필드를 먼저 체크
+  switch (habit.frequency) {
+    case 'daily':
+      return true;
+    case 'weekdays':
+      return weekdayIndex >= 1 && weekdayIndex <= 5;
+    case 'weekends':
+      return weekdayIndex === 0 || weekdayIndex === 6;
+    case 'custom':
+      return habit.customDays?.includes(weekdayIndex) ?? false;
+    default:
+      return false;
   }
-
-  return habit.customDays.includes(weekdayIndex);
 }
 
 /**

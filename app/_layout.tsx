@@ -1,9 +1,10 @@
 import '../global.css';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { LogBox, useColorScheme as rnUseColorScheme, AppState, AppStateStatus } from 'react-native';
 import { Stack } from 'expo-router';
 import * as SystemUI from 'expo-system-ui';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useColorScheme } from 'nativewind';
@@ -12,6 +13,9 @@ import * as Notifications from 'expo-notifications';
 import crashlytics from '@react-native-firebase/crashlytics';
 import Constants from 'expo-constants';
 import mobileAds from 'react-native-google-mobile-ads';
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 import { useSettingsStore } from '@/features/habits/api';
 import i18n from '@/i18n';
@@ -41,6 +45,7 @@ function RootLayoutContent() {
   const notificationListener = useRef<Notifications.Subscription | undefined>(undefined);
   const responseListener = useRef<Notifications.Subscription | undefined>(undefined);
   const appState = useRef<AppStateStatus>(AppState.currentState);
+  const [appIsReady, setAppIsReady] = useState(false);
 
   // Initialize screen tracking
   useScreenTracking();
@@ -173,6 +178,40 @@ function RootLayoutContent() {
       subscription.remove();
     };
   }, []);
+
+  // Prepare app and hide splash screen when ready
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Wait for minimum splash screen display time (1.5 seconds)
+        await new Promise(resolve => setTimeout(resolve, 1500));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  // Hide splash screen with fade animation when app is ready
+  useEffect(() => {
+    if (appIsReady) {
+      const hideSplash = async () => {
+        // Small delay to ensure UI is ready
+        await new Promise(resolve => setTimeout(resolve, 100));
+        // This will trigger native fade out animation
+        await SplashScreen.hideAsync();
+      };
+      hideSplash();
+    }
+  }, [appIsReady]);
+
+  // Don't render anything until app is ready
+  if (!appIsReady) {
+    return null;
+  }
 
   return (
     <SafeAreaProvider>

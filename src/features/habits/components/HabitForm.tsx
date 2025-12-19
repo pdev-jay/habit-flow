@@ -52,13 +52,13 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
     const { t } = useI18n();
 
     const WEEKDAYS = [
-      { day: 1, label: t('components:habitForm.weekdays.mon') },
-      { day: 2, label: t('components:habitForm.weekdays.tue') },
-      { day: 3, label: t('components:habitForm.weekdays.wed') },
-      { day: 4, label: t('components:habitForm.weekdays.thu') },
-      { day: 5, label: t('components:habitForm.weekdays.fri') },
-      { day: 6, label: t('components:habitForm.weekdays.sat') },
-      { day: 0, label: t('components:habitForm.weekdays.sun') },
+      { day: 1, label: t('components:habitForm.dayLabels.mon') },
+      { day: 2, label: t('components:habitForm.dayLabels.tue') },
+      { day: 3, label: t('components:habitForm.dayLabels.wed') },
+      { day: 4, label: t('components:habitForm.dayLabels.thu') },
+      { day: 5, label: t('components:habitForm.dayLabels.fri') },
+      { day: 6, label: t('components:habitForm.dayLabels.sat') },
+      { day: 0, label: t('components:habitForm.dayLabels.sun') },
     ];
     const [name, setName] = useState(initialData?.name || '');
     const [icon, setIcon] = useState<HabitIconName>(initialData?.icon || 'water');

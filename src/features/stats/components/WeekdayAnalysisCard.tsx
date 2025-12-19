@@ -140,7 +140,7 @@ export function WeekdayAnalysisCard() {
       {validStats.length > 0 && (
         <View className="mb-4 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900">
           <Text className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
-            평일 vs 주말 비교
+            {t('screens:stats.weekdayComparison')}
           </Text>
           <View className="flex-row gap-3">
             {/* Weekday */}
@@ -152,14 +152,14 @@ export function WeekdayAnalysisCard() {
                   color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
                 />
                 <Text className="text-xs text-gray-600 dark:text-gray-400">
-                  평일
+                  {t('screens:stats.weekday')}
                 </Text>
               </View>
               <Text className="text-2xl font-black text-gray-900 dark:text-white">
                 {weekdayAverage}%
               </Text>
               <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                월-금 평균
+                {t('screens:stats.monFriAverage')}
               </Text>
             </View>
 
@@ -172,14 +172,14 @@ export function WeekdayAnalysisCard() {
                   color={colorScheme === 'dark' ? '#A78BFA' : '#8B5CF6'}
                 />
                 <Text className="text-xs text-gray-600 dark:text-gray-400">
-                  주말
+                  {t('screens:stats.weekend')}
                 </Text>
               </View>
               <Text className="text-2xl font-black text-gray-900 dark:text-white">
                 {weekendAverage}%
               </Text>
               <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                토-일 평균
+                {t('screens:stats.satSunAverage')}
               </Text>
             </View>
           </View>
@@ -193,10 +193,10 @@ export function WeekdayAnalysisCard() {
             />
             <Text className="text-xs text-gray-600 dark:text-gray-400">
               {weekdayAverage > weekendAverage
-                ? '평일에 더 열심히 하셨네요!'
+                ? t('screens:stats.betterOnWeekdays')
                 : weekdayAverage < weekendAverage
-                  ? '주말에 더 집중하셨어요!'
-                  : '평일과 주말이 비슷해요'}
+                  ? t('screens:stats.betterOnWeekends')
+                  : t('screens:stats.similarPerformance')}
             </Text>
           </View>
         </View>
@@ -263,7 +263,7 @@ export function WeekdayAnalysisCard() {
       {validStats.length > 0 && (
         <View className="mt-4">
           <Text className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
-            요일별 상세 통계
+            {t('screens:stats.weekdayDetailedStats')}
           </Text>
           <View className="gap-2">
             {weekdayStats.map((stat) => {
@@ -290,7 +290,7 @@ export function WeekdayAnalysisCard() {
                         {stat.completedDays}
                       </Text>
                       <Text className="text-xs text-gray-500 dark:text-gray-400">
-                        완료
+                        {t('screens:stats.completed')}
                       </Text>
                     </View>
                     <View className="items-center">
@@ -298,7 +298,7 @@ export function WeekdayAnalysisCard() {
                         {weekdayHabitCounts[stat.weekday]}
                       </Text>
                       <Text className="text-xs text-gray-500 dark:text-gray-400">
-                        습관
+                        {t('screens:stats.habitsCount')}
                       </Text>
                     </View>
                   </View>

@@ -99,7 +99,25 @@
       "keepTrying": "포기하지 마세요! 작은 진전도 의미있는 성과입니다!",
       "keepGoing": "매일 조금씩 실천하는 것이 중요해요. 계속 도전하세요!",
       "dontGiveUp": "힘든 한 주였지만, 새로운 시작은 언제나 가능해요! 화이팅!"
-    }
+    },
+    "weekdayComparison": "평일 vs 주말 비교",
+    "weekday": "평일",
+    "weekend": "주말",
+    "monFriAverage": "월-금 평균",
+    "satSunAverage": "토-일 평균",
+    "betterOnWeekdays": "평일에 더 열심히 하셨네요!",
+    "betterOnWeekends": "주말에 더 집중하셨어요!",
+    "similarPerformance": "평일과 주말이 비슷해요",
+    "weekdayDetailedStats": "요일별 상세 통계",
+    "completed": "완료",
+    "habitsCount": "습관",
+    "recentTrend": "최근 추세",
+    "trendUp": "상승 중",
+    "trendDown": "하락 중",
+    "trendStable": "안정적",
+    "bestWeek": "최고 기록 주간",
+    "weeklyDetails": "주별 상세 기록",
+    "daysUnit": "일"
   },
   "settings": {
     "title": "설정",

@@ -10,18 +10,39 @@ interface DummyHabitTemplate {
   icon: HabitIconName;
   color: string;
   frequency: FrequencyType;
+  customDays?: number[]; // custom frequency일 때 사용
 }
 
 const DUMMY_HABIT_TEMPLATES: DummyHabitTemplate[] = [
-  { name: '물 마시기', icon: 'water', color: '#3B82F6', frequency: 'daily' },
-  { name: '운동하기', icon: 'run', color: '#F97316', frequency: 'weekdays' },
-  { name: '독서', icon: 'book-open-variant', color: '#8B5CF6', frequency: 'daily' },
-  { name: '명상', icon: 'meditation', color: '#10B981', frequency: 'daily' },
-  { name: '영어 공부', icon: 'translate', color: '#EAB308', frequency: 'weekdays' },
-  { name: '일기 쓰기', icon: 'pencil', color: '#EC4899', frequency: 'daily' },
+  { name: 'Drink Water', icon: 'water', color: '#3B82F6', frequency: 'daily' },
+  { name: 'Exercise', icon: 'run', color: '#F97316', frequency: 'custom', customDays: [1, 3, 5] }, // Mon Wed Fri
+  { name: 'Reading', icon: 'book-open-variant', color: '#8B5CF6', frequency: 'daily' },
+  { name: 'Meditation', icon: 'meditation', color: '#10B981', frequency: 'weekdays' },
+  { name: 'Study English', icon: 'translate', color: '#EAB308', frequency: 'custom', customDays: [2, 4] }, // Tue Thu
+  { name: 'Journal Writing', icon: 'pencil', color: '#EC4899', frequency: 'weekends' },
+  { name: 'Stretching', icon: 'yoga', color: '#06B6D4', frequency: 'daily' },
+  { name: 'Take Vitamins', icon: 'pill', color: '#84CC16', frequency: 'weekdays' },
+  { name: 'Walking', icon: 'walk', color: '#14B8A6', frequency: 'custom', customDays: [0, 3, 6] }, // Sun Wed Sat
+  { name: 'Guitar Practice', icon: 'guitar-acoustic', color: '#F59E0B', frequency: 'custom', customDays: [1, 2, 3, 4, 5] }, // Weekdays
 ];
 
 const STORAGE_KEY = 'dummy-data-initialized';
+
+/**
+ * frequency에 맞는 customDays 배열 생성
+ */
+function getCustomDaysFromFrequency(frequency: FrequencyType): number[] {
+  switch (frequency) {
+    case 'daily':
+      return [0, 1, 2, 3, 4, 5, 6]; // 매일
+    case 'weekdays':
+      return [1, 2, 3, 4, 5]; // 평일 (월~금)
+    case 'weekends':
+      return [0, 6]; // 주말 (일, 토)
+    default:
+      return [0, 1, 2, 3, 4, 5, 6]; // 기본값: 매일
+  }
+}
 
 /**
  * 더미 습관 데이터 생성
@@ -37,6 +58,7 @@ function generateDummyHabits(): Habit[] {
     icon: template.icon,
     color: template.color,
     frequency: template.frequency,
+    customDays: template.customDays || getCustomDaysFromFrequency(template.frequency),
     reminderEnabled: false, // 알림 스케줄링 방지
     createdAt: createdAt.toISOString(),
     order: index,
@@ -194,5 +216,50 @@ export function resetDummyDataFlag(): void {
     console.log('[DummyData] ✅ Flag reset successfully. Restart app to regenerate dummy data.');
   } catch (error) {
     console.error('[DummyData] ❌ Failed to reset flag:', error);
+  }
+}
+
+/**
+ * 강제로 더미 데이터 재생성 (개발용)
+ * 기존 데이터를 모두 삭제하고 새로운 더미 데이터로 교체
+ */
+export function forceRegenerateDummyData(): void {
+  if (!__DEV__) {
+    console.warn('[DummyData] Not available in production');
+    return;
+  }
+
+  try {
+    console.log('[DummyData] 🔄 Clearing existing data...');
+
+    // 기존 데이터 모두 삭제
+    useHabitStore.setState({ habits: [] });
+    useHabitCheckStore.setState({ checks: {} });
+
+    console.log('[DummyData] 🔄 Generating new dummy data...');
+
+    // 새로운 더미 데이터 생성
+    const dummyHabits = generateDummyHabits();
+    const dummyChecks = generateDummyChecks(dummyHabits);
+
+    console.log('[DummyData] Generated:', dummyHabits.length, 'habits,', dummyChecks.length, 'checks');
+
+    // 스토어에 저장
+    useHabitStore.setState({ habits: dummyHabits });
+
+    const checksRecord: Record<string, HabitCheck> = {};
+    for (const check of dummyChecks) {
+      const key = `${check.habitId}_${check.date}`;
+      checksRecord[key] = check;
+    }
+    useHabitCheckStore.setState({ checks: checksRecord });
+
+    // 플래그 설정
+    storage.set(STORAGE_KEY, 'true');
+
+    console.log('[DummyData] ✅ Successfully regenerated dummy data!');
+    console.log('[DummyData] Pull to refresh or navigate to see changes');
+  } catch (error) {
+    console.error('[DummyData] ❌ Failed to regenerate:', error);
   }
 }

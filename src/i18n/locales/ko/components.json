@@ -23,7 +23,7 @@
     "done": "완료",
     "repeat": "반복",
     "dailyReminder": "매일 알림",
-    "weekdays": {
+    "dayLabels": {
       "mon": "월",
       "tue": "화",
       "wed": "수",

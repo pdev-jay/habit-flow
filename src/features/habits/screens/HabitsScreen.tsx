@@ -23,11 +23,23 @@ function HabitItem({ habit, streak, onPress, onLongPress }: HabitItemProps) {
   const { language } = useI18n();
 
   const frequencyLabel = useMemo(() => {
-    if (habit.customDays) {
+    // customDays가 있으면 사용
+    if (habit.customDays && habit.customDays.length > 0) {
       return getFrequencyLabel(habit.customDays, language);
     }
-    return '';
-  }, [habit.customDays, language]);
+
+    // customDays가 없으면 frequency에서 생성
+    switch (habit.frequency) {
+      case 'daily':
+        return language === 'ko' ? '매일' : 'Daily';
+      case 'weekdays':
+        return language === 'ko' ? '평일' : 'Weekdays';
+      case 'weekends':
+        return language === 'ko' ? '주말' : 'Weekends';
+      default:
+        return '';
+    }
+  }, [habit.customDays, habit.frequency, language]);
 
   return (
     <Pressable
