@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { format } from 'date-fns';
 
@@ -13,12 +13,16 @@ import { useStreakTrend } from '../hooks/useStreakTrend';
 export function StreakTrendCard() {
   const colorScheme = useTheme();
   const { t } = useI18n();
+  const { width: screenWidth } = useWindowDimensions();
   const { weeklyData, bestStreak, averageStreak, currentStreak } = useStreakTrend();
 
-  // Calculate chart dimensions
+  // Calculate chart dimensions - responsive to screen size
   const maxValue = Math.max(...weeklyData.map((w) => w.maxStreak), 1);
   const chartHeight = 200;
-  const chartWidth = 280;
+  // Card inner width = screen - ScrollView padding(16) - Card px(32)
+  const cardInnerWidth = screenWidth - 48;
+  // Chart width = card inner width - Y-axis label space(30) - margin(24)
+  const chartWidth = cardInnerWidth - 54;
   const pointWidth = chartWidth / Math.max(weeklyData.length - 1, 1);
 
   // Calculate trend (last 4 weeks vs previous 4 weeks)
@@ -36,7 +40,7 @@ export function StreakTrendCard() {
   );
 
   return (
-    <View className="mx-2 mb-4 rounded-2xl bg-white p-6 dark:bg-gray-800">
+    <View className="mb-4 bg-white px-4 py-6 dark:bg-gray-800">
       {/* Header */}
       <View className="mb-4 flex-row items-center gap-2">
         <MaterialCommunityIcons
