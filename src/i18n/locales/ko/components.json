@@ -55,6 +55,7 @@
   "insight": {
     "title": "이번 달 인사이트",
     "mvpHabit": "MVP 습관",
+    "topHabits": "최고 성과 습관",
     "streakDays": "{{count}}일 연속",
     "needsAttention": "주의 필요"
   },

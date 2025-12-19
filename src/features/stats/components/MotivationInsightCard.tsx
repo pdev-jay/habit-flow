@@ -54,8 +54,8 @@ export function MotivationInsightCard() {
 
       {/* Insights Grid */}
       <View className="gap-3">
-        {/* Top Habit */}
-        {insight.topHabit && (
+        {/* Top 3 Habits */}
+        {insight.topThree.length > 0 && (
           <View className="rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900">
             <View className="mb-2 flex-row items-center gap-2">
               <MaterialCommunityIcons name="trophy" size={20} color="#FCD34D" />
@@ -63,23 +63,29 @@ export function MotivationInsightCard() {
                 {t('screens:stats.topPerformer')}
               </Text>
             </View>
-            <View className="flex-row items-center gap-2">
-              <View
-                className="h-8 w-8 items-center justify-center rounded-full"
-                style={{ backgroundColor: insight.topHabit.habit.color }}>
-                <MaterialCommunityIcons
-                  name={insight.topHabit.habit.icon as any}
-                  size={16}
-                  color="#FFFFFF"
-                />
-              </View>
-              <Text className="flex-1 text-base font-bold text-gray-900 dark:text-white">
-                {insight.topHabit.habit.name}
-              </Text>
-              <Text className="text-xl font-black text-yellow-600 dark:text-yellow-400">
-                {insight.topHabit.completionRate}%
-              </Text>
-            </View>
+            {insight.topThree.map((stat, index) => {
+              return (
+                <View
+                  key={stat.habit.id}
+                  className={`flex-row items-center gap-2 ${index > 0 ? 'mt-3' : ''}`}>
+                  <View
+                    className="h-8 w-8 items-center justify-center rounded-full"
+                    style={{ backgroundColor: stat.habit.color }}>
+                    <MaterialCommunityIcons
+                      name={stat.habit.icon as any}
+                      size={16}
+                      color="#FFFFFF"
+                    />
+                  </View>
+                  <Text className="flex-1 text-base font-bold text-gray-900 dark:text-white">
+                    {stat.habit.name}
+                  </Text>
+                  <Text className="text-lg font-black text-yellow-600 dark:text-yellow-400">
+                    {stat.completionRate}%
+                  </Text>
+                </View>
+              );
+            })}
           </View>
         )}
 

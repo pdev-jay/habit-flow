@@ -20,6 +20,8 @@ import { useHabitStore } from '@/features/habits/api/habitStore';
 import { rescheduleAllHabits, shouldReschedule } from '@/services/notificationService';
 import { useScreenTracking } from '@/features/analytics/hooks/useScreenTracking';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { initializeDummyData } from '@/utils/dummyData';
+import '@/utils/forceDummyData'; // Global function registration
 
 // Crashlytics singleton instance (v22+ modular API)
 const crashlyticsInstance = crashlytics();
@@ -77,6 +79,20 @@ function RootLayoutContent() {
     };
 
     initAdMob();
+  }, []);
+
+  // Initialize Dummy Data (dev mode only)
+  useEffect(() => {
+    const initDummyData = async () => {
+      try {
+        await initializeDummyData();
+      } catch (error) {
+        console.error('[DummyData] Initialization failed:', error);
+        // Error is handled gracefully, app continues to run
+      }
+    };
+
+    initDummyData();
   }, []);
 
   // NativeWind dark mode 동기화

@@ -55,6 +55,7 @@
   "insight": {
     "title": "This Month's Insights",
     "mvpHabit": "MVP Habit",
+    "topHabits": "Top Habits",
     "streakDays": "{{count}} day streak",
     "needsAttention": "Needs Attention"
   },

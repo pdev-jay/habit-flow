@@ -166,8 +166,8 @@ function isHabitActiveOnDate(
 
 /**
  * 연속 streak 계산 (모든 습관을 완료한 날)
- * - 오늘은 제외하고 어제까지의 연속 달성일만 카운트
- * - 오늘은 아직 하루가 끝나지 않았으므로 streak에 포함하지 않음
+ * - 오늘을 포함하여 연속 달성일 카운트
+ * - 상세 분석과 일관성 유지를 위해 오늘 포함
  */
 function calculateWeeklyStreak(
   dates: string[],
@@ -177,8 +177,8 @@ function calculateWeeklyStreak(
   let streak = 0;
   const today = formatDateToKey(new Date());
 
-  // 오늘 제외하고 어제까지의 날짜만 필터링 (오늘은 아직 진행 중)
-  const pastDates = dates.filter((date) => date < today);
+  // 오늘을 포함하여 카운트 (상세 분석과 일관성 유지)
+  const pastDates = dates.filter((date) => date <= today);
   const reversedDates = [...pastDates].reverse();
 
   for (const date of reversedDates) {

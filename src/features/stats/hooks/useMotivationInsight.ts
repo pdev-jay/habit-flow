@@ -4,6 +4,7 @@ import { useWeeklyStats } from '@/features/habits/hooks/useWeeklyStats';
 
 export interface MotivationInsight {
   topHabit: HabitDetailStats | null;
+  topThree: Array<HabitDetailStats & { rank: 1 | 2 | 3 }>;
   improvementHabit: HabitDetailStats | null;
   weeklyProgress: number; // Percentage (0-100)
   motivationMessage: string;
@@ -26,6 +27,15 @@ export function useMotivationInsight(): MotivationInsight {
 
     // Find top performing habit (highest completion rate)
     const topHabit = sortedByCompletion[0] || null;
+
+    // Get top 3 habits with rank
+    const topThree = sortedByCompletion
+      .filter((stat) => stat.totalCompletions > 0)
+      .slice(0, 3)
+      .map((stat, index) => ({
+        ...stat,
+        rank: (index + 1) as 1 | 2 | 3,
+      }));
 
     // Find habit that needs improvement (lowest completion rate, but has some completions)
     const improvementHabit =
@@ -62,6 +72,7 @@ export function useMotivationInsight(): MotivationInsight {
 
     return {
       topHabit,
+      topThree,
       improvementHabit,
       weeklyProgress,
       motivationMessage,

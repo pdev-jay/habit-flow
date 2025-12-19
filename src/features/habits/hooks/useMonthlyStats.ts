@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { startOfMonth, endOfMonth, eachDayOfInterval, format, isFuture, isBefore } from 'date-fns';
+import { startOfMonth, endOfMonth, eachDayOfInterval, format, isFuture } from 'date-fns';
 import { useHabitStore } from '../api/habitStore';
 import { useHabitCheckStore } from '../api/habitCheckStore';
 import { calculateStreak } from '../utils/streakUtils';
@@ -31,11 +31,10 @@ export function useMonthlyStats(date: Date): MonthlyStats {
 
     const monthStart = startOfMonth(date);
     const monthEnd = endOfMonth(date);
-    const today = new Date();
 
-    // 해당 월의 모든 날짜 생성 (오늘 이전만)
+    // 해당 월의 모든 날짜 생성 (오늘 포함, 미래는 제외)
     const allDaysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
-    const pastDays = allDaysInMonth.filter((day) => !isFuture(day) && isBefore(day, today));
+    const pastDays = allDaysInMonth.filter((day) => !isFuture(day));
 
     let totalCompletedCount = 0;
     let totalPossibleCount = 0;
@@ -163,11 +162,10 @@ export function useHabitInsights(date: Date): HabitInsight[] {
 
     const monthStart = startOfMonth(date);
     const monthEnd = endOfMonth(date);
-    const today = new Date();
 
-    // 해당 월의 모든 날짜 생성 (오늘 이전만)
+    // 해당 월의 모든 날짜 생성 (오늘 포함, 미래는 제외)
     const allDaysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
-    const pastDays = allDaysInMonth.filter((day) => !isFuture(day) && isBefore(day, today));
+    const pastDays = allDaysInMonth.filter((day) => !isFuture(day));
 
     const habitInsights: HabitInsight[] = habits.map((habit) => {
       let completedCount = 0;

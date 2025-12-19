@@ -34,7 +34,7 @@ export interface HabitInsight {
   totalCount: number;
   currentStreak: number;
   longestStreak: number;
-  rank?: number;
+  rank?: 1 | 2 | 3;
 }
 
 /**

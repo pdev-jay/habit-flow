@@ -13,9 +13,10 @@ export function InsightCard({ insight }: Props) {
   const colorScheme = useTheme();
   const { t } = useI18n();
 
-  if (!insight.mvpHabit && !insight.needsAttention) {
+  if (insight.topThree.length === 0 && !insight.needsAttention) {
     return null;
   }
+
 
   return (
     <View className="mx-4 my-2 rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
@@ -23,8 +24,8 @@ export function InsightCard({ insight }: Props) {
         {t('components:insight.title')}
       </ThemedText>
 
-      {/* MVP 습관 */}
-      {insight.mvpHabit && (
+      {/* TOP 3 습관 */}
+      {insight.topThree.length > 0 && (
         <View className="mb-3 rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
           <View className="mb-2 flex-row items-center">
             <MaterialCommunityIcons
@@ -33,31 +34,34 @@ export function InsightCard({ insight }: Props) {
               color={colorScheme === 'dark' ? '#34D399' : '#10B981'}
             />
             <ThemedText className="ml-2 text-sm font-medium text-green-600 dark:text-green-400">
-              {t('components:insight.mvpHabit')}
+              {t('components:insight.topHabits')}
             </ThemedText>
           </View>
-          <View className="flex-row items-center justify-between">
-            <View className="flex-1 flex-row items-center">
-              <View className="h-8 w-8 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/40">
-                <MaterialCommunityIcons
-                  name={insight.mvpHabit.habitIcon as HabitIconName}
-                  size={18}
-                  color={colorScheme === 'dark' ? '#34D399' : '#10B981'}
-                />
+          {insight.topThree.map((habit, index) => (
+            <View
+              key={habit.habitId}
+              className={`flex-row items-center justify-between ${index > 0 ? 'mt-2' : ''}`}
+            >
+              <View className="flex-1 flex-row items-center">
+                <View
+                  className="h-8 w-8 items-center justify-center rounded-full"
+                  style={{ backgroundColor: habit.habitColor }}
+                >
+                  <MaterialCommunityIcons
+                    name={habit.habitIcon as HabitIconName}
+                    size={18}
+                    color="#FFFFFF"
+                  />
+                </View>
+                <ThemedText className="ml-3 flex-1 text-base font-medium text-gray-900 dark:text-white">
+                  {habit.habitName}
+                </ThemedText>
               </View>
-              <ThemedText className="ml-3 text-base font-medium text-gray-900 dark:text-white">
-                {insight.mvpHabit.habitName}
-              </ThemedText>
-            </View>
-            <View className="items-end">
               <ThemedText className="text-sm font-semibold text-green-600 dark:text-green-400">
-                {insight.mvpHabit.completionRate.toFixed(0)}%
-              </ThemedText>
-              <ThemedText className="text-xs text-gray-500 dark:text-gray-400">
-                {t('components:insight.streakDays', { count: insight.mvpHabit.currentStreak })}
+                {habit.completionRate.toFixed(0)}%
               </ThemedText>
             </View>
-          </View>
+          ))}
         </View>
       )}
 
@@ -76,11 +80,14 @@ export function InsightCard({ insight }: Props) {
           </View>
           <View className="mt-2 flex-row items-center justify-between">
             <View className="flex-1 flex-row items-center">
-              <View className="h-8 w-8 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/40">
+              <View
+                className="h-8 w-8 items-center justify-center rounded-full"
+                style={{ backgroundColor: insight.needsAttention.habitColor }}
+              >
                 <MaterialCommunityIcons
                   name={insight.needsAttention.habitIcon as HabitIconName}
                   size={18}
-                  color={colorScheme === 'dark' ? '#FB923C' : '#F97316'}
+                  color="#FFFFFF"
                 />
               </View>
               <ThemedText className="ml-3 text-base font-medium text-gray-900 dark:text-white">
