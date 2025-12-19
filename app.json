@@ -67,7 +67,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.pdevjay.routimeter",
       "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
