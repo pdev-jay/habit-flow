@@ -30,12 +30,11 @@ import type { Habit } from '../types/habit.types';
  * ```
  */
 export function useHabitStreak(habit: Habit): number {
-  const getChecksByHabitId = useHabitCheckStore((state) => state.getChecksByHabitId);
+  const checks = useHabitCheckStore((state) => state.getChecksByHabitId(habit.id));
 
   const streak = useMemo(() => {
-    const checks = getChecksByHabitId(habit.id);
     return calculateStreak(habit, checks);
-  }, [habit, getChecksByHabitId]);
+  }, [habit, checks]);
 
   return streak;
 }
@@ -67,18 +66,19 @@ export function useHabitStreak(habit: Habit): number {
  * ```
  */
 export function useHabitStreaks(habits: Habit[]): Record<string, number> {
-  const getChecksByHabitId = useHabitCheckStore((state) => state.getChecksByHabitId);
+  const allChecks = useHabitCheckStore((state) => state.checks);
 
   const streaks = useMemo(() => {
     const result: Record<string, number> = {};
 
     habits.forEach((habit) => {
-      const checks = getChecksByHabitId(habit.id);
-      result[habit.id] = calculateStreak(habit, checks);
+      // Extract checks for this habit
+      const habitChecks = Object.values(allChecks).filter((check) => check.habitId === habit.id);
+      result[habit.id] = calculateStreak(habit, habitChecks);
     });
 
     return result;
-  }, [habits, getChecksByHabitId]);
+  }, [habits, allChecks]);
 
   return streaks;
 }

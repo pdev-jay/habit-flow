@@ -6,7 +6,7 @@ import type { Habit, HabitCheck } from '../types/habit.types';
  * 연속 달성 일수(스트릭) 계산
  *
  * @description
- * - 오늘부터 역순으로 연속 완료된 날짜 수 계산
+ * - 오늘 완료되었으면 오늘부터, 아니면 어제부터 역순으로 연속 완료된 날짜 수 계산
  * - 습관의 활성 요일(customDays)만 체크
  * - 하루라도 빠지면 0으로 리셋
  * - 습관 생성일 이전은 카운트 안 함
@@ -15,10 +15,16 @@ import type { Habit, HabitCheck } from '../types/habit.types';
  * 습관: 월/수/금 (customDays: [1, 3, 5])
  * 오늘: 2024-01-12 (금요일)
  *
+ * 케이스 1 - 오늘 완료:
  * 2024-01-12 (금) ✓ → 카운트: 1
  * 2024-01-10 (수) ✓ → 카운트: 2
  * 2024-01-08 (월) ✓ → 카운트: 3
- * 2024-01-05 (금) ✗ → 중단! 스트릭 = 3
+ * → 스트릭 = 3
+ *
+ * 케이스 2 - 오늘 미완료:
+ * 2024-01-10 (수) ✓ → 카운트: 1
+ * 2024-01-08 (월) ✓ → 카운트: 2
+ * → 스트릭 = 2 (오늘 제외)
  *
  * @param habit - 습관 객체
  * @param checks - 해당 습관의 전체 체크 기록
@@ -40,14 +46,22 @@ export function calculateStreak(habit: Habit, checks: HabitCheck[]): number {
     checks.filter((check) => check.completed).map((check) => check.date)
   );
 
-  // 오늘부터 역순으로 체크
   let streak = 0;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  let currentDate = new Date(today);
+  // 오늘이 완료되었는지 확인
+  const todayKey = formatDateToKey(today);
+  const isTodayCompleted = completedDates.has(todayKey);
 
-  // 오늘이 활성 요일이 아니면 가장 최근 활성 요일부터 시작
+  // 오늘이 완료되었으면 오늘부터, 아니면 어제부터 시작
+  let currentDate = new Date(today);
+  if (!isTodayCompleted || !isActiveDayForHabit(habit, today)) {
+    // 오늘이 미완료이거나 활성 요일이 아니면 어제부터 시작
+    currentDate.setDate(currentDate.getDate() - 1);
+  }
+
+  // 현재 날짜가 활성 요일이 아니면 가장 최근 활성 요일부터 시작
   while (currentDate >= createdAt && !isActiveDayForHabit(habit, currentDate)) {
     currentDate.setDate(currentDate.getDate() - 1);
   }

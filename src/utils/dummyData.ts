@@ -89,15 +89,18 @@ function isHabitActiveOnDate(habit: Habit, date: Date): boolean {
  * 날짜 범위에 따른 완료율 계산
  */
 function getCompletionRateForDaysAgo(daysAgo: number): number {
-  if (daysAgo <= 7) {
-    // 최근 7일: 90-100% 완료율
-    return 0.9 + Math.random() * 0.1;
+  if (daysAgo === 0) {
+    // 오늘: 80% 완료율 (일부는 아직 완료 안 함)
+    return 0.8;
+  } else if (daysAgo <= 7) {
+    // 최근 1-7일: 100% 완료율 (streak 보장)
+    return 1.0;
   } else if (daysAgo <= 14) {
-    // 8-14일 전: 80-90% 완료율
-    return 0.8 + Math.random() * 0.1;
+    // 8-14일 전: 80-95% 완료율
+    return 0.8 + Math.random() * 0.15;
   } else {
-    // 15-30일 전: 70-85% 완료율
-    return 0.7 + Math.random() * 0.15;
+    // 15-30일 전: 60-80% 완료율
+    return 0.6 + Math.random() * 0.2;
   }
 }
 
