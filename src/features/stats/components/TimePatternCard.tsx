@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 // import Svg, { Circle, G, Text as SvgText } from 'react-native-svg';
 
@@ -66,9 +67,9 @@ export function TimePatternCard() {
           size={24}
           color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
         />
-        <Text className="text-lg font-bold text-gray-900 dark:text-white">
+        <ThemedText className="text-lg font-bold text-gray-900 dark:text-white">
           {t('screens:stats.timePattern')}
-        </Text>
+        </ThemedText>
       </View>
 
       {hasData ? (
@@ -137,10 +138,10 @@ export function TimePatternCard() {
                     className="h-3 w-3 rounded-full"
                     style={{ backgroundColor: timeSlotColors[slot.timeSlot] }}
                   />
-                  <Text className="text-xs text-gray-700 dark:text-gray-300">
+                  <ThemedText className="text-xs text-gray-700 dark:text-gray-300">
                     {t(`screens:stats.timeSlots.${slot.timeSlot}`).split(' ')[0]} (
                     {slot.completionRate}%)
-                  </Text>
+                  </ThemedText>
                 </View>
               ))}
           </View> */}
@@ -160,14 +161,14 @@ export function TimePatternCard() {
                         size={20}
                         color={colorScheme === 'dark' ? '#9CA3AF' : '#6B7280'}
                       />
-                      <Text className="w-32 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      <ThemedText className="w-32 text-sm font-medium text-gray-700 dark:text-gray-300">
                         {t(`screens:stats.timeSlots.${slot.timeSlot}`)}
-                      </Text>
+                      </ThemedText>
                     </View>
                     <View className="flex-row items-center gap-1">
-                      <Text className="text-sm font-bold text-gray-900 dark:text-white">
+                      <ThemedText className="text-sm font-bold text-gray-900 dark:text-white">
                         {slot.completionRate}%
-                      </Text>
+                      </ThemedText>
                       {isMostActive && slot.totalCompletions > 0 && (
                         <MaterialCommunityIcons
                           name="star"
@@ -186,9 +187,9 @@ export function TimePatternCard() {
                       }}
                     />
                   </View>
-                  <Text className="mt-1 text-right text-xs text-gray-500 dark:text-gray-400">
+                  <ThemedText className="mt-1 text-right text-xs text-gray-500 dark:text-gray-400">
                     {slot.totalCompletions} {t('screens:stats.times')}
-                  </Text>
+                  </ThemedText>
                 </View>
               );
             })}
@@ -204,16 +205,16 @@ export function TimePatternCard() {
                   color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
                 />
                 <View className="flex-1">
-                  <Text className="text-sm font-semibold text-gray-900 dark:text-white">
+                  <ThemedText className="text-sm font-semibold text-gray-900 dark:text-white">
                     {t('screens:stats.mostActiveTime')}:{' '}
                     {t(`screens:stats.timeSlots.${mostActive.timeSlot}`)}
-                  </Text>
-                  <Text className="text-xs text-gray-600 dark:text-gray-400">
+                  </ThemedText>
+                  <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
                     {t('screens:stats.completionsCount', {
                       count: mostActive.totalCompletions,
                     })}{' '}
                     · {mostActive.completionRate}%
-                  </Text>
+                  </ThemedText>
                 </View>
               </View>
             </View>
@@ -228,11 +229,11 @@ export function TimePatternCard() {
                   size={20}
                   color={colorScheme === 'dark' ? '#FCD34D' : '#F59E0B'}
                 />
-                <Text className="flex-1 text-sm text-gray-700 dark:text-gray-300">
+                <ThemedText className="flex-1 text-sm text-gray-700 dark:text-gray-300">
                   {t('screens:stats.timePatternTip', {
                     time: t(`screens:stats.timeSlots.${mostActive.timeSlot}`),
                   })}
-                </Text>
+                </ThemedText>
               </View>
             </View>
           )}
@@ -245,9 +246,9 @@ export function TimePatternCard() {
             size={48}
             color={colorScheme === 'dark' ? '#6B7280' : '#9CA3AF'}
           />
-          <Text className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          <ThemedText className="mt-2 text-sm text-gray-500 dark:text-gray-400">
             {t('screens:stats.noData')}
-          </Text>
+          </ThemedText>
         </View>
       )}
     </View>

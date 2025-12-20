@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Pressable } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { ThemedText } from '@/components/ThemedText';
 import { useTheme, useI18n } from '@/hooks';
 import { useHabitDetail } from '../hooks/useHabitDetail';
 
@@ -43,9 +44,9 @@ export function HabitDetailCard() {
           size={24}
           color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
         />
-        <Text className="text-lg font-bold text-gray-900 dark:text-white">
+        <ThemedText className="text-lg font-bold">
           {t('screens:stats.habitDetails')}
-        </Text>
+        </ThemedText>
       </View>
 
       {sortedStats.length === 0 ? (
@@ -56,9 +57,9 @@ export function HabitDetailCard() {
             size={48}
             color={colorScheme === 'dark' ? '#6B7280' : '#9CA3AF'}
           />
-          <Text className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          <ThemedText className="mt-2 text-sm text-gray-500 dark:text-gray-400">
             {t('screens:stats.noData')}
-          </Text>
+          </ThemedText>
         </View>
       ) : (
         <>
@@ -81,12 +82,12 @@ export function HabitDetailCard() {
                     />
                   </View>
                   <View className="flex-1">
-                    <Text className="text-base font-bold text-gray-900 dark:text-white">
+                    <ThemedText className="text-base font-bold">
                       {stat.habit.name}
-                    </Text>
-                    <Text className="text-xs text-gray-500 dark:text-gray-400">
+                    </ThemedText>
+                    <ThemedText className="text-xs text-gray-500 dark:text-gray-400">
                       {getFrequencyText(stat.habit)}
-                    </Text>
+                    </ThemedText>
                   </View>
                   {index === 0 && sortedStats.length > 1 && (
                     <MaterialCommunityIcons
@@ -101,45 +102,45 @@ export function HabitDetailCard() {
                 <View className="flex-row flex-wrap gap-2">
                   {/* Completion Rate */}
                   <View className="flex-1 min-w-[45%] rounded-lg bg-white p-3 dark:bg-gray-800">
-                    <Text className="text-xs text-gray-600 dark:text-gray-400">
+                    <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
                       {t('screens:habitDetail.completionRate')}
-                    </Text>
-                    <Text className="mt-1 text-2xl font-black text-blue-600 dark:text-blue-400">
+                    </ThemedText>
+                    <ThemedText className="mt-1 text-2xl font-black text-blue-600 dark:text-blue-400">
                       {stat.completionRate}%
-                    </Text>
+                    </ThemedText>
                   </View>
 
                   {/* Current Streak */}
                   <View className="flex-1 min-w-[45%] rounded-lg bg-white p-3 dark:bg-gray-800">
-                    <Text className="text-xs text-gray-600 dark:text-gray-400">
+                    <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
                       {t('screens:habitDetail.currentStreak')}
-                    </Text>
-                    <Text className="mt-1 text-2xl font-black text-green-600 dark:text-green-400">
+                    </ThemedText>
+                    <ThemedText className="mt-1 text-2xl font-black text-green-600 dark:text-green-400">
                       {stat.currentStreak}{' '}
-                      <Text className="text-sm font-normal">{t('screens:habitDetail.days')}</Text>
-                    </Text>
+                      <ThemedText className="text-sm font-normal">{t('screens:habitDetail.days')}</ThemedText>
+                    </ThemedText>
                   </View>
 
                   {/* Best Streak */}
                   <View className="flex-1 min-w-[45%] rounded-lg bg-white p-3 dark:bg-gray-800">
-                    <Text className="text-xs text-gray-600 dark:text-gray-400">
+                    <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
                       {t('screens:habitDetail.bestStreak')}
-                    </Text>
-                    <Text className="mt-1 text-2xl font-black text-purple-600 dark:text-purple-400">
+                    </ThemedText>
+                    <ThemedText className="mt-1 text-2xl font-black text-purple-600 dark:text-purple-400">
                       {stat.bestStreak}{' '}
-                      <Text className="text-sm font-normal">{t('screens:habitDetail.days')}</Text>
-                    </Text>
+                      <ThemedText className="text-sm font-normal">{t('screens:habitDetail.days')}</ThemedText>
+                    </ThemedText>
                   </View>
 
                   {/* Total Completions */}
                   <View className="flex-1 min-w-[45%] rounded-lg bg-white p-3 dark:bg-gray-800">
-                    <Text className="text-xs text-gray-600 dark:text-gray-400">
+                    <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
                       {t('screens:habitDetail.totalCompletions')}
-                    </Text>
-                    <Text className="mt-1 text-2xl font-black text-orange-600 dark:text-orange-400">
+                    </ThemedText>
+                    <ThemedText className="mt-1 text-2xl font-black text-orange-600 dark:text-orange-400">
                       {stat.totalCompletions}{' '}
-                      <Text className="text-sm font-normal">{t('screens:habitDetail.times')}</Text>
-                    </Text>
+                      <ThemedText className="text-sm font-normal">{t('screens:habitDetail.times')}</ThemedText>
+                    </ThemedText>
                   </View>
                 </View>
               </View>
@@ -151,11 +152,11 @@ export function HabitDetailCard() {
             <Pressable
               onPress={() => setShowAll(!showAll)}
               className="mt-3 flex-row items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white py-3 dark:border-gray-700 dark:bg-gray-800">
-              <Text className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+              <ThemedText className="text-sm font-semibold text-gray-700 dark:text-gray-300">
                 {showAll
                   ? t('screens:stats.showLess')
                   : t('screens:stats.showAll', { count: sortedStats.length })}
-              </Text>
+              </ThemedText>
               <MaterialCommunityIcons
                 name={showAll ? 'chevron-up' : 'chevron-down'}
                 size={20}
@@ -175,9 +176,9 @@ export function HabitDetailCard() {
               size={20}
               color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
             />
-            <Text className="flex-1 text-sm text-gray-700 dark:text-gray-300">
+            <ThemedText className="flex-1 text-sm text-gray-700 dark:text-gray-300">
               {t('screens:stats.habitDetailTip')}
-            </Text>
+            </ThemedText>
           </View>
         </View>
       )}

@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useTheme, useI18n } from '@/hooks';
@@ -93,13 +94,13 @@ export function WeekdayAnalysisCard() {
             size={24}
             color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
           />
-          <Text className="text-lg font-bold text-gray-900 dark:text-white">
+          <ThemedText className="text-lg font-bold text-gray-900 dark:text-white">
             {t('screens:stats.weekdayAnalysis')}
-          </Text>
+          </ThemedText>
         </View>
-        <Text className="text-xs text-gray-500 dark:text-gray-400">
+        <ThemedText className="text-xs text-gray-500 dark:text-gray-400">
           {t('screens:stats.lastNWeeks', { n: 4 })}
-        </Text>
+        </ThemedText>
       </View>
 
       {/* Summary */}
@@ -112,11 +113,11 @@ export function WeekdayAnalysisCard() {
               color="#FCD34D"
             />
             <View className="flex-1">
-              <Text className="text-sm font-semibold text-gray-900 dark:text-white">
+              <ThemedText className="text-sm font-semibold text-gray-900 dark:text-white">
                 {t('screens:stats.bestDay')}:{' '}
                 {t(`common:weekdays.full.${weekdayFullKeys[bestDay.weekday]}`)} (
                 {bestDay.completionRate}%)
-              </Text>
+              </ThemedText>
             </View>
           </View>
           <View className="mt-2 flex-row items-center gap-2">
@@ -126,11 +127,11 @@ export function WeekdayAnalysisCard() {
               color={colorScheme === 'dark' ? '#EF4444' : '#DC2626'}
             />
             <View className="flex-1">
-              <Text className="text-sm font-semibold text-gray-900 dark:text-white">
+              <ThemedText className="text-sm font-semibold text-gray-900 dark:text-white">
                 {t('screens:stats.needsImprovement')}:{' '}
                 {t(`common:weekdays.full.${weekdayFullKeys[worstDay.weekday]}`)} (
                 {worstDay.completionRate}%)
-              </Text>
+              </ThemedText>
             </View>
           </View>
         </View>
@@ -139,9 +140,9 @@ export function WeekdayAnalysisCard() {
       {/* Weekday vs Weekend Comparison */}
       {validStats.length > 0 && (
         <View className="mb-4 rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900">
-          <Text className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
+          <ThemedText className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
             {t('screens:stats.weekdayComparison')}
-          </Text>
+          </ThemedText>
           <View className="flex-row gap-3">
             {/* Weekday */}
             <View className="flex-1 rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
@@ -151,16 +152,16 @@ export function WeekdayAnalysisCard() {
                   size={20}
                   color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
                 />
-                <Text className="text-xs text-gray-600 dark:text-gray-400">
+                <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
                   {t('screens:stats.weekday')}
-                </Text>
+                </ThemedText>
               </View>
-              <Text className="text-2xl font-black text-gray-900 dark:text-white">
+              <ThemedText className="text-2xl font-black text-gray-900 dark:text-white">
                 {weekdayAverage}%
-              </Text>
-              <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              </ThemedText>
+              <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 {t('screens:stats.monFriAverage')}
-              </Text>
+              </ThemedText>
             </View>
 
             {/* Weekend */}
@@ -171,16 +172,16 @@ export function WeekdayAnalysisCard() {
                   size={20}
                   color={colorScheme === 'dark' ? '#A78BFA' : '#8B5CF6'}
                 />
-                <Text className="text-xs text-gray-600 dark:text-gray-400">
+                <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
                   {t('screens:stats.weekend')}
-                </Text>
+                </ThemedText>
               </View>
-              <Text className="text-2xl font-black text-gray-900 dark:text-white">
+              <ThemedText className="text-2xl font-black text-gray-900 dark:text-white">
                 {weekendAverage}%
-              </Text>
-              <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              </ThemedText>
+              <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                 {t('screens:stats.satSunAverage')}
-              </Text>
+              </ThemedText>
             </View>
           </View>
 
@@ -191,13 +192,13 @@ export function WeekdayAnalysisCard() {
               size={16}
               color={weekdayAverage > weekendAverage ? '#10B981' : weekdayAverage < weekendAverage ? '#EF4444' : '#6B7280'}
             />
-            <Text className="text-xs text-gray-600 dark:text-gray-400">
+            <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
               {weekdayAverage > weekendAverage
                 ? t('screens:stats.betterOnWeekdays')
                 : weekdayAverage < weekendAverage
                   ? t('screens:stats.betterOnWeekends')
                   : t('screens:stats.similarPerformance')}
-            </Text>
+            </ThemedText>
           </View>
         </View>
       )}
@@ -222,13 +223,13 @@ export function WeekdayAnalysisCard() {
           return (
             <View key={stat.weekday} className="my-1">
               <View className="mb-1 flex-row items-center justify-between">
-                <Text className="w-12 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <ThemedText className="w-12 text-sm font-medium text-gray-700 dark:text-gray-300">
                   {t(`common:weekdays.short.${weekdayShortKeys[stat.weekday]}`)}
-                </Text>
+                </ThemedText>
                 <View className="flex-row items-center gap-1">
-                  <Text className="text-sm font-bold text-gray-900 dark:text-white">
+                  <ThemedText className="text-sm font-bold text-gray-900 dark:text-white">
                     {stat.completionRate}%
-                  </Text>
+                  </ThemedText>
                   {isBest && (
                     <MaterialCommunityIcons
                       name="star"
@@ -262,9 +263,9 @@ export function WeekdayAnalysisCard() {
       {/* Detailed Statistics */}
       {validStats.length > 0 && (
         <View className="mt-4">
-          <Text className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
+          <ThemedText className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
             {t('screens:stats.weekdayDetailedStats')}
-          </Text>
+          </ThemedText>
           <View className="gap-2">
             {weekdayStats.map((stat) => {
               const isBest = stat.weekday === bestDay.weekday;
@@ -273,9 +274,9 @@ export function WeekdayAnalysisCard() {
                   key={stat.weekday}
                   className="flex-row items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-700 dark:bg-gray-900">
                   <View className="flex-row items-center gap-2">
-                    <Text className="w-10 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <ThemedText className="w-10 text-sm font-medium text-gray-700 dark:text-gray-300">
                       {t(`common:weekdays.short.${weekdayShortKeys[stat.weekday]}`)}
-                    </Text>
+                    </ThemedText>
                     {isBest && (
                       <MaterialCommunityIcons
                         name="crown"
@@ -286,20 +287,20 @@ export function WeekdayAnalysisCard() {
                   </View>
                   <View className="flex-row items-center gap-6">
                     <View className="items-center">
-                      <Text className="text-sm font-bold text-gray-900 dark:text-white">
+                      <ThemedText className="text-sm font-bold text-gray-900 dark:text-white">
                         {stat.completedDays}
-                      </Text>
-                      <Text className="text-xs text-gray-500 dark:text-gray-400">
+                      </ThemedText>
+                      <ThemedText className="text-xs text-gray-500 dark:text-gray-400">
                         {t('screens:stats.completed')}
-                      </Text>
+                      </ThemedText>
                     </View>
                     <View className="items-center">
-                      <Text className="text-sm font-bold text-gray-900 dark:text-white">
+                      <ThemedText className="text-sm font-bold text-gray-900 dark:text-white">
                         {weekdayHabitCounts[stat.weekday]}
-                      </Text>
-                      <Text className="text-xs text-gray-500 dark:text-gray-400">
+                      </ThemedText>
+                      <ThemedText className="text-xs text-gray-500 dark:text-gray-400">
                         {t('screens:stats.habitsCount')}
-                      </Text>
+                      </ThemedText>
                     </View>
                   </View>
                 </View>
@@ -318,11 +319,11 @@ export function WeekdayAnalysisCard() {
               size={20}
               color={colorScheme === 'dark' ? '#FCD34D' : '#F59E0B'}
             />
-            <Text className="flex-1 text-sm text-gray-700 dark:text-gray-300">
+            <ThemedText className="flex-1 text-sm text-gray-700 dark:text-gray-300">
               {t('screens:stats.weekdayTip', {
                 day: t(`common:weekdays.full.${weekdayFullKeys[worstDay.weekday]}`),
               })}
-            </Text>
+            </ThemedText>
           </View>
         </View>
       )}
@@ -335,9 +336,9 @@ export function WeekdayAnalysisCard() {
             size={48}
             color={colorScheme === 'dark' ? '#6B7280' : '#9CA3AF'}
           />
-          <Text className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          <ThemedText className="mt-2 text-sm text-gray-500 dark:text-gray-400">
             {t('screens:stats.noData')}
-          </Text>
+          </ThemedText>
         </View>
       )}
     </View>

@@ -286,17 +286,17 @@ export function SettingsScreen() {
           </View>
 
           <View className="mb-3 flex-row items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-700">
-            <ThemedText className="text-gray-600 dark:text-gray-400">
+            <ThemedText className="text-sm text-gray-600 dark:text-gray-400">
               {t('screens:settings.version')}
             </ThemedText>
-            <ThemedText className="font-semibold">1.0.0</ThemedText>
+            <ThemedText className="text-sm font-semibold">1.0.0</ThemedText>
           </View>
 
           <View className="mb-3 flex-row items-center justify-between border-b border-gray-100 pb-3 dark:border-gray-700">
-            <ThemedText className="text-gray-600 dark:text-gray-400">
+            <ThemedText className="text-sm text-gray-600 dark:text-gray-400">
               {t('screens:settings.appName')}
             </ThemedText>
-            <ThemedText className="font-semibold">{t('common:appName')}</ThemedText>
+            <ThemedText className="text-sm font-semibold">{t('common:appName')}</ThemedText>
           </View>
 
           <Pressable

@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, useWindowDimensions } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { format } from 'date-fns';
 
+import { ThemedText } from '@/components/ThemedText';
 import { useTheme, useI18n } from '@/hooks';
 import { useStreakTrend } from '../hooks/useStreakTrend';
 
@@ -48,36 +49,36 @@ export function StreakTrendCard() {
           size={24}
           color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
         />
-        <Text className="text-lg font-bold text-gray-900 dark:text-white">
+        <ThemedText className="text-lg font-bold text-gray-900 dark:text-white">
           {t('screens:stats.streakTrend')}
-        </Text>
+        </ThemedText>
       </View>
 
       {/* Summary Stats */}
       <View className="mb-4 flex-row justify-around rounded-xl bg-blue-50 p-3 dark:bg-blue-900/20">
         <View className="items-center">
-          <Text className="text-2xl font-black text-blue-600 dark:text-blue-400">
+          <ThemedText className="text-2xl font-black text-blue-600 dark:text-blue-400">
             {bestStreak}
-          </Text>
-          <Text className="text-xs text-gray-600 dark:text-gray-400">
+          </ThemedText>
+          <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
             {t('screens:stats.bestStreak')}
-          </Text>
+          </ThemedText>
         </View>
         <View className="items-center">
-          <Text className="text-2xl font-black text-gray-900 dark:text-white">
+          <ThemedText className="text-2xl font-black text-gray-900 dark:text-white">
             {averageStreak}
-          </Text>
-          <Text className="text-xs text-gray-600 dark:text-gray-400">
+          </ThemedText>
+          <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
             {t('screens:stats.average')}
-          </Text>
+          </ThemedText>
         </View>
         <View className="items-center">
-          <Text className="text-2xl font-black text-green-600 dark:text-green-400">
+          <ThemedText className="text-2xl font-black text-green-600 dark:text-green-400">
             {currentStreak}
-          </Text>
-          <Text className="text-xs text-gray-600 dark:text-gray-400">
+          </ThemedText>
+          <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
             {t('screens:stats.current')}
-          </Text>
+          </ThemedText>
         </View>
       </View>
 
@@ -92,11 +93,11 @@ export function StreakTrendCard() {
             height: chartHeight,
             justifyContent: 'space-between',
           }}>
-          <Text className="text-xs text-gray-500 dark:text-gray-400">{maxValue}</Text>
-          <Text className="text-xs text-gray-500 dark:text-gray-400">
+          <ThemedText className="text-xs text-gray-500 dark:text-gray-400">{maxValue}</ThemedText>
+          <ThemedText className="text-xs text-gray-500 dark:text-gray-400">
             {maxValue > 2 ? Math.round(maxValue / 2) : ''}
-          </Text>
-          <Text className="text-xs text-gray-500 dark:text-gray-400">0</Text>
+          </ThemedText>
+          <ThemedText className="text-xs text-gray-500 dark:text-gray-400">0</ThemedText>
         </View>
 
         {/* Chart area */}
@@ -191,12 +192,12 @@ export function StreakTrendCard() {
               justifyContent: 'space-between',
             }}>
             {weeklyData.map((week, index) => (
-              <Text
+              <ThemedText
                 key={index}
                 className="text-xs text-gray-500 dark:text-gray-400"
                 style={{ width: 30, textAlign: 'center' }}>
                 {format(week.weekStart, 'M/d')}
-              </Text>
+              </ThemedText>
             ))}
           </View>
         </View>
@@ -211,9 +212,9 @@ export function StreakTrendCard() {
               size={24}
               color={colorScheme === 'dark' ? '#34D399' : '#10B981'}
             />
-            <Text className="flex-1 text-sm font-semibold text-gray-700 dark:text-gray-300">
+            <ThemedText className="flex-1 text-sm font-semibold text-gray-700 dark:text-gray-300">
               {t('screens:stats.streakMotivation', { days: currentStreak })}
-            </Text>
+            </ThemedText>
           </View>
         </View>
       )}
@@ -241,16 +242,16 @@ export function StreakTrendCard() {
               }
             />
             <View className="flex-1">
-              <Text className="text-xs text-gray-600 dark:text-gray-400">
+              <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
                 {t('screens:stats.recentTrend')}
-              </Text>
-              <Text className="text-sm font-bold text-gray-900 dark:text-white">
+              </ThemedText>
+              <ThemedText className="text-sm font-bold text-gray-900 dark:text-white">
                 {trendDirection === 'up'
                   ? t('screens:stats.trendUp')
                   : trendDirection === 'down'
                     ? t('screens:stats.trendDown')
                     : t('screens:stats.trendStable')}
-              </Text>
+              </ThemedText>
             </View>
           </View>
 
@@ -262,12 +263,12 @@ export function StreakTrendCard() {
               color="#FCD34D"
             />
             <View className="flex-1">
-              <Text className="text-xs text-gray-600 dark:text-gray-400">
+              <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
                 {t('screens:stats.bestWeek')}
-              </Text>
-              <Text className="text-sm font-bold text-gray-900 dark:text-white">
+              </ThemedText>
+              <ThemedText className="text-sm font-bold text-gray-900 dark:text-white">
                 {format(bestWeek.weekStart, 'M/d')} • {bestWeek.maxStreak} {t('screens:stats.daysUnit')}
-              </Text>
+              </ThemedText>
             </View>
           </View>
         </View>
@@ -276,21 +277,21 @@ export function StreakTrendCard() {
       {/* Weekly Details */}
       {bestStreak > 0 && weeklyData.length > 0 && (
         <View className="mt-4">
-          <Text className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
+          <ThemedText className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">
             {t('screens:stats.weeklyDetails')}
-          </Text>
+          </ThemedText>
           <View className="gap-2">
             {weeklyData.slice().reverse().slice(0, 6).map((week, index) => (
               <View
                 key={index}
                 className="flex-row items-center justify-between rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 dark:border-gray-700 dark:bg-gray-900">
-                <Text className="text-xs text-gray-600 dark:text-gray-400">
+                <ThemedText className="text-xs text-gray-600 dark:text-gray-400">
                   {format(week.weekStart, 'M/d')} - {format(new Date(week.weekStart.getTime() + 6 * 24 * 60 * 60 * 1000), 'M/d')}
-                </Text>
+                </ThemedText>
                 <View className="flex-row items-center gap-1">
-                  <Text className="text-sm font-bold text-gray-900 dark:text-white">
+                  <ThemedText className="text-sm font-bold text-gray-900 dark:text-white">
                     {week.maxStreak} {t('screens:stats.daysUnit')}
-                  </Text>
+                  </ThemedText>
                   {week.maxStreak === bestStreak && bestStreak > 0 && (
                     <MaterialCommunityIcons
                       name="crown"
@@ -313,9 +314,9 @@ export function StreakTrendCard() {
             size={48}
             color={colorScheme === 'dark' ? '#6B7280' : '#9CA3AF'}
           />
-          <Text className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          <ThemedText className="mt-2 text-sm text-gray-500 dark:text-gray-400">
             {t('screens:stats.noStreakData')}
-          </Text>
+          </ThemedText>
         </View>
       )}
     </View>

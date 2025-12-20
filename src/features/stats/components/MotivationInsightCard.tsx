@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useTheme, useI18n } from '@/hooks';
@@ -23,9 +24,9 @@ export function MotivationInsightCard() {
           size={24}
           color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
         />
-        <Text className="text-lg font-bold text-gray-900 dark:text-white">
+        <ThemedText className="text-lg font-bold text-gray-900 dark:text-white">
           {t('screens:stats.aiInsights')}
-        </Text>
+        </ThemedText>
       </View>
 
       {/* Weekly Progress Badge */}
@@ -36,20 +37,20 @@ export function MotivationInsightCard() {
             size={64}
             color="#FCD34D"
           />
-          <Text className="mt-2 text-2xl font-black text-gray-900 dark:text-white">
+          <ThemedText className="mt-2 text-2xl font-black text-gray-900 dark:text-white">
             {insight.weeklyProgress}%
-          </Text>
-          <Text className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+          </ThemedText>
+          <ThemedText className="mt-1 text-sm text-gray-600 dark:text-gray-400">
             {t('screens:stats.thisWeekProgress')}
-          </Text>
+          </ThemedText>
         </View>
       )}
 
       {/* Motivation Message */}
       <View className="mb-4 rounded-xl bg-blue-100 p-4 dark:bg-blue-900/30">
-        <Text className="text-center text-base font-semibold text-gray-900 dark:text-white">
+        <ThemedText className="text-center text-base font-semibold text-gray-900 dark:text-white">
           {t(`screens:stats.motivationMessages.${insight.motivationMessage}`)}
-        </Text>
+        </ThemedText>
       </View>
 
       {/* Insights Grid */}
@@ -59,9 +60,9 @@ export function MotivationInsightCard() {
           <View className="rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900">
             <View className="mb-2 flex-row items-center gap-2">
               <MaterialCommunityIcons name="trophy" size={20} color="#FCD34D" />
-              <Text className="flex-1 text-sm font-semibold text-gray-900 dark:text-white">
+              <ThemedText className="flex-1 text-sm font-semibold text-gray-900 dark:text-white">
                 {t('screens:stats.topPerformer')}
-              </Text>
+              </ThemedText>
             </View>
             {insight.topThree.map((stat, index) => {
               return (
@@ -77,12 +78,12 @@ export function MotivationInsightCard() {
                       color="#FFFFFF"
                     />
                   </View>
-                  <Text className="flex-1 text-base font-bold text-gray-900 dark:text-white">
+                  <ThemedText className="flex-1 text-base font-bold text-gray-900 dark:text-white">
                     {stat.habit.name}
-                  </Text>
-                  <Text className="text-lg font-black text-yellow-600 dark:text-yellow-400">
+                  </ThemedText>
+                  <ThemedText className="text-lg font-black text-yellow-600 dark:text-yellow-400">
                     {stat.completionRate}%
-                  </Text>
+                  </ThemedText>
                 </View>
               );
             })}
@@ -98,9 +99,9 @@ export function MotivationInsightCard() {
                 size={20}
                 color={colorScheme === 'dark' ? '#A78BFA' : '#8B5CF6'}
               />
-              <Text className="flex-1 text-sm font-semibold text-gray-900 dark:text-white">
+              <ThemedText className="flex-1 text-sm font-semibold text-gray-900 dark:text-white">
                 {t('screens:stats.needsAttention')}
-              </Text>
+              </ThemedText>
             </View>
             <View className="flex-row items-center gap-2">
               <View
@@ -112,12 +113,12 @@ export function MotivationInsightCard() {
                   color="#FFFFFF"
                 />
               </View>
-              <Text className="flex-1 text-base font-bold text-gray-900 dark:text-white">
+              <ThemedText className="flex-1 text-base font-bold text-gray-900 dark:text-white">
                 {insight.improvementHabit.habit.name}
-              </Text>
-              <Text className="text-xl font-black text-purple-600 dark:text-purple-400">
+              </ThemedText>
+              <ThemedText className="text-xl font-black text-purple-600 dark:text-purple-400">
                 {insight.improvementHabit.completionRate}%
-              </Text>
+              </ThemedText>
             </View>
           </View>
         )}
@@ -131,9 +132,9 @@ export function MotivationInsightCard() {
             size={18}
             color={colorScheme === 'dark' ? '#60A5FA' : '#3B82F6'}
           />
-          <Text className="flex-1 text-xs text-gray-700 dark:text-gray-300">
+          <ThemedText className="flex-1 text-xs text-gray-700 dark:text-gray-300">
             {t('screens:stats.insightTip')}
-          </Text>
+          </ThemedText>
         </View>
       </View>
     </View>

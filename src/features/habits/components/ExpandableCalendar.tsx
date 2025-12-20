@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useWindowDimensions } from 'react-native';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -18,13 +19,17 @@ interface ExpandableCalendarProps {
 /**
  * ExpandableCalendar component
  * Auto height with fade animation - no fixed heights needed
+ * On iPad, displays month view by default
  */
 export function ExpandableCalendar({
   selectedDate,
   onSelectDate,
   getCompletionRate,
 }: ExpandableCalendarProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
+
+  const [isExpanded, setIsExpanded] = useState(isTablet);
   const opacity = useSharedValue(1);
 
   const handleExpand = () => {

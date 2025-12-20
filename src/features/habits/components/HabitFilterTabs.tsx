@@ -1,5 +1,7 @@
 import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, View } from 'react-native';
+
+import { ThemedText } from '@/components/ThemedText';
 import { useI18n } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { getCurrentWeekdayIndex } from '@/features/habits/utils';
@@ -47,12 +49,16 @@ export const HabitFilterTabs = React.memo(({ value, onChange }: HabitFilterTabsP
             onPress={() => onChange(tab.key)}
             className={cn(
               'flex-1 items-center justify-center rounded-md py-1.5',
-              isActive && 'bg-white dark:bg-gray-800'
+              isActive
+                ? 'bg-white dark:bg-gray-800'
+                : tab.isToday
+                  ? 'bg-blue-50 dark:bg-blue-900/20'
+                  : ''
             )}
             style={isActive ? activeShadowStyle : undefined}
             accessibilityRole="tab"
             accessibilityState={{ selected: isActive }}>
-            <Text
+            <ThemedText
               className={cn(
                 'text-sm',
                 tab.isToday
@@ -60,7 +66,7 @@ export const HabitFilterTabs = React.memo(({ value, onChange }: HabitFilterTabsP
                   : 'font-normal text-gray-600 dark:text-gray-400'
               )}>
               {tab.label}
-            </Text>
+            </ThemedText>
           </Pressable>
         );
       })}

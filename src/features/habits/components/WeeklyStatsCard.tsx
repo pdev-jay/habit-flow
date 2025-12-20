@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View } from 'react-native';
+import { View, useWindowDimensions } from 'react-native';
 import { format, isToday, isYesterday, isTomorrow } from 'date-fns';
 
 import { ThemedText } from '@/components/ThemedText';
@@ -7,6 +7,7 @@ import { useI18n } from '@/hooks';
 import { getDateLocale, getDateFormat } from '@/i18n';
 import { useHabits } from '@/features/habits/hooks';
 import { useHabitCheckStore } from '@/features/habits/api';
+import { cn } from '@/lib/utils';
 
 interface WeeklyStatsCardProps {
   selectedDate: Date;
@@ -15,11 +16,14 @@ interface WeeklyStatsCardProps {
 /**
  * Daily stats card component
  * Shows "Today X/Y done" with progress bar
+ * Enlarged on iPad for better visibility
  */
 export function WeeklyStatsCard({ selectedDate }: WeeklyStatsCardProps) {
   const { t, language } = useI18n();
   const { getActiveHabitsForDate } = useHabits();
   const checks = useHabitCheckStore((state) => state.checks);
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   const selectedDateString = useMemo(() => format(selectedDate, 'yyyy-MM-dd'), [selectedDate]);
 
@@ -74,19 +78,30 @@ export function WeeklyStatsCard({ selectedDate }: WeeklyStatsCardProps) {
   const progressPercentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
 
   return (
-    <View className="rounded-xl bg-gray-50 p-4 dark:bg-gray-800">
+    <View className={cn('rounded-xl bg-gray-50 dark:bg-gray-800', isTablet ? 'p-6' : 'p-4')}>
       <View className="flex-row items-center justify-between">
-        <ThemedText className="text-base font-medium text-gray-600 dark:text-gray-300">
+        <ThemedText
+          className={cn(
+            'font-medium text-gray-600 dark:text-gray-300',
+            isTablet ? 'text-lg' : 'text-base'
+          )}>
           {dateLabel}
         </ThemedText>
-        <ThemedText className="text-sm text-gray-500 dark:text-gray-400">{dateText}</ThemedText>
+        <ThemedText
+          className={cn('text-gray-500 dark:text-gray-400', isTablet ? 'text-base' : 'text-sm')}>
+          {dateText}
+        </ThemedText>
       </View>
-      <ThemedText className="mb-3 mt-1 text-2xl font-bold">
+      <ThemedText className={cn('mb-3 mt-1 font-bold', isTablet ? 'text-3xl' : 'text-2xl')}>
         {completedCount}/{totalCount} {t('components:weeklyStats.done')}
       </ThemedText>
 
       {/* Progress Bar */}
-      <View className="h-2 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+      <View
+        className={cn(
+          'overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700',
+          isTablet ? 'h-2.5' : 'h-2'
+        )}>
         <View
           className="h-full rounded-full bg-blue-500"
           style={{ width: `${progressPercentage}%` }}
