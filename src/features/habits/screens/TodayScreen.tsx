@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -24,6 +24,8 @@ export function TodayScreen() {
   const { t } = useI18n();
   const { getActiveHabitsForDate } = useHabits();
   const { getCheckStatus, toggle } = useHabitCheck();
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   const [selectedDate, setSelectedDate] = useState(() => new Date());
 
@@ -119,18 +121,23 @@ export function TodayScreen() {
           </View>
         ) : (
           <FlatList
+            key={`habit-list-${isTablet ? '2' : '1'}`}
             data={activeHabits}
             keyExtractor={(item) => item.id}
-            contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 8, paddingBottom: 80 }}
+            numColumns={isTablet ? 2 : 1}
+            contentContainerStyle={{ paddingHorizontal: isTablet ? 12 : 16, paddingTop: 8, paddingBottom: 80 }}
+            columnWrapperStyle={isTablet ? { gap: 12 } : undefined}
             renderItem={({ item }) => (
-              <HabitCard
-                name={item.name}
-                icon={item.icon}
-                color={item.color}
-                checked={getCheckStatus(item.id, selectedDateString)}
-                streak={streaks[item.id]}
-                onCheck={() => handleCheck(item.id)}
-              />
+              <View style={isTablet ? { flex: 1, maxWidth: '50%' } : undefined}>
+                <HabitCard
+                  name={item.name}
+                  icon={item.icon}
+                  color={item.color}
+                  checked={getCheckStatus(item.id, selectedDateString)}
+                  streak={streaks[item.id]}
+                  onCheck={() => handleCheck(item.id)}
+                />
+              </View>
             )}
           />
         )}

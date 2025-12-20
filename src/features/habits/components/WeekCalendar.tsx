@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, View, useWindowDimensions } from 'react-native';
 import { startOfWeek, endOfWeek, format, isSameDay, addDays, addWeeks, subWeeks } from 'date-fns';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -27,6 +27,8 @@ export function WeekCalendar({
   getCompletionRate,
 }: WeekCalendarProps) {
   const colorScheme = useTheme();
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   const weekDays = useMemo(() => {
     const weekStart = startOfWeek(selectedDate);
@@ -97,7 +99,7 @@ export function WeekCalendar({
       </View>
 
       {/* Week days */}
-      <View className="flex-row justify-between">
+      <View className={cn('flex-row justify-between', isTablet && 'px-8')}>
         {weekDays.map((date, index) => {
           const isSelected = isSameDay(date, selectedDate);
           const isToday = isSameDay(date, today);
