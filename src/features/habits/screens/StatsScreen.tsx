@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import { ScrollView, StyleSheet, View, Pressable, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, Pressable, Text, useWindowDimensions } from 'react-native';
 import {
   startOfWeek,
   addDays,
@@ -46,6 +46,8 @@ export function StatsScreen() {
   const locale = getDateLocale(language);
   const { habits } = useHabits();
   const checks = useHabitCheckStore((state) => state.checks);
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   // View mode state
   const [viewMode, setViewMode] = useState<'weekly' | 'monthly'>('weekly');
@@ -276,14 +278,14 @@ export function StatsScreen() {
             elevation: 4,
           }}>
           <View className="flex-1">
-            <Text className="text-sm font-bold text-white">
+            <Text className={`font-bold text-white ${isTablet ? 'text-base' : 'text-sm'}`}>
               📈 {t('screens:stats.deeperInsights')}
             </Text>
-            <Text className="text-xs text-white/80">
+            <Text className={`text-white/80 ${isTablet ? 'text-sm' : 'text-xs'}`}>
               {t('screens:stats.timePatternWeekdayAnalysis')}
             </Text>
           </View>
-          <MaterialCommunityIcons name="chevron-right" size={20} color="#FFF" />
+          <MaterialCommunityIcons name="chevron-right" size={isTablet ? 24 : 20} color="#FFF" />
         </Pressable>
       </View>
 

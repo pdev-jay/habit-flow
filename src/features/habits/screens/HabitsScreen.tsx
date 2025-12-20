@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Alert, FlatList, Pressable, StyleSheet, View } from 'react-native';
+import { Alert, FlatList, Pressable, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -11,6 +11,7 @@ import { useHabits, useHabitStreaks } from '@/features/habits/hooks';
 import { Habit } from '@/features/habits/types';
 import { getFrequencyLabel, getHabitsForWeekday } from '@/features/habits/utils';
 import { HabitFilterTabs, type FilterType } from '../components/HabitFilterTabs';
+import { cn } from '@/lib/utils';
 
 interface HabitItemProps {
   habit: Habit;
@@ -21,6 +22,8 @@ interface HabitItemProps {
 
 function HabitItem({ habit, streak, onPress, onLongPress }: HabitItemProps) {
   const { language } = useI18n();
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   const frequencyLabel = useMemo(() => {
     // customDays가 있으면 사용
@@ -45,19 +48,31 @@ function HabitItem({ habit, streak, onPress, onLongPress }: HabitItemProps) {
     <Pressable
       onPress={onPress}
       onLongPress={onLongPress}
-      className="mb-3 rounded-xl bg-white p-4 dark:bg-gray-800"
+      className={cn(
+        'mb-3 rounded-xl bg-white p-4 dark:bg-gray-800',
+        isTablet && 'min-h-[120px] justify-center'
+      )}
       style={styles.card}>
       <View className="flex-row items-center">
         <View
-          className="mr-3 h-12 w-12 items-center justify-center rounded-full"
+          className={cn(
+            'items-center justify-center rounded-full',
+            isTablet ? 'mr-4 h-14 w-14' : 'mr-3 h-12 w-12'
+          )}
           style={{ backgroundColor: habit.color + '20' }}>
-          <MaterialCommunityIcons name={habit.icon} size={28} color={habit.color} />
+          <MaterialCommunityIcons name={habit.icon} size={isTablet ? 32 : 28} color={habit.color} />
         </View>
 
         <View className="flex-1">
-          <ThemedText className="text-base font-semibold">{habit.name}</ThemedText>
+          <ThemedText className={cn('font-semibold', isTablet ? 'text-lg' : 'text-base')}>
+            {habit.name}
+          </ThemedText>
           {frequencyLabel && (
-            <ThemedText className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            <ThemedText
+              className={cn(
+                'mt-1 text-gray-500 dark:text-gray-400',
+                isTablet ? 'text-sm' : 'text-xs'
+              )}>
               {frequencyLabel}
             </ThemedText>
           )}
@@ -65,8 +80,14 @@ function HabitItem({ habit, streak, onPress, onLongPress }: HabitItemProps) {
 
         {streak !== undefined && streak > 0 && (
           <View className="flex-row items-center">
-            <MaterialCommunityIcons name="fire" size={20} color="#F97316" />
-            <ThemedText className="ml-1 text-sm font-semibold text-orange-500">{streak}</ThemedText>
+            <MaterialCommunityIcons name="fire" size={isTablet ? 22 : 20} color="#F97316" />
+            <ThemedText
+              className={cn(
+                'ml-1 font-semibold text-orange-500',
+                isTablet ? 'text-base' : 'text-sm'
+              )}>
+              {streak}
+            </ThemedText>
           </View>
         )}
       </View>
@@ -107,6 +128,8 @@ export function HabitsScreen() {
   const { t } = useI18n();
   const { habits, remove } = useHabits();
   const streaks = useHabitStreaks(habits);
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   // Filter state (default: today's weekday)
   const [selectedFilter, setSelectedFilter] = useState<FilterType>(() => {
@@ -152,7 +175,7 @@ export function HabitsScreen() {
   };
 
   const renderItem = ({ item }: { item: Habit }) => (
-    <View className="px-4">
+    <View style={isTablet ? { flex: 1, maxWidth: '50%' } : undefined}>
       <HabitItem
         habit={item}
         streak={streaks[item.id]}
@@ -208,10 +231,17 @@ export function HabitsScreen() {
         <EmptyState filter={selectedFilter} />
       ) : (
         <FlatList
+          key={`habit-list-${isTablet ? '2' : '1'}`}
           data={filteredData.data}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
-          contentContainerClassName="pb-4 pt-4"
+          numColumns={isTablet ? 2 : 1}
+          contentContainerStyle={{
+            paddingHorizontal: isTablet ? 12 : 16,
+            paddingTop: 8,
+            paddingBottom: 80,
+          }}
+          columnWrapperStyle={isTablet ? { gap: 12 } : undefined}
         />
       )}
     </ThemedView>
