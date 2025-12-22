@@ -29,17 +29,17 @@ export const HabitFilterTabs = React.memo(({ value, onChange }: HabitFilterTabsP
     { key: 6, label: t('common:weekdays.short.sat'), isToday: todayIndex === 6 },
   ];
 
-  // shadow-sm을 inline style로 구현 (NativeWind 충돌 우회)
+  // shadow for active tab
   const activeShadowStyle = {
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1, // Android
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2, // Android
   };
 
   return (
-    <View className="flex-row rounded-lg bg-gray-200 p-1 dark:bg-gray-700">
+    <View className="flex-row gap-2 rounded-lg bg-gray-200 p-1 dark:bg-gray-800">
       {filterTabs.map((tab) => {
         const isActive = value === tab.key;
 
@@ -49,21 +49,19 @@ export const HabitFilterTabs = React.memo(({ value, onChange }: HabitFilterTabsP
             onPress={() => onChange(tab.key)}
             className={cn(
               'flex-1 items-center justify-center rounded-md py-1.5',
-              isActive
-                ? 'bg-white dark:bg-gray-800'
-                : tab.isToday
-                  ? 'bg-blue-50 dark:bg-blue-900/20'
-                  : ''
+              isActive ? 'bg-white dark:bg-gray-700' : ''
             )}
             style={isActive ? activeShadowStyle : undefined}
             accessibilityRole="tab"
             accessibilityState={{ selected: isActive }}>
             <ThemedText
               className={cn(
-                'text-sm',
-                tab.isToday
-                  ? 'font-medium text-blue-500'
-                  : 'font-normal text-gray-600 dark:text-gray-400'
+                'text-sm font-medium',
+                isActive
+                  ? 'text-blue-500 dark:text-blue-400'
+                  : tab.isToday
+                    ? 'text-blue-400 dark:text-blue-300'
+                    : 'text-gray-500 dark:text-gray-400'
               )}>
               {tab.label}
             </ThemedText>

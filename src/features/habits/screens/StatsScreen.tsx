@@ -18,6 +18,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useTheme, useI18n } from '@/hooks';
 import { getDateLocale, getDateFormat } from '@/i18n';
+import { cn } from '@/lib/utils';
 import {
   useHabits,
   useWeeklyStats,
@@ -199,11 +200,11 @@ export function StatsScreen() {
   }, [router]);
 
   return (
-    <ThemedView className="flex-1">
+    <ThemedView className="flex-1 bg-gray-100 dark:bg-gray-900">
       {/* Header */}
       <View
-        className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-800 dark:bg-gray-900"
-        style={[{ paddingTop: insets.top }, styles.headerShadow]}>
+        className="bg-gray-100 px-4 pb-4 dark:bg-gray-900"
+        style={{ paddingTop: isTablet ? insets.top + 24 : insets.top }}>
         <View className="pb-4">
           <ThemedText className="text-3xl font-bold">{t('screens:stats.title')}</ThemedText>
         </View>
@@ -260,7 +261,7 @@ export function StatsScreen() {
       </View>
 
       {/* Segment Control */}
-      <View className="px-4 py-4">
+      <View className="bg-gray-100 px-4 py-4 dark:bg-gray-900">
         <SegmentControl value={viewMode} onChange={handleViewModeChange} />
       </View>
 
@@ -289,7 +290,7 @@ export function StatsScreen() {
         </Pressable>
       </View>
 
-      <ScrollView className="flex-1" contentContainerStyle={{ paddingTop: 16 }}>
+      <ScrollView className="flex-1" contentContainerStyle={{ paddingTop: 4 }}>
         {viewMode === 'weekly' && (
           <WeeklyView
             weeklyStats={weeklyStats}

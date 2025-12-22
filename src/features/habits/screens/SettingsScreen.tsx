@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Linking, Pressable, ScrollView, StyleSheet, Switch, View } from 'react-native';
+import { Alert, Linking, Pressable, ScrollView, StyleSheet, Switch, View, useWindowDimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
@@ -12,6 +12,7 @@ import { useI18n, useTheme } from '@/hooks';
 import { useNotificationPermissions } from '@/hooks/useNotificationPermissions';
 import { rescheduleAllHabits, cancelAllNotifications } from '@/services/notificationService';
 import { useHabitStore } from '@/features/habits/api/habitStore';
+import { cn } from '@/lib/utils';
 
 /**
  * Settings screen
@@ -23,6 +24,8 @@ export function SettingsScreen() {
   const colorScheme = useTheme();
   const { requestPermission } = useNotificationPermissions();
   const habits = useHabitStore((state) => state.habits);
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   const handleThemeChange = (theme: ThemeType) => {
     updateSettings({ theme });
@@ -73,16 +76,16 @@ export function SettingsScreen() {
   };
 
   return (
-    <ThemedView className="flex-1">
+    <ThemedView className="flex-1 bg-gray-100 dark:bg-gray-900">
       {/* Header */}
       <View
-        className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-800 dark:bg-gray-900"
-        style={[{ paddingTop: insets.top }, styles.headerShadow]}>
+        className="bg-gray-100 px-4 pb-4 dark:bg-gray-900"
+        style={{ paddingTop: isTablet ? insets.top + 24 : insets.top }}>
         <ThemedText className="text-3xl font-bold">{t('screens:settings.title')}</ThemedText>
       </View>
 
       <ScrollView
-        className="flex-1 px-4"
+        className="flex-1 bg-gray-100 px-4 dark:bg-gray-900"
         contentContainerStyle={{ paddingTop: 16, paddingBottom: insets.bottom }}>
         {/* Appearance Section */}
         <View

@@ -9,6 +9,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useTheme, useI18n } from '@/hooks';
 import { useHabits, useHabitCheck, useHabitStreaks } from '@/features/habits/hooks';
+import { cn } from '@/lib/utils';
 
 import { HabitCard } from '../components/HabitCard';
 import { WeeklyStatsCard } from '../components/WeeklyStatsCard';
@@ -69,8 +70,8 @@ export function TodayScreen() {
     <ThemedView className="flex-1 bg-gray-100 dark:bg-gray-900">
       {/* Header */}
       <View
-        className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-800 dark:bg-gray-900"
-        style={[{ paddingTop: insets.top }, styles.headerShadow]}>
+        className="bg-gray-100 px-4 pb-4 dark:bg-gray-900"
+        style={{ paddingTop: isTablet ? insets.top + 24 : insets.top }}>
         <View className="flex-row items-center justify-between">
           <ThemedText className="text-3xl font-bold">{t('screens:today.title')}</ThemedText>
           <Pressable onPress={handleAddHabit} className="p-2">

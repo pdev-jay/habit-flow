@@ -85,7 +85,7 @@ export function DetailedAnalyticsScreen() {
   };
 
   return (
-    <View className="flex-1 bg-white dark:bg-gray-900">
+    <View className="flex-1 bg-gray-100 dark:bg-gray-900">
       {/* Show unlocked analytics after watching ad */}
       {/* DEV 모드 우회 비활성화 (광고 테스트를 위해) */}
       {/* {__DEV__ || analyticsUnlocked ? ( */}
@@ -103,7 +103,8 @@ export function DetailedAnalyticsScreen() {
               <ScrollView
                 style={{ width }}
                 contentContainerStyle={{ padding: 8 }}
-                showsVerticalScrollIndicator={false}>
+                showsVerticalScrollIndicator={false}
+                className="bg-gray-100 dark:bg-gray-900">
                 {item.component}
               </ScrollView>
             )}
@@ -123,7 +124,7 @@ export function DetailedAnalyticsScreen() {
         </>
       ) : (
         /* Production mode: Show lock screen */
-        <ScrollView className="flex-1" contentContainerClassName="p-4">
+        <ScrollView className="flex-1 bg-gray-100 dark:bg-gray-900" contentContainerClassName="p-4">
           <View className="flex-1 items-center justify-center px-8 py-20">
             <View className="items-center rounded-3xl bg-white p-8 dark:bg-gray-800">
               <MaterialCommunityIcons

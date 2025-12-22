@@ -173,9 +173,9 @@ export default function ShareScreen() {
   };
 
   return (
-    <ThemedView className="flex-1">
+    <ThemedView className="flex-1 bg-gray-100 dark:bg-gray-900">
       {/* Selectors */}
-      <View className="border-b border-gray-200 bg-white px-4 py-4 dark:border-gray-800 dark:bg-gray-900">
+      <View className="bg-gray-100 px-4 py-4 dark:bg-gray-900">
         {/* Style selector */}
         <View className="mb-4">
           <Text className="mb-3 text-sm font-semibold text-gray-900 dark:text-gray-100">
@@ -322,16 +322,27 @@ export default function ShareScreen() {
           <Text className="mb-3 text-sm font-semibold text-gray-900 dark:text-gray-100">
             {t('share:screen.periodSelect')}
           </Text>
-          <View className="flex-row rounded-2xl bg-gray-100 p-1 dark:bg-gray-800">
+          <View className="flex-row gap-2 rounded-lg bg-gray-200 p-1 dark:bg-gray-800">
             <Pressable
               onPress={() => setSelectedPeriod('weekly')}
-              className={`flex-1 rounded-xl px-4 py-2.5 ${
-                selectedPeriod === 'weekly' ? 'bg-white dark:bg-gray-700' : 'bg-transparent'
-              }`}>
+              className={`flex-1 rounded-md px-4 py-2.5 ${
+                selectedPeriod === 'weekly' ? 'bg-white dark:bg-gray-700' : ''
+              }`}
+              style={
+                selectedPeriod === 'weekly'
+                  ? {
+                      shadowColor: '#000',
+                      shadowOffset: { width: 0, height: 2 },
+                      shadowOpacity: 0.1,
+                      shadowRadius: 4,
+                      elevation: 2,
+                    }
+                  : undefined
+              }>
               <Text
-                className={`text-center text-sm font-semibold ${
+                className={`text-center text-sm font-medium ${
                   selectedPeriod === 'weekly'
-                    ? 'text-gray-900 dark:text-white'
+                    ? 'text-blue-500 dark:text-blue-400'
                     : 'text-gray-500 dark:text-gray-400'
                 }`}>
                 {t('share:screen.weekly')}
@@ -340,13 +351,24 @@ export default function ShareScreen() {
 
             <Pressable
               onPress={() => setSelectedPeriod('monthly')}
-              className={`flex-1 rounded-xl px-4 py-2.5 ${
-                selectedPeriod === 'monthly' ? 'bg-white dark:bg-gray-700' : 'bg-transparent'
-              }`}>
+              className={`flex-1 rounded-md px-4 py-2.5 ${
+                selectedPeriod === 'monthly' ? 'bg-white dark:bg-gray-700' : ''
+              }`}
+              style={
+                selectedPeriod === 'monthly'
+                  ? {
+                      shadowColor: '#000',
+                      shadowOffset: { width: 0, height: 2 },
+                      shadowOpacity: 0.1,
+                      shadowRadius: 4,
+                      elevation: 2,
+                    }
+                  : undefined
+              }>
               <Text
-                className={`text-center text-sm font-semibold ${
+                className={`text-center text-sm font-medium ${
                   selectedPeriod === 'monthly'
-                    ? 'text-gray-900 dark:text-white'
+                    ? 'text-blue-500 dark:text-blue-400'
                     : 'text-gray-500 dark:text-gray-400'
                 }`}>
                 {t('share:screen.monthly')}

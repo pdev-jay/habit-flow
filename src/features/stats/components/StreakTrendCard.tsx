@@ -41,7 +41,7 @@ export function StreakTrendCard() {
   );
 
   return (
-    <View className="mb-4 bg-white px-4 py-6 dark:bg-gray-800">
+    <View className="mb-4 rounded-xl bg-white px-4 py-6 dark:bg-gray-800">
       {/* Header */}
       <View className="mb-4 flex-row items-center gap-2">
         <MaterialCommunityIcons
