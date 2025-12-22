@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import type { WeeklyStats, MonthlyStats } from '../../types/share.types';
 import { useI18n } from '@/hooks';
 
@@ -13,9 +13,11 @@ interface BrutalistWeeklyProps {
  */
 export function BrutalistWeekly({ stats }: BrutalistWeeklyProps) {
   const { t } = useI18n();
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   return (
-    <View className="w-[380px] overflow-hidden rounded-3xl bg-white p-6">
+    <View className={`${isTablet ? 'w-[540px]' : 'w-[380px]'} overflow-hidden rounded-3xl bg-white p-6`}>
       {/* Header */}
       <View className="mb-5 border-4 border-black bg-black p-3">
         <Text className="text-[24px] font-black uppercase text-white">
@@ -87,9 +89,11 @@ interface BrutalistMonthlyProps {
  */
 export function BrutalistMonthly({ stats }: BrutalistMonthlyProps) {
   const { t } = useI18n();
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   return (
-    <View className="w-[380px] overflow-hidden rounded-3xl bg-yellow-400 p-6">
+    <View className={`${isTablet ? 'w-[540px]' : 'w-[380px]'} overflow-hidden rounded-3xl bg-yellow-400 p-6`}>
       {/* Header */}
       <View className="mb-4 border-4 border-black bg-black p-3">
         <Text className="text-[24px] font-black uppercase text-yellow-400">

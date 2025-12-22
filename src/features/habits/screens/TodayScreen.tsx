@@ -66,7 +66,7 @@ export function TodayScreen() {
   };
 
   return (
-    <ThemedView className="flex-1 bg-white dark:bg-gray-900">
+    <ThemedView className="flex-1 bg-gray-100 dark:bg-gray-900">
       {/* Header */}
       <View
         className="border-b border-gray-200 bg-white px-4 pb-4 dark:border-gray-800 dark:bg-gray-900"

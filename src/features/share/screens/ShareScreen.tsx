@@ -359,62 +359,65 @@ export default function ShareScreen() {
       {/* Template preview */}
       <ScrollView
         className="flex-1"
-        contentContainerClassName="items-center px-4 py-8"
+        contentContainerStyle={{
+          alignItems: 'center',
+          paddingHorizontal: 16,
+          paddingTop: 32,
+          paddingBottom: 32,
+        }}
         showsVerticalScrollIndicator={false}>
-        <View className="relative">
-          <View ref={viewRef} collapsable={false}>
-            {renderTemplate()}
-          </View>
-
-          {/* Lock overlay for premium templates */}
-          {/* DEV 모드 우회 비활성화 (광고 테스트를 위해) */}
-          {/* {!__DEV__ && selectedStyle !== 'minimal' && !shareUnlocked && ( */}
-          {selectedStyle !== 'minimal' && !shareUnlocked && (
-            <BlurView
-              intensity={80}
-              tint="dark"
-              className="absolute inset-0 items-center justify-center">
-              <View className="items-center rounded-2xl bg-black/50 px-8 py-6">
-                <MaterialCommunityIcons name="lock" size={48} color="#FFFFFF" />
-                <Text className="mt-3 text-center text-base font-bold text-white">
-                  {t('share:screen.premiumTemplate')}
-                </Text>
-                <Text className="mt-1 text-center text-sm text-white/80">
-                  {t('share:screen.watchAdToUnlock')}
-                </Text>
-
-                {/* Watch Ad Button */}
-                <Pressable
-                  onPress={handleWatchAd}
-                  disabled={adLoading || !adLoaded}
-                  className="mt-4 rounded-xl bg-white px-6 py-3"
-                  style={{
-                    shadowColor: '#000',
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.25,
-                    shadowRadius: 4,
-                  }}>
-                  {adLoading ? (
-                    <View className="flex-row items-center gap-2">
-                      <ActivityIndicator size="small" color="#3B82F6" />
-                      <Text className="text-sm font-semibold text-gray-900">
-                        {t('share:screen.loadingAd')}
-                      </Text>
-                    </View>
-                  ) : adError ? (
-                    <Text className="text-sm font-semibold text-red-600">
-                      {t('share:screen.adError')}
-                    </Text>
-                  ) : (
-                    <Text className="text-sm font-semibold text-blue-600">
-                      {t('share:screen.watchAdButton')}
-                    </Text>
-                  )}
-                </Pressable>
-              </View>
-            </BlurView>
-          )}
+        <View ref={viewRef} collapsable={false}>
+          {renderTemplate()}
         </View>
+
+        {/* Lock overlay for premium templates */}
+        {/* DEV 모드 우회 비활성화 (광고 테스트를 위해) */}
+        {/* {!__DEV__ && selectedStyle !== 'minimal' && !shareUnlocked && ( */}
+        {selectedStyle !== 'minimal' && !shareUnlocked && (
+          <BlurView
+            intensity={80}
+            tint="dark"
+            className="absolute inset-0 items-center justify-center">
+            <View className="items-center rounded-2xl bg-black/50 px-8 py-6">
+              <MaterialCommunityIcons name="lock" size={48} color="#FFFFFF" />
+              <Text className="mt-3 text-center text-base font-bold text-white">
+                {t('share:screen.premiumTemplate')}
+              </Text>
+              <Text className="mt-1 text-center text-sm text-white/80">
+                {t('share:screen.watchAdToUnlock')}
+              </Text>
+
+              {/* Watch Ad Button */}
+              <Pressable
+                onPress={handleWatchAd}
+                disabled={adLoading || !adLoaded}
+                className="mt-4 rounded-xl bg-white px-6 py-3"
+                style={{
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 4,
+                }}>
+                {adLoading ? (
+                  <View className="flex-row items-center gap-2">
+                    <ActivityIndicator size="small" color="#3B82F6" />
+                    <Text className="text-sm font-semibold text-gray-900">
+                      {t('share:screen.loadingAd')}
+                    </Text>
+                  </View>
+                ) : adError ? (
+                  <Text className="text-sm font-semibold text-red-600">
+                    {t('share:screen.adError')}
+                  </Text>
+                ) : (
+                  <Text className="text-sm font-semibold text-blue-600">
+                    {t('share:screen.watchAdButton')}
+                  </Text>
+                )}
+              </Pressable>
+            </View>
+          </BlurView>
+        )}
       </ScrollView>
     </ThemedView>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { useI18n } from '@/hooks';
@@ -15,9 +15,11 @@ interface WrappedWeeklyProps {
  */
 export function WrappedWeekly({ stats }: WrappedWeeklyProps) {
   const { t } = useI18n();
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   return (
-    <View className="w-[380px] overflow-hidden rounded-3xl">
+    <View className={`${isTablet ? 'w-[540px]' : 'w-[380px]'} overflow-hidden rounded-3xl`}>
       <LinearGradient
         colors={['#191414', '#121212']}
         start={{ x: 0, y: 0 }}
@@ -104,6 +106,8 @@ interface WrappedMonthlyProps {
  */
 export function WrappedMonthly({ stats }: WrappedMonthlyProps) {
   const { t, language } = useI18n();
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   // Extract month display based on language
   const monthDisplay =
@@ -112,7 +116,7 @@ export function WrappedMonthly({ stats }: WrappedMonthlyProps) {
       : stats.month; // Use full format for other languages
 
   return (
-    <View className="w-[380px] overflow-hidden rounded-3xl">
+    <View className={`${isTablet ? 'w-[540px]' : 'w-[380px]'} overflow-hidden rounded-3xl`}>
       <LinearGradient
         colors={['#1db954', '#169c46', '#121212']}
         start={{ x: 0.5, y: 0 }}

@@ -2,11 +2,13 @@
  * Utility functions
  */
 
+import { twMerge } from 'tailwind-merge';
+
 /**
  * Combines className strings conditionally
  */
 export function cn(...classes: (string | boolean | undefined | null)[]): string {
-  return classes.filter(Boolean).join(' ');
+  return twMerge(classes.filter(Boolean).join(' '));
 }
 
 /**

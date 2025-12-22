@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import type { WeeklyStats, MonthlyStats } from '../../types/share.types';
 import { useI18n } from '@/hooks';
@@ -14,9 +14,11 @@ interface GlassmorphismWeeklyProps {
  */
 export function GlassmorphismWeekly({ stats }: GlassmorphismWeeklyProps) {
   const { t } = useI18n();
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   return (
-    <View className="w-[380px] overflow-hidden rounded-3xl">
+    <View className={`${isTablet ? 'w-[540px]' : 'w-[380px]'} overflow-hidden rounded-3xl`}>
       <LinearGradient
         colors={['#667eea', '#764ba2', '#f093fb']}
         start={{ x: 0, y: 0 }}
@@ -92,9 +94,11 @@ interface GlassmorphismMonthlyProps {
  */
 export function GlassmorphismMonthly({ stats }: GlassmorphismMonthlyProps) {
   const { t } = useI18n();
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   return (
-    <View className="w-[380px] overflow-hidden rounded-3xl">
+    <View className={`${isTablet ? 'w-[540px]' : 'w-[380px]'} overflow-hidden rounded-3xl`}>
       <LinearGradient
         colors={['#fbc2eb', '#a6c1ee', '#c2e9fb']}
         start={{ x: 0, y: 0 }}

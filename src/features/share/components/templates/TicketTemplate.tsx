@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import type { WeeklyStats, MonthlyStats } from '../../types/share.types';
 import { useI18n } from '@/hooks';
 
@@ -13,13 +13,15 @@ interface TicketWeeklyProps {
  */
 export function TicketWeekly({ stats }: TicketWeeklyProps) {
   const { t } = useI18n();
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   // Generate barcode ID
   const year = new Date().getFullYear();
   const barcodeId = `HBT-${year}-W${stats.weekNumber}-001`;
 
   return (
-    <View className="w-[380px] overflow-hidden rounded-3xl bg-[#F5F0E8] px-4 py-8">
+    <View className={`${isTablet ? 'w-[540px]' : 'w-[380px]'} overflow-hidden rounded-3xl bg-[#F5F0E8] px-4 py-8`}>
       {/* Main ticket content */}
       <View>
         {/* Header */}
@@ -129,6 +131,8 @@ interface TicketMonthlyProps {
  */
 export function TicketMonthly({ stats }: TicketMonthlyProps) {
   const { t, language } = useI18n();
+  const { width } = useWindowDimensions();
+  const isTablet = width >= 768;
 
   // Generate barcode ID - extract month number based on language
   let monthNum = 1;
@@ -158,7 +162,7 @@ export function TicketMonthly({ stats }: TicketMonthlyProps) {
   const barcodeId = `HBT-${stats.year}-M${String(monthNum).padStart(2, '0')}-001`;
 
   return (
-    <View className="w-[380px] overflow-hidden rounded-3xl bg-[#F5F0E8] px-4 py-8">
+    <View className={`${isTablet ? 'w-[540px]' : 'w-[380px]'} overflow-hidden rounded-3xl bg-[#F5F0E8] px-4 py-8`}>
       {/* Main ticket content */}
       <View>
         {/* Header */}

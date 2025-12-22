@@ -78,7 +78,7 @@ export function WeeklyStatsCard({ selectedDate }: WeeklyStatsCardProps) {
   const progressPercentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
 
   return (
-    <View className={cn('rounded-xl bg-gray-50 dark:bg-gray-800', isTablet ? 'p-6' : 'p-4')}>
+    <View className={cn('rounded-xl bg-white shadow-sm dark:bg-gray-800', isTablet ? 'p-6' : 'p-4')}>
       <View className="flex-row items-center justify-between">
         <ThemedText
           className={cn(
