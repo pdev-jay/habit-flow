@@ -1,5 +1,6 @@
 import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import {
+  Alert,
   Animated,
   Modal,
   Platform,
@@ -15,6 +16,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useTheme, useI18n } from '@/hooks';
+import { useNotificationPermissions } from '@/hooks/useNotificationPermissions';
+import { useSettingsStore } from '@/features/habits/api';
 import { cn } from '@/lib/utils';
 import type { FrequencyType, HabitIconName } from '@/features/habits/types';
 
@@ -50,6 +53,8 @@ interface HabitFormProps {
 export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
   ({ initialData, onSubmit, onCancel, submitLabel, onValidationChange, renderFooter }, ref) => {
     const { t } = useI18n();
+    const { hasPermission, requestPermission } = useNotificationPermissions();
+    const { settings } = useSettingsStore();
 
     const WEEKDAYS = [
       { day: 1, label: t('components:habitForm.dayLabels.mon') },
@@ -252,7 +257,30 @@ export const HabitForm = forwardRef<HabitFormRef, HabitFormProps>(
 
               {/* Bell Button - Toggles ON/OFF */}
               <Pressable
-                onPress={() => {
+                onPress={async () => {
+                  // If turning ON, check permissions first
+                  if (!reminderEnabled) {
+                    // Check if global notification setting is OFF
+                    if (!settings.notificationsEnabled) {
+                      Alert.alert(
+                        t('components:habitForm.notificationDisabledTitle'),
+                        t('components:habitForm.notificationDisabledMessage'),
+                        [{ text: t('common:ok'), style: 'default' }]
+                      );
+                      return;
+                    }
+
+                    // Check if permission is already granted
+                    if (!hasPermission) {
+                      // Request permission
+                      const granted = await requestPermission();
+                      if (!granted) {
+                        // Permission denied, don't enable reminder
+                        return;
+                      }
+                    }
+                  }
+                  // Toggle reminder
                   setReminderEnabled((prev) => !prev);
                 }}
                 className={cn(

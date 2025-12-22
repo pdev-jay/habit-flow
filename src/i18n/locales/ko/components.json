@@ -23,6 +23,8 @@
     "done": "완료",
     "repeat": "반복",
     "dailyReminder": "매일 알림",
+    "notificationDisabledTitle": "알림 설정 필요",
+    "notificationDisabledMessage": "알림을 받으시려면 설정 화면에서 알림을 활성화해주세요.",
     "dayLabels": {
       "mon": "월",
       "tue": "화",

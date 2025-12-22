@@ -23,6 +23,8 @@
     "done": "Done",
     "repeat": "Repeat",
     "dailyReminder": "Daily Reminder",
+    "notificationDisabledTitle": "Enable Notifications",
+    "notificationDisabledMessage": "To receive notifications, please enable them in Settings.",
     "dayLabels": {
       "mon": "Mon",
       "tue": "Tue",
