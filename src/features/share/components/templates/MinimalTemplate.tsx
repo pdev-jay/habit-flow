@@ -15,31 +15,39 @@ export function MinimalWeekly({ stats }: MinimalWeeklyProps) {
   const { t } = useI18n();
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
+  const templateWidth = isTablet ? Math.min(width * 0.75, 680) : width * 0.9;
 
   return (
-    <View className={`${isTablet ? 'w-[540px]' : 'w-[380px]'} overflow-hidden rounded-3xl bg-white p-8`}>
+    <View className="overflow-hidden rounded-3xl bg-white p-8" style={{ width: templateWidth }}>
       {/* Header */}
       <View className="mb-6 flex-row items-center justify-between">
-        <Text className="text-[24px] font-bold text-black">{t('common:appName')}</Text>
-        <Text className="text-[14px] text-gray-500">WEEK {stats.weekNumber}</Text>
+        <Text className={`${isTablet ? 'text-[36px]' : 'text-[24px]'} font-bold text-black`}>
+          {t('common:appName')}
+        </Text>
+        <Text className={`${isTablet ? 'text-[21px]' : 'text-[14px]'} text-gray-500`}>
+          WEEK {stats.weekNumber}
+        </Text>
       </View>
 
       {/* Hero Section */}
       <View className="mb-8 items-center border-b border-gray-200 pb-8">
-        <Text className="mb-2 text-[14px] uppercase tracking-wider text-gray-500">
+        <Text
+          className={`${isTablet ? 'text-[21px]' : 'text-[14px]'} mb-2 uppercase tracking-wider text-gray-500`}>
           {t('share:minimal.weekly.completionRate')}
         </Text>
-        <Text className="text-[96px] font-bold leading-[96px] text-black">
+        <Text
+          className={`${isTablet ? 'text-[144px] leading-[144px]' : 'text-[96px] leading-[96px]'} font-bold text-black`}>
           {Math.round(stats.completionRate)}%
         </Text>
-        <Text className="mt-2 text-[15px] text-gray-600">
+        <Text className={`${isTablet ? 'text-[22px]' : 'text-[15px]'} mt-2 text-gray-600`}>
           {stats.completedCount} {t('share:minimal.weekly.habitsCompleted')}
         </Text>
       </View>
 
       {/* Habits Section */}
       <View className="mb-6">
-        <Text className="mb-4 text-[12px] font-semibold uppercase tracking-wider text-gray-500">
+        <Text
+          className={`${isTablet ? 'text-[18px]' : 'text-[12px]'} mb-4 font-semibold uppercase tracking-wider text-gray-500`}>
           {t('share:minimal.weekly.topHabits')}
         </Text>
 
@@ -47,18 +55,25 @@ export function MinimalWeekly({ stats }: MinimalWeeklyProps) {
           <View
             key={habit.id}
             className="mb-4 flex-row items-center gap-4 border-b border-gray-100 pb-4">
-            <Text className="w-8 flex-shrink-0 text-[20px] font-bold text-gray-300">
+            <Text
+              className={`${isTablet ? 'w-12 text-[30px]' : 'w-8 text-[20px]'} flex-shrink-0 font-bold text-gray-300`}>
               {String(index + 1).padStart(2, '0')}
             </Text>
             <View className="min-w-0 flex-1">
-              <Text className="w-full text-[16px] font-semibold text-black" numberOfLines={1}>
+              <Text
+                className={`${isTablet ? 'text-[24px]' : 'text-[16px]'} w-full font-semibold text-black`}
+                numberOfLines={1}>
                 {habit.name}
               </Text>
-              <Text className="w-full text-[12px] text-gray-500" numberOfLines={1}>
+              <Text
+                className={`${isTablet ? 'text-[18px]' : 'text-[12px]'} w-full text-gray-500`}
+                numberOfLines={1}>
                 {habit.completedDays}/{habit.totalDays} {t('share:minimal.weekly.daysCompleted')}
               </Text>
             </View>
-            <Text className="flex-shrink-0 text-[18px] font-bold text-black" numberOfLines={1}>
+            <Text
+              className={`${isTablet ? 'text-[27px]' : 'text-[18px]'} flex-shrink-0 font-bold text-black`}
+              numberOfLines={1}>
               {Math.round(habit.completionRate)}%
             </Text>
           </View>
@@ -66,7 +81,9 @@ export function MinimalWeekly({ stats }: MinimalWeeklyProps) {
       </View>
 
       {/* Footer */}
-      <Text className="mt-auto text-center text-[11px] text-gray-400">#{t('common:appName')}</Text>
+      <Text className={`${isTablet ? 'text-[16px]' : 'text-[11px]'} mt-auto text-center text-gray-400`}>
+        #{t('common:appName')}
+      </Text>
     </View>
   );
 }
@@ -83,19 +100,25 @@ export function MinimalMonthly({ stats }: MinimalMonthlyProps) {
   const { t } = useI18n();
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
+  const templateWidth = isTablet ? Math.min(width * 0.75, 680) : width * 0.9;
 
   return (
-    <View className={`${isTablet ? 'w-[540px]' : 'w-[380px]'} overflow-hidden rounded-3xl bg-white p-8`}>
+    <View className="overflow-hidden rounded-3xl bg-white p-8" style={{ width: templateWidth }}>
       {/* Header */}
       <View className="mb-5 flex-row items-center justify-between">
-        <Text className="text-[24px] font-bold text-black">{t('common:appName')}</Text>
-        <Text className="text-[14px] text-gray-500">{stats.year}</Text>
+        <Text className={`${isTablet ? 'text-[36px]' : 'text-[24px]'} font-bold text-black`}>
+          {t('common:appName')}
+        </Text>
+        <Text className={`${isTablet ? 'text-[21px]' : 'text-[14px]'} text-gray-500`}>{stats.year}</Text>
       </View>
 
       {/* Hero Section */}
       <View className="mb-6 items-center border-b border-gray-200 pb-6">
-        <Text className="mb-1 text-[32px] font-bold leading-[38px] text-black">{stats.month}</Text>
-        <Text className="text-[14px] text-gray-500">
+        <Text
+          className={`${isTablet ? 'text-[48px] leading-[57px]' : 'text-[32px] leading-[38px]'} mb-1 font-bold text-black`}>
+          {stats.month}
+        </Text>
+        <Text className={`${isTablet ? 'text-[21px]' : 'text-[14px]'} text-gray-500`}>
           {t('share:minimal.monthly.monthlyReport')}
         </Text>
       </View>
@@ -103,22 +126,26 @@ export function MinimalMonthly({ stats }: MinimalMonthlyProps) {
       {/* Stats Grid */}
       <View className="mb-6 flex-row justify-around border-b border-gray-200 pb-6">
         <View className="items-center">
-          <Text className="text-[36px] font-bold text-black">
+          <Text className={`${isTablet ? 'text-[54px]' : 'text-[36px]'} font-bold text-black`}>
             {Math.round(stats.averageCompletionRate)}%
           </Text>
-          <Text className="mt-1 text-[11px] text-gray-500">
+          <Text className={`${isTablet ? 'text-[16px]' : 'text-[11px]'} mt-1 text-gray-500`}>
             {t('share:minimal.monthly.averageCompletionRate')}
           </Text>
         </View>
         <View className="items-center">
-          <Text className="text-[36px] font-bold text-black">{stats.perfectDays}</Text>
-          <Text className="mt-1 text-[11px] text-gray-500">
+          <Text className={`${isTablet ? 'text-[54px]' : 'text-[36px]'} font-bold text-black`}>
+            {stats.perfectDays}
+          </Text>
+          <Text className={`${isTablet ? 'text-[16px]' : 'text-[11px]'} mt-1 text-gray-500`}>
             {t('share:minimal.monthly.perfectDays')}
           </Text>
         </View>
         <View className="items-center">
-          <Text className="text-[36px] font-bold text-black">{stats.maxStreak}</Text>
-          <Text className="mt-1 text-[11px] text-gray-500">
+          <Text className={`${isTablet ? 'text-[54px]' : 'text-[36px]'} font-bold text-black`}>
+            {stats.maxStreak}
+          </Text>
+          <Text className={`${isTablet ? 'text-[16px]' : 'text-[11px]'} mt-1 text-gray-500`}>
             {t('share:minimal.monthly.maxStreak')}
           </Text>
         </View>
@@ -126,7 +153,8 @@ export function MinimalMonthly({ stats }: MinimalMonthlyProps) {
 
       {/* Habits Section */}
       <View className="mb-5">
-        <Text className="mb-4 text-[12px] font-semibold uppercase tracking-wider text-gray-500">
+        <Text
+          className={`${isTablet ? 'text-[18px]' : 'text-[12px]'} mb-4 font-semibold uppercase tracking-wider text-gray-500`}>
           {t('share:minimal.weekly.topHabits')}
         </Text>
 
@@ -134,19 +162,26 @@ export function MinimalMonthly({ stats }: MinimalMonthlyProps) {
           <View
             key={habit.id}
             className="mb-3 flex-row items-center gap-3 border-b border-gray-100 pb-3">
-            <Text className="w-8 flex-shrink-0 text-[18px] font-bold text-gray-300">
+            <Text
+              className={`${isTablet ? 'w-12 text-[27px]' : 'w-8 text-[18px]'} flex-shrink-0 font-bold text-gray-300`}>
               {String(index + 1).padStart(2, '0')}
             </Text>
             <View className="min-w-0 flex-1">
-              <Text className="w-full text-[15px] font-semibold text-black" numberOfLines={1}>
+              <Text
+                className={`${isTablet ? 'text-[22px]' : 'text-[15px]'} w-full font-semibold text-black`}
+                numberOfLines={1}>
                 {habit.name}
               </Text>
-              <Text className="w-full text-[11px] text-gray-500" numberOfLines={1}>
+              <Text
+                className={`${isTablet ? 'text-[16px]' : 'text-[11px]'} w-full text-gray-500`}
+                numberOfLines={1}>
                 {habit.completedDays} {t('share:minimal.monthly.timesCompleted')}{' '}
                 {habit.streak > 0 && '🔥'}
               </Text>
             </View>
-            <Text className="flex-shrink-0 text-[16px] font-bold text-black" numberOfLines={1}>
+            <Text
+              className={`${isTablet ? 'text-[24px]' : 'text-[16px]'} flex-shrink-0 font-bold text-black`}
+              numberOfLines={1}>
               {Math.round(habit.completionRate)}%
             </Text>
           </View>
@@ -154,7 +189,7 @@ export function MinimalMonthly({ stats }: MinimalMonthlyProps) {
       </View>
 
       {/* Footer */}
-      <Text className="mt-auto text-center text-[11px] text-gray-400">
+      <Text className={`${isTablet ? 'text-[16px]' : 'text-[11px]'} mt-auto text-center text-gray-400`}>
         #{t('common:appName')} #{stats.year}Wrapped
       </Text>
     </View>

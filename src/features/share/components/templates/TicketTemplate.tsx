@@ -15,21 +15,26 @@ export function TicketWeekly({ stats }: TicketWeeklyProps) {
   const { t } = useI18n();
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
+  const templateWidth = isTablet ? Math.min(width * 0.75, 680) : width * 0.9;
 
   // Generate barcode ID
   const year = new Date().getFullYear();
   const barcodeId = `HBT-${year}-W${stats.weekNumber}-001`;
 
   return (
-    <View className={`${isTablet ? 'w-[540px]' : 'w-[380px]'} overflow-hidden rounded-3xl bg-[#F5F0E8] px-4 py-8`}>
+    <View
+      className={`${isTablet ? 'px-8' : 'px-4'} overflow-hidden rounded-3xl bg-[#F5F0E8] py-8`}
+      style={{ width: templateWidth }}>
       {/* Main ticket content */}
       <View>
         {/* Header */}
         <View className="mb-6 items-center">
-          <Text className="mb-1 text-[42px] font-black uppercase tracking-[4px] text-gray-900">
+          <Text
+            className={`${isTablet ? 'text-[63px]' : 'text-[42px]'} mb-1 font-black uppercase tracking-[4px] text-gray-900`}>
             {t('common:appName').toUpperCase()}
           </Text>
-          <Text className="text-[11px] font-medium uppercase tracking-[3px] text-gray-500">
+          <Text
+            className={`${isTablet ? 'text-[16px]' : 'text-[11px]'} font-medium uppercase tracking-[3px] text-gray-500`}>
             {t('share:ticket.weekly.subtitle')}
           </Text>
         </View>
@@ -40,22 +45,31 @@ export function TicketWeekly({ stats }: TicketWeeklyProps) {
         {/* Date / Week / Year */}
         <View className="mb-6 flex-row justify-between px-2">
           <View className="items-start">
-            <Text className="mb-1 text-[10px] font-semibold uppercase tracking-[1px] text-gray-500">
+            <Text
+              className={`${isTablet ? 'text-[15px]' : 'text-[10px]'} mb-1 font-semibold uppercase tracking-[1px] text-gray-500`}>
               {t('share:ticket.weekly.date')}
             </Text>
-            <Text className="text-[16px] font-bold text-gray-900">{stats.dateRange}</Text>
+            <Text className={`${isTablet ? 'text-[24px]' : 'text-[16px]'} font-bold text-gray-900`}>
+              {stats.dateRange}
+            </Text>
           </View>
           <View className="items-center">
-            <Text className="mb-1 text-[10px] font-semibold uppercase tracking-[1px] text-gray-500">
+            <Text
+              className={`${isTablet ? 'text-[15px]' : 'text-[10px]'} mb-1 font-semibold uppercase tracking-[1px] text-gray-500`}>
               {t('share:ticket.weekly.week')}
             </Text>
-            <Text className="text-[16px] font-bold text-gray-900">{stats.weekNumber}</Text>
+            <Text className={`${isTablet ? 'text-[24px]' : 'text-[16px]'} font-bold text-gray-900`}>
+              {stats.weekNumber}
+            </Text>
           </View>
           <View className="items-end">
-            <Text className="mb-1 text-[10px] font-semibold uppercase tracking-[1px] text-gray-500">
+            <Text
+              className={`${isTablet ? 'text-[15px]' : 'text-[10px]'} mb-1 font-semibold uppercase tracking-[1px] text-gray-500`}>
               {t('share:ticket.weekly.year')}
             </Text>
-            <Text className="text-[16px] font-bold text-gray-900">{new Date().getFullYear()}</Text>
+            <Text className={`${isTablet ? 'text-[24px]' : 'text-[16px]'} font-bold text-gray-900`}>
+              {new Date().getFullYear()}
+            </Text>
           </View>
         </View>
 
@@ -63,10 +77,11 @@ export function TicketWeekly({ stats }: TicketWeeklyProps) {
         <View className="rounded-[24px] border-2 border-gray-200 bg-white/60 p-6">
           {/* Completion rate */}
           <View className="mb-4 flex-row items-center justify-between">
-            <Text className="text-[16px] font-medium text-gray-700">
+            <Text className={`${isTablet ? 'text-[24px]' : 'text-[16px]'} font-medium text-gray-700`}>
               {t('share:ticket.weekly.completionRate')}
             </Text>
-            <Text className="text-[64px] font-black leading-[64px] text-green-600">
+            <Text
+              className={`${isTablet ? 'text-[96px] leading-[96px]' : 'text-[64px] leading-[64px]'} font-black text-green-600`}>
               {Math.round(stats.completionRate)}%
             </Text>
           </View>
@@ -79,14 +94,16 @@ export function TicketWeekly({ stats }: TicketWeeklyProps) {
             <View key={habit.id}>
               <View className="flex-row items-center justify-between py-3">
                 <View className="min-w-0 flex-1 flex-row items-center gap-3">
-                  <Text className="w-6 text-[16px] font-bold text-gray-400">{index + 1}.</Text>
+                  <Text className={`${isTablet ? 'w-9 text-[24px]' : 'w-6 text-[16px]'} font-bold text-gray-400`}>
+                    {index + 1}.
+                  </Text>
                   <Text
-                    className="flex-1 text-[15px] font-semibold text-gray-800"
+                    className={`${isTablet ? 'text-[22px]' : 'text-[15px]'} flex-1 font-semibold text-gray-800`}
                     numberOfLines={1}>
                     {habit.name}
                   </Text>
                 </View>
-                <Text className="ml-3 text-[16px] font-bold text-green-600">
+                <Text className={`${isTablet ? 'text-[24px]' : 'text-[16px]'} ml-3 font-bold text-green-600`}>
                   {Math.round(habit.completionRate)}%
                 </Text>
               </View>
@@ -106,13 +123,14 @@ export function TicketWeekly({ stats }: TicketWeeklyProps) {
                 className="bg-gray-900"
                 style={{
                   width: i % 3 === 0 ? 3 : i % 2 === 0 ? 2 : 1,
-                  height: 48,
+                  height: isTablet ? 72 : 48,
                   opacity: 0.8 + Math.random() * 0.2,
                 }}
               />
             ))}
           </View>
-          <Text className="mt-2 text-[10px] font-medium uppercase tracking-[2px] text-gray-400">
+          <Text
+            className={`${isTablet ? 'text-[15px]' : 'text-[10px]'} mt-2 font-medium uppercase tracking-[2px] text-gray-400`}>
             {barcodeId}
           </Text>
         </View>
@@ -133,6 +151,7 @@ export function TicketMonthly({ stats }: TicketMonthlyProps) {
   const { t, language } = useI18n();
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
+  const templateWidth = isTablet ? Math.min(width * 0.75, 680) : width * 0.9;
 
   // Generate barcode ID - extract month number based on language
   let monthNum = 1;
@@ -162,15 +181,19 @@ export function TicketMonthly({ stats }: TicketMonthlyProps) {
   const barcodeId = `HBT-${stats.year}-M${String(monthNum).padStart(2, '0')}-001`;
 
   return (
-    <View className={`${isTablet ? 'w-[540px]' : 'w-[380px]'} overflow-hidden rounded-3xl bg-[#F5F0E8] px-4 py-8`}>
+    <View
+      className={`${isTablet ? 'px-8' : 'px-4'} overflow-hidden rounded-3xl bg-[#F5F0E8] py-8`}
+      style={{ width: templateWidth }}>
       {/* Main ticket content */}
       <View>
         {/* Header */}
         <View className="mb-6 items-center">
-          <Text className="mb-1 text-[42px] font-black uppercase tracking-[4px] text-gray-900">
+          <Text
+            className={`${isTablet ? 'text-[63px]' : 'text-[42px]'} mb-1 font-black uppercase tracking-[4px] text-gray-900`}>
             {t('common:appName').toUpperCase()}
           </Text>
-          <Text className="text-[11px] font-medium uppercase tracking-[3px] text-gray-500">
+          <Text
+            className={`${isTablet ? 'text-[16px]' : 'text-[11px]'} font-medium uppercase tracking-[3px] text-gray-500`}>
             {t('share:ticket.monthly.subtitle')}
           </Text>
         </View>
@@ -181,16 +204,22 @@ export function TicketMonthly({ stats }: TicketMonthlyProps) {
         {/* Month / Year */}
         <View className="mb-6 flex-row justify-between px-2">
           <View className="items-start">
-            <Text className="mb-1 text-[10px] font-semibold uppercase tracking-[1px] text-gray-500">
+            <Text
+              className={`${isTablet ? 'text-[15px]' : 'text-[10px]'} mb-1 font-semibold uppercase tracking-[1px] text-gray-500`}>
               {t('share:ticket.monthly.month')}
             </Text>
-            <Text className="text-[16px] font-bold text-gray-900">{stats.month}</Text>
+            <Text className={`${isTablet ? 'text-[24px]' : 'text-[16px]'} font-bold text-gray-900`}>
+              {stats.month}
+            </Text>
           </View>
           <View className="items-end">
-            <Text className="mb-1 text-[10px] font-semibold uppercase tracking-[1px] text-gray-500">
+            <Text
+              className={`${isTablet ? 'text-[15px]' : 'text-[10px]'} mb-1 font-semibold uppercase tracking-[1px] text-gray-500`}>
               {t('share:ticket.monthly.year')}
             </Text>
-            <Text className="text-[16px] font-bold text-gray-900">{stats.year}</Text>
+            <Text className={`${isTablet ? 'text-[24px]' : 'text-[16px]'} font-bold text-gray-900`}>
+              {stats.year}
+            </Text>
           </View>
         </View>
 
@@ -198,10 +227,11 @@ export function TicketMonthly({ stats }: TicketMonthlyProps) {
         <View className="rounded-[24px] border-2 border-gray-200 bg-white/60 p-6">
           {/* Average completion rate */}
           <View className="mb-4 flex-row items-center justify-between">
-            <Text className="text-[16px] font-medium text-gray-700">
+            <Text className={`${isTablet ? 'text-[24px]' : 'text-[16px]'} font-medium text-gray-700`}>
               {t('share:ticket.monthly.averageCompletionRate')}
             </Text>
-            <Text className="text-[64px] font-black leading-[64px] text-green-600">
+            <Text
+              className={`${isTablet ? 'text-[96px] leading-[96px]' : 'text-[64px] leading-[64px]'} font-black text-green-600`}>
               {Math.round(stats.averageCompletionRate)}%
             </Text>
           </View>
@@ -212,20 +242,26 @@ export function TicketMonthly({ stats }: TicketMonthlyProps) {
           {/* Stats row */}
           <View className="mb-6 flex-row justify-around">
             <View className="items-center">
-              <Text className="text-[28px] font-bold text-gray-900">{stats.perfectDays}</Text>
-              <Text className="mt-1 text-[11px] font-medium text-gray-500">
+              <Text className={`${isTablet ? 'text-[42px]' : 'text-[28px]'} font-bold text-gray-900`}>
+                {stats.perfectDays}
+              </Text>
+              <Text className={`${isTablet ? 'text-[16px]' : 'text-[11px]'} mt-1 font-medium text-gray-500`}>
                 {t('share:ticket.monthly.perfectDays')}
               </Text>
             </View>
             <View className="items-center">
-              <Text className="text-[28px] font-bold text-gray-900">{stats.maxStreak}</Text>
-              <Text className="mt-1 text-[11px] font-medium text-gray-500">
+              <Text className={`${isTablet ? 'text-[42px]' : 'text-[28px]'} font-bold text-gray-900`}>
+                {stats.maxStreak}
+              </Text>
+              <Text className={`${isTablet ? 'text-[16px]' : 'text-[11px]'} mt-1 font-medium text-gray-500`}>
                 {t('share:ticket.monthly.maxStreak')}
               </Text>
             </View>
             <View className="items-center">
-              <Text className="text-[28px] font-bold text-gray-900">{stats.totalHabits}</Text>
-              <Text className="mt-1 text-[11px] font-medium text-gray-500">
+              <Text className={`${isTablet ? 'text-[42px]' : 'text-[28px]'} font-bold text-gray-900`}>
+                {stats.totalHabits}
+              </Text>
+              <Text className={`${isTablet ? 'text-[16px]' : 'text-[11px]'} mt-1 font-medium text-gray-500`}>
                 {t('share:ticket.monthly.totalHabits')}
               </Text>
             </View>
@@ -239,14 +275,16 @@ export function TicketMonthly({ stats }: TicketMonthlyProps) {
             <View key={habit.id}>
               <View className="flex-row items-center justify-between py-3">
                 <View className="min-w-0 flex-1 flex-row items-center gap-3">
-                  <Text className="w-6 text-[16px] font-bold text-gray-400">{index + 1}.</Text>
+                  <Text className={`${isTablet ? 'w-9 text-[24px]' : 'w-6 text-[16px]'} font-bold text-gray-400`}>
+                    {index + 1}.
+                  </Text>
                   <Text
-                    className="flex-1 text-[15px] font-semibold text-gray-800"
+                    className={`${isTablet ? 'text-[22px]' : 'text-[15px]'} flex-1 font-semibold text-gray-800`}
                     numberOfLines={1}>
                     {habit.name}
                   </Text>
                 </View>
-                <Text className="ml-3 text-[16px] font-bold text-green-600">
+                <Text className={`${isTablet ? 'text-[24px]' : 'text-[16px]'} ml-3 font-bold text-green-600`}>
                   {Math.round(habit.completionRate)}%
                 </Text>
               </View>
@@ -266,13 +304,14 @@ export function TicketMonthly({ stats }: TicketMonthlyProps) {
                 className="bg-gray-900"
                 style={{
                   width: i % 3 === 0 ? 3 : i % 2 === 0 ? 2 : 1,
-                  height: 48,
+                  height: isTablet ? 72 : 48,
                   opacity: 0.8 + Math.random() * 0.2,
                 }}
               />
             ))}
           </View>
-          <Text className="mt-2 text-[10px] font-medium uppercase tracking-[2px] text-gray-400">
+          <Text
+            className={`${isTablet ? 'text-[15px]' : 'text-[10px]'} mt-2 font-medium uppercase tracking-[2px] text-gray-400`}>
             {barcodeId}
           </Text>
         </View>
